@@ -4,22 +4,18 @@ namespace WPR_Plugin;
 
 class Database
 {
-    public $PLUGIN_FULL_TABLE_NAME;
-
     public function __construct()
     {
         // load config
         $this->config = new Config();
 
-        global $wpdb;
-        return $wpdb->prefix . $this->PLUGIN_FULL_TABLE_NAME;
     }
 
     public function plugin_install()
     {
         global $wpdb;
 
-        $table_name = $this->PLUGIN_FULL_TABLE_NAME;
+        $table_name = $this->config->PLUGIN_FULL_TABLE_NAME;
 
         if ($wpdb->get_var("show tables like '$table_name'") != $table_name) {
 
@@ -47,12 +43,23 @@ class Database
 	  user_id int(8) NULL,
 	  vote int(1) NOT NULL,
 	  UNIQUE KEY id (id)
-) %s ;", $this->PLUGIN_FULL_TABLE_NAME, $wpdb->get_charset_collate()
+) %s ;", $this->config->PLUGIN_FULL_TABLE_NAME, $wpdb->get_charset_collate()
         );
     }
 
-    private function create(){}
-    private function read(){}
-    private function update(){}
-    private function delete(){}
+    private function create()
+    {
+    }
+
+    private function read()
+    {
+    }
+
+    private function update()
+    {
+    }
+
+    private function delete()
+    {
+    }
 }

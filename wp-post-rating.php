@@ -14,6 +14,8 @@ License: GPL 2.0
 namespace WPR_Plugin;
 
 //* Don't access this file directly
+use WPR_Plugin\Admin\Admin;
+
 defined('ABSPATH') or die();
 
 if (!class_exists('InitRating')) {
@@ -31,6 +33,9 @@ if (!class_exists('InitRating')) {
             $this->config = new Config();
             $this->database = new Database();
 
+            new Admin();
+
+            // display rating
             add_filter('the_content', [$this, 'add_rating_after_content']);
             add_action('wp_enqueue_scripts', [$this, 'include_css_js']);
 
@@ -80,6 +85,8 @@ if (!class_exists('InitRating')) {
         {
             require_once 'classes' . DIRECTORY_SEPARATOR . 'Config.php';
             require_once 'classes' . DIRECTORY_SEPARATOR . 'Database.php';
+            require_once 'classes' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'Admin.php';
+            require_once 'classes' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'RatingsList.php';
         }
     }
 
