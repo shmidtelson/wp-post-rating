@@ -9,6 +9,7 @@ Author: Romua1d
 Author URI: https://romua1d.ru
 License: GPL 2.0
 */
+namespace WPR_Plugin;
 
 //* Don't access this file directly
 defined('ABSPATH') or die();
@@ -17,9 +18,6 @@ if (!class_exists('InitRating')) {
 
     class InitRating
     {
-        private $PLUGIN_VERSION = '1.0';
-        private $PLUGIN_PATH = '';
-        private $PLUGIN_URL = '';
 
         public $content = '
 <div class="wpr-wrapp">
@@ -38,28 +36,31 @@ if (!class_exists('InitRating')) {
 
         public function __construct()
         {
-            $this->PLUGIN_PATH = plugin_dir_path(__FILE__);
-            $this->PLUGIN_URL = plugin_dir_url(__FILE__);
+            // load classes
+            $this->load_classes();
 
             add_filter('the_content', [$this, 'add_rating_after_content']);
             add_action('wp_enqueue_scripts', [$this, 'include_css_js']);
+
+            // Interalization
+//            add_action( 'plugins_loaded', [$this, 'load_plugin_text_domain'] );
         }
 
         public function include_css_js()
         {
             wp_enqueue_style(
                 'wp-post-rating',
-                $this->PLUGIN_URL . 'assets/css/wp-post-rating.min.css',
+                Config::$PLUGIN_URL . 'assets/css/wp-post-rating.min.css',
                 [],
-                $this->PLUGIN_VERSION,
+                Config::$PLUGIN_VERSION,
                 'all'
             );
 
             wp_enqueue_script(
                 'wp-post-rating',
-                $this->PLUGIN_URL . 'assets/js/wp-post-rating.min.js',
+                Config::$PLUGIN_URL . 'assets/js/wp-post-rating.min.js',
                 ['jquery'],
-                $this->PLUGIN_VERSION,
+                Config::$PLUGIN_VERSION,
                 true
             );
         }
@@ -68,7 +69,17 @@ if (!class_exists('InitRating')) {
         {
             $custom_content = $content;
             $custom_content .= $this->content;
+            $custom_content .= Config::$PLUGIN_TABLE_NAME;
+            $custom_content .= Config::$PLUGIN_URL;
             return $custom_content;
+        }
+
+        public function load_plugin_text_domain(){
+            load_plugin_textdomain( Config::$PLUGIN_NAME, false, Config::$PLUGIN_PATH . '/languages/');
+        }
+
+        public function load_classes(){
+            require_once 'classes/Config.php';
         }
     }
 

@@ -22,7 +22,7 @@
 */
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
+  font-family: "fontello", serif;
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -57,8 +57,9 @@
 }
 
 .wpr-wrapp {
-
-
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
   .wpr-rating {
     overflow: hidden;
     display: inline-block;
@@ -101,9 +102,32 @@
     }
   }
   .wpr-info-container{
-
+    display: flex;
+    position: relative;
+    align-items: center;
     background: #fff;
     border: 1px solid #000;
+    margin: 5px 0;
+    margin-left: 10px;
+
+    &:before{
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      left: -5px;
+      top: auto;
+      z-index: 1;
+      background: #fff;
+      border: 1px solid #000;
+      transform: rotate(45deg);
+      border-top: none;
+      border-right: none;
+    }
+
+    span{
+      padding: 0 5px;
+    }
   }
 }
 

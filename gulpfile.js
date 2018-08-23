@@ -5,12 +5,17 @@ let less = require('gulp-less');
 let rename = require('gulp-rename');
 let cleanCSS = require('gulp-clean-css');
 let uglify = require('gulp-uglify');
+let autoprefixer = require('gulp-autoprefixer');
 let path = require('path');
 
 gulp.task('less', function () {
     return gulp.src('./assets/less/**/*.less')
         .pipe(less({
             paths: [ path.join(__dirname, 'less', 'includes') ]
+        }))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
         }))
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(rename({suffix: '.min'}))
