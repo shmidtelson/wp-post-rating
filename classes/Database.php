@@ -1,19 +1,26 @@
 <?php
 
+namespace WPR_Plugin;
+
 class Database
 {
-
+    public $PLUGIN_FULL_TABLE_NAME;
 
     public function __construct()
     {
+        // load config
+        $this->config = new Config();
 
+        global $wpdb;
+        return $wpdb->prefix . $this->PLUGIN_FULL_TABLE_NAME;
     }
 
-    private function plugin_install()
+    public function plugin_install()
     {
         global $wpdb;
 
-        $table_name = $this->get_table_name();
+        $table_name = $this->PLUGIN_FULL_TABLE_NAME;
+
         if ($wpdb->get_var("show tables like '$table_name'") != $table_name) {
 
             $sql = $this->sql_create_table();
@@ -23,26 +30,29 @@ class Database
 
 //            $rows_affected = $wpdb->insert($table_name, ['time' => current_time('mysql'), 'name' => $welcome_name, 'text' => $welcome_text)];
 
-            add_option("wpr_rating_db_version", self::$PLUGIN_TABLE_NAME);
+            add_option("wpr_rating_db_version", $this->config->PLUGIN_DB_VERSION);
 
         }
     }
 
-    private function get_table_name()
-    {
-        global $wpdb;
-        return $wpdb->prefix . self::$PLUGIN_TABLE_NAME;
-    }
-
     private function sql_create_table()
     {
-        return "CREATE TABLE " . $this->get_table_name() . " (
+        global $wpdb;
+
+        return sprintf(
+            "CREATE TABLE %s (
 	  id mediumint(9) NOT NULL AUTO_INCREMENT,
-	  time bigint(11) DEFAULT '0' NOT NULL,
-	  name tinytext NOT NULL,
-	  text text NOT NULL,
-	  url VARCHAR(55) NOT NULL,
+	  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	  post_id int(8) NOT NULL,
+	  user_id int(8) NULL,
+	  vote int(1) NOT NULL,
 	  UNIQUE KEY id (id)
-);";
+) %s ;", $this->PLUGIN_FULL_TABLE_NAME, $wpdb->get_charset_collate()
+        );
     }
+
+    private function create(){}
+    private function read(){}
+    private function update(){}
+    private function delete(){}
 }

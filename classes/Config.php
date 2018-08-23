@@ -4,16 +4,16 @@ namespace WPR_Plugin;
 
 class Config
 {
-    static $PLUGIN_VERSION = '1.0';
-    static $PLUGIN_PATH = '';
-    static $PLUGIN_URL = '';
-    static $PLUGIN_NAME = 'wp-post-rating';
-    static $PLUGIN_DB_VERSION = "1.0";
-    static $PLUGIN_TABLE_NAME = "wpr-rating";
+    public $PLUGIN_VERSION = '1.0';
+    public $PLUGIN_PATH;
+    public $PLUGIN_URL;
+    public $PLUGIN_NAME = 'wp-post-rating';
+    public $PLUGIN_DB_VERSION = "1.0";
+    public $PLUGIN_TABLE_NAME = "wpr_rating";
 
     public function __construct()
     {
-        self::$PLUGIN_PATH = plugin_dir_path(__FILE__);
-        self::$PLUGIN_URL = plugin_dir_url(__FILE__);
+        $this->PLUGIN_PATH = plugin_dir_path(dirname(__FILE__));
+        $this->PLUGIN_URL = plugin_dir_url(dirname(__FILE__));
     }
 }
