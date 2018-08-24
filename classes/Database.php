@@ -4,10 +4,10 @@ namespace WPR_Plugin;
 
 class Database
 {
-    public function __construct()
+    public function __construct($config)
     {
         // load config
-        $this->config = new Config();
+        $this->config = $config;
 
     }
 

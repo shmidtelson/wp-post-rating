@@ -9,9 +9,9 @@ class Admin
     /**
      * Admin constructor.
      */
-    public function __construct()
+    public function __construct($config)
     {
-        $this->config = new Config();
+        $this->config = $config;
         add_action('admin_menu', [$this, 'add_plugin_admin_menu']);
     }
 

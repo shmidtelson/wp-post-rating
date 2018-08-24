@@ -31,9 +31,9 @@ if (!class_exists('InitRating')) {
 
             // load config
             $this->config = new Config();
-            $this->database = new Database();
+            $this->database = new Database($this->config);
 
-            new Admin();
+            new Admin($this->config);
 
             // display rating
             add_filter('the_content', [$this, 'add_rating_after_content']);
