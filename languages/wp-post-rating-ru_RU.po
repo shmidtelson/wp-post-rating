@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wp Post Rating\n"
-"POT-Creation-Date: 2018-08-24 00:43+0300\n"
-"PO-Revision-Date: 2018-08-24 00:46+0300\n"
+"POT-Creation-Date: 2018-08-24 09:31+0300\n"
+"PO-Revision-Date: 2018-08-24 09:31+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -22,41 +22,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: classes/admin/Admin.php:26 classes/admin/Admin.php:27
+#: classes/admin/Admin.php:27 classes/admin/Admin.php:28
 msgid "Stars rating"
 msgstr "Звездный рейтинг"
 
-#: classes/admin/RatingsList.php:54
+#: classes/admin/RatingsList.php:50
 msgid "id"
 msgstr ""
 
-#: classes/admin/RatingsList.php:55
+#: classes/admin/RatingsList.php:51
 msgid "User"
 msgstr "Пользователь"
 
-#: classes/admin/RatingsList.php:56
+#: classes/admin/RatingsList.php:52
 msgid "Post"
 msgstr "Пост"
 
-#: classes/admin/RatingsList.php:57
+#: classes/admin/RatingsList.php:53
 msgid "Vote result"
 msgstr "Голос"
 
-#: classes/admin/RatingsList.php:58
+#: classes/admin/RatingsList.php:54
 msgid "Date create"
 msgstr "Дата создания"
 
-#: classes/admin/RatingsList.php:88
+#: classes/admin/RatingsList.php:85
 msgid "Delete"
 msgstr "Удалить"
 
-#: classes/admin/RatingsList.php:116
+#: classes/admin/RatingsList.php:111
 msgid "No ratings avaliable."
 msgstr ""
 
 #: templates/admin_ratings_list.php:2
-msgid "WP List Table Demo"
-msgstr ""
+msgid "Stars rating list"
+msgstr "Список всех голосов"
 
 #: templates/main.php:10
 msgid "Vote"
