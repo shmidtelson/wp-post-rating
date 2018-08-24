@@ -11,7 +11,7 @@ var Stars = function () {
     var _this = this;
 
     this.stars = document.querySelectorAll(".icon-star");
-
+    // @fixme: indexof
     this.hasClass = function (target, className) {
         return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
     };
