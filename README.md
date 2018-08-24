@@ -5,4 +5,4 @@ WP-POST-RATING is powerful rating plugin with ajax security requests.
 * Wordpress > 4.9.8
 * PHP > 5.6
 ## License ##
-GPLv2
+[MIT](https://raw.githubusercontent.com/shmidtelson/wp-post-rating/master/LICENSE)
