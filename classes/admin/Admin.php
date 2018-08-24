@@ -3,14 +3,15 @@
 namespace WPR_Plugin\Admin;
 
 use WPR_Plugin\Config;
-use WPR_Plugin\Admin\RatingsList;
 
 class Admin
 {
+    /**
+     * Admin constructor.
+     */
     public function __construct()
     {
         $this->config = new Config();
-//
         add_action('admin_menu', [$this, 'add_plugin_admin_menu']);
     }
 
@@ -31,21 +32,8 @@ class Admin
         );
     }
 
-//    public function load_ratings_list_screen_options()
-//    {
-//        $arguments = array(
-//            'label' => __('Users Per Page', $this->config->PLUGIN_NAME),
-//            'default' => 5,
-//            'option' => 'users_per_page'
-//        );
-//        add_screen_option('per_page', $arguments);
-//
-////        $this->user_list_table = new RatingsList($this->config->PLUGIN_NAME);
-//    }
-
-    /*
-     * Display the User List Table
-     * Callback for the add_users_page() in the add_plugin_admin_menu() method of this class.
+    /**
+     * Load from template
      */
     public function load_rating_table()
     {

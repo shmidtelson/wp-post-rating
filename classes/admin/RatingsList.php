@@ -7,9 +7,6 @@ if (!class_exists('WP_List_Table')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
-use WPR_Plugin\Config;
-
-
 class RatingsList extends \WP_List_Table
 {
     private $config = [];
@@ -23,7 +20,6 @@ class RatingsList extends \WP_List_Table
             'ajax' => false //We won't support Ajax for this table
         ]);
         $this->prepare_items();
-
     }
 
     /**
@@ -49,14 +45,14 @@ class RatingsList extends \WP_List_Table
      */
     public function get_columns()
     {
-        $table_columns = array(
+        $table_columns = [
             'cb' => '<input type="checkbox" />',
             'id' => __('id', $this->config->PLUGIN_NAME),
             'user' => __('User', $this->config->PLUGIN_NAME),
             'post' => __('Post', $this->config->PLUGIN_NAME),
             'vote' => __('Vote result', $this->config->PLUGIN_NAME),
             'created_at' => __('Date create', $this->config->PLUGIN_NAME),
-        );
+        ];
         return $table_columns;
     }
 
@@ -84,6 +80,7 @@ class RatingsList extends \WP_List_Table
      */
     function get_bulk_actions()
     {
+        # TODO: DOESNT WORK, NEED FIX
         $actions = [
             'delete' => __('Delete', $this->config->PLUGIN_NAME)
         ];
@@ -99,14 +96,12 @@ class RatingsList extends \WP_List_Table
      */
     function process_bulk_action()
     {
-        # TODO Fix this
         global $wpdb;
-        $table_name = $wpdb->prefix . 'cte'; // do not forget about tables prefix
         if ('delete' === $this->current_action()) {
-            $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : array();
+            $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
             if (is_array($ids)) $ids = implode(',', $ids);
             if (!empty($ids)) {
-                $wpdb->query("DELETE FROM $table_name WHERE id IN($ids)");
+                $wpdb->query("DELETE FROM {$this->config->PLUGIN_FULL_TABLE_NAME} WHERE id IN($ids)");
             }
         }
     }
@@ -150,6 +145,10 @@ class RatingsList extends \WP_List_Table
         ));
     }
 
+    /**
+     * @param object $item
+     * @param string $column_name
+     */
     function column_default($item, $column_name)
     {
         return $item[$column_name];
