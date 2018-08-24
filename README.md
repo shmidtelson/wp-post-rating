@@ -1,3 +1,5 @@
+![Screenshot](https://raw.githubusercontent.com/shmidtelson/wp-post-rating/master/screenshot.png)
+
 # Wordpress post stars rating plugin
 ## Description ##
 WP-POST-RATING is powerful rating plugin with ajax security requests.
