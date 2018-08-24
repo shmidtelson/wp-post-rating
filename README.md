@@ -1,6 +1,8 @@
 # Wordpress post stars rating plugin
-## DESCRIPTION ##
+## Description ##
 WP-POST-RATING is powerful rating plugin with ajax security requests.
-## REQUIREMENTS ##
+## Requirements ##
 * Wordpress > 4.9.8
 * PHP > 5.6
+## License ##
+GPLv2
