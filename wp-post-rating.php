@@ -8,7 +8,7 @@ Version: 1.0
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
-License: GPL 2.0
+License: MIT
 */
 
 namespace WPR_Plugin;
