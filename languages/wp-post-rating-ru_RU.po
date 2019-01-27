@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wp Post Rating\n"
-"POT-Creation-Date: 2018-11-10 15:53+0300\n"
-"PO-Revision-Date: 2018-11-10 15:55+0300\n"
+"POT-Creation-Date: 2019-01-27 21:22+0300\n"
+"PO-Revision-Date: 2019-01-27 21:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.7\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -21,6 +21,68 @@ msgstr ""
 "_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: classes/WPR_Widget.php:16
+msgid "List posts by rating"
+msgstr "Список записей по рейтингу"
+
+#: classes/WPR_Widget.php:17
+msgid "You may order displayed posts"
+msgstr "Вы можете настроить сортировку выводимых записей"
+
+#: classes/WPR_Widget.php:48
+msgid "New title"
+msgstr "Новый заголовок"
+
+#: classes/WPR_Widget.php:89
+msgid "Title"
+msgstr "Заголовок"
+
+#: classes/WPR_Widget.php:95
+msgid "Count of posts"
+msgstr "Количество записей"
+
+#: classes/WPR_Widget.php:105
+msgid "Order by"
+msgstr "Сортировать по"
+
+#: classes/WPR_Widget.php:111
+msgid "Sort by"
+msgstr "Сортировать как"
+
+#: classes/WPR_Widget.php:120
+msgid "Wrapper posts"
+msgstr "Оболочка записей"
+
+#: classes/WPR_Widget.php:127
+msgid "Wrapper for all posts, supports shortcodes: "
+msgstr "Оболочка всех записей, поддерживает шорткоды"
+
+#: classes/WPR_Widget.php:134
+msgid "Wrapper one post"
+msgstr "Оболочка одной записи"
+
+#: classes/WPR_Widget.php:141
+msgid "Wrapper for one post, supports shortcodes: "
+msgstr "Оболочка для одной записи, поддерживает шорткоды"
+
+#: classes/WPR_Widget.php:147
+msgid "Date format"
+msgstr "Формат даты"
+
+#: classes/WPR_Widget.php:151
+msgid ""
+"Dates formats is here <a href=\"https://codex.wordpress.org/"
+"Formatting_Date_and_Time\">https://codex.wordpress.org/"
+"Formatting_Date_and_Time</a>"
+msgstr ""
+"Всевозможные форматы  даты доступны по ссылке <a href=\"https://codex."
+"wordpress.org/Formatting_Date_and_Time\">https://codex.wordpress.org/"
+"Formatting_Date_and_Time</a>"
+
+#: classes/WPR_Widget.php:216
+msgid "Guest"
+msgstr "Гость"
 
 #: classes/admin/Admin.php:27 classes/admin/Admin.php:28
 msgid "Stars rating"
@@ -106,7 +168,7 @@ msgstr "Как показать в контенте"
 msgid "Display in PHP code"
 msgstr "Как отобразить в PHP коде"
 
-#: templates/admin_ratings_list.php:2 wp-post-rating.php:132
+#: templates/admin_ratings_list.php:2 wp-post-rating.php:134
 msgid "Settings"
 msgstr "Настройки"
 
