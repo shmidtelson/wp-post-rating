@@ -20,10 +20,11 @@ $total = $this->database->get_total_votes($id)
     </div>
     <div class="wpr-info-container">
         <?php if ($total): ?>
-            <span><?php _e('Votes', $this->config->PLUGIN_NAME) ?></span> <span class="wpr-total">(<?php echo $total ?>
-                )</span>
+            <span><?php _e('Votes', $this->config->PLUGIN_NAME) ?>&nbsp;</span>
+            <span class="wpr-total">(<?php echo $total ?>)</span>
         <?php else: ?>
-            <span><?php _e('Vote', $this->config->PLUGIN_NAME) ?></span> <span class="wpr-total"></span>
+            <span><?php _e('Vote', $this->config->PLUGIN_NAME) ?></span>
+            <span class="wpr-total"></span>
         <?php endif; ?>
     </div>
 </div>
