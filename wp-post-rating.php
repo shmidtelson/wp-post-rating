@@ -4,7 +4,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: http://romua1d.ru/wp_post_rating
 Description: Powerful post rating wordpress plugin.
-Version: 1.0.1
+Version: 1.0.2
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
