@@ -3,7 +3,7 @@ Contributors: shmidtelson
 Donate link: https://romua1d.ru/
 Tags: 5 star,google rating,postrating,rating,ratings,seo rating,rating snippet
 Requires at least: 4.9.8
-Tested up to: 5.0
+Tested up to: 5.2.4
 Requires PHP: 5.6
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -38,7 +38,10 @@ e.g.
 3. Settings page
  
 == Changelog ==
- 
+= 1.0.2 =
+* Visual fixes
+= 1.0.1 =
+* Change horizontal position
 = 1.0.0 =
 Release.
 * Ajax voting
