@@ -109,7 +109,7 @@ class Database
         if ($result[0]->avg_rating !== null) {
             $return = round((float)$result[0]->avg_rating, $prec);
         } else {
-            $return = false;
+            $return = 0;
         }
 
         return $return;
@@ -126,7 +126,7 @@ class Database
         if ($result[0]->total_rating !== null) {
             $return = $result[0]->total_rating;
         } else {
-            $return = false;
+            $return = 0;
         }
 
         return $return;
