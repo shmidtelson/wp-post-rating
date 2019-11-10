@@ -172,12 +172,11 @@ class WPR_Widget extends \WP_Widget
     {
         global $wpdb;
 
-
         $results = $wpdb->get_results("
-SELECT post_id, user_id, created_at, vote
-FROM {$this->config->PLUGIN_FULL_TABLE_NAME}
-{$this->queryGetOrder($obj->orderby, $obj->sort)}
-{$this->queryGetLimit($obj->count)}
+        SELECT post_id, user_id, created_at, vote
+        FROM {$this->config->PLUGIN_FULL_TABLE_NAME}
+        {$this->queryGetOrder($obj->orderby, $obj->sort)}
+        {$this->queryGetLimit($obj->count)}
 ", ARRAY_A);
 
         return $results;
@@ -205,7 +204,7 @@ FROM {$this->config->PLUGIN_FULL_TABLE_NAME}
         foreach ($posts as $post) {
             $w = $post_wrapper;
 
-            $date = date($date_format, strtotime($post['created_at']));
+            $date = date_i18n($date_format, strtotime($post['created_at']));
             $stars =
                 '<small class="wpr_rating_list">'
                 . str_repeat('<span class="icon-star"></span>', $post['vote'])
@@ -213,7 +212,7 @@ FROM {$this->config->PLUGIN_FULL_TABLE_NAME}
 
             $post_name = "<a href=" . get_the_permalink($post['post_id']) . ">" . get_the_title($post['post_id']) . "</a>";
             $user = get_user_by('ID', $post['user_id']);
-            $user_name = ($user) ? $user->user_nicename : __('Guest', $this->config->PLUGIN_NAME);
+            $user_name = ($user) ? $user->display_name : __('Guest', $this->config->PLUGIN_NAME);
 
             $w = str_replace('[date]', $date, $w);
             $w = str_replace('[stars]', $stars, $w);

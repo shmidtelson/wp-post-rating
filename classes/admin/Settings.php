@@ -41,7 +41,6 @@ class Settings extends \WP_List_Table
     {
         ?>
         <div class="wrap">
-            <?php screen_icon(); ?>
             <form method="post" action="options.php">
                 <a href="?page=wp-post-rating"
                    class="page-title-action"><?php _e('All votes', $this->config->PLUGIN_NAME); ?></a>
@@ -57,8 +56,8 @@ class Settings extends \WP_List_Table
                                     <span><?php _e('Star rating position in content', $this->config->PLUGIN_NAME) ?></span>
                                 </legend>
                                 <?php $this->setting_dropdown_fn([
-                                    'before' => __('Before content', $this->config->PLUGIN_NAME),
-                                    'after' => __('After content', $this->config->PLUGIN_NAME),
+//                                    'before' => __('Before content', $this->config->PLUGIN_NAME),
+//                                    'after' => __('After content', $this->config->PLUGIN_NAME),
                                     'shortcode' => __('Shortcode', $this->config->PLUGIN_NAME),
                                 ], 'wpr_position') ?>
                                 <br>

@@ -4,7 +4,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: http://romua1d.ru/wp_post_rating
 Description: Powerful post rating wordpress plugin.
-Version: 1.0.2
+Version: 1.0.3
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
@@ -29,7 +29,7 @@ if (!class_exists('InitRating')) {
         {
             // display rating
 
-            add_filter('the_content', [$this, 'add_rating_after_content']);
+//            add_filter('the_content', [$this, 'add_rating_after_content']);
             add_action('wp_enqueue_scripts', [$this, 'include_css_js']);
 
             // Ajax
@@ -84,16 +84,18 @@ if (!class_exists('InitRating')) {
             );
         }
 
-        public function add_rating_after_content($content)
-        {
-            if (is_single() && $this->position == 'before')
-                include $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
-
-            echo do_shortcode($content);
-
-            if (is_single() && $this->position == 'after')
-                include $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
-        }
+//        public function add_rating_after_content($content)
+//        {
+//
+//            if (is_single() && $this->position == 'before')
+//                require_once $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
+//
+//            echo do_shortcode($content);
+//            print $content;
+//
+//            if (is_single() && $this->position == 'after')
+//                require_once $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
+//        }
 
         public function load_plugin_text_domain()
         {
@@ -141,7 +143,7 @@ if (!class_exists('InitRating')) {
         public function displayRating()
         {
             ob_start();
-            include $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
+            require $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
             $html = ob_get_clean();
 
             return $html;

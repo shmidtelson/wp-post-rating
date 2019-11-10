@@ -38,6 +38,13 @@ e.g.
 3. Settings page
  
 == Changelog ==
+= 1.0.3 =
+* Fix username in widget
+* Fix date in widget for multilang sites
+* Remove event click from star in widget
+* Add validator for ajax vote request
+* Chore code
+* Update language
 = 1.0.2 =
 * Visual fixes
 = 1.0.1 =

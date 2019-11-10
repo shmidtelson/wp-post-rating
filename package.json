@@ -19,5 +19,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.2.0"
   },
-  "browsers": ["last 2 versions"]
+  "browsers": [
+    "last 2 versions"
+  ]
 }

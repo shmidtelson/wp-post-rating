@@ -37,7 +37,7 @@ var ajaxClient = new AjaxSendRequest();
 
 var Stars = function () {
     var that = this;
-    this.stars = document.querySelectorAll(".icon-star");
+    this.stars = document.querySelectorAll(".wpr-wrapp .icon-star");
 
     this.hasClass = function (target, className) {
         return (' ' + target.className + ' ').indexOf(' ' + className + ' ') > -1;
