@@ -38,6 +38,10 @@ e.g.
 3. Settings page
  
 == Changelog ==
+= 1.0.3.3 =
+* Optimize XHR to backend
+= 1.0.3.2 =
+* Fix ajax incorrect answer
 = 1.0.3.1 =
 * Fixes with loader and display data. Correct SEO schema
 = 1.0.3 =

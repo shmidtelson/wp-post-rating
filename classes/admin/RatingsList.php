@@ -92,18 +92,6 @@ class RatingsList extends \WP_List_Table
         return $actions;
     }
 
-    function column_date_submitted($item)
-    {
-
-        $actions = array(
-            'edit' => sprintf('<a href="?page=view_application&application=%s">View</a>', $item->id),
-            'delete' => sprintf('<a href="?page=view_application&application=%s">Delete</a>', $item->id, $item->id)
-        );
-
-        return sprintf('%1$s %2$s', $item->date_submitted, $this->row_actions($actions));
-
-    }
-
     /**
      * [OPTIONAL] This method processes bulk actions
      * it can be outside of class
