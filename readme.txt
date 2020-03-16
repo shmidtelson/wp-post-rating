@@ -3,7 +3,7 @@ Contributors: shmidtelson
 Donate link: https://romua1d.ru/
 Tags: 5 star,google rating,postrating,rating,ratings,seo rating,rating snippet
 Requires at least: 4.9.8
-Tested up to: 5.2.4
+Tested up to: 5.3.2
 Requires PHP: 5.6
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -38,6 +38,8 @@ e.g.
 3. Settings page
  
 == Changelog ==
+= 1.0.3.1 =
+* Fixes with loader and display data. Correct SEO schema
 = 1.0.3 =
 * Fix username in widget
 * Fix date in widget for multilang sites

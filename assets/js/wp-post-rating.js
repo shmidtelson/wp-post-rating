@@ -47,7 +47,7 @@ var Stars = function () {
         this.stars[i].addEventListener('click', function () {
             var parent = this.parentElement;
             var superparent = parent.parentElement;
-            var loader = superparent.children[1];
+            var loader = superparent.getElementsByClassName('wpr-rating-loader')[0];
             loader.classList.remove('wpr-hide');
             parent.classList.add('wpr-hide');
             childrens = parent.children;

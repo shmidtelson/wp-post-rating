@@ -1,9 +1,10 @@
 <?php
 $id = get_the_ID();
+$title = get_the_title($id);
 $avg = $this->database->get_avg_rating($id, 0);
-$total = $this->database->get_total_votes($id)
+$total = $this->database->get_total_votes($id);
 ?>
-<div class="wpr-wrapp" id="wpr-widget-<?php echo $id ?>" itemscope itemtype="http://schema.org/WebPage">
+<div class="wpr-wrapp" id="wpr-widget-<?php echo $id ?>" itemscope itemtype="http://schema.org/Product">
     <div class="wpr-rating" data-id="<?php echo $id ?>" itemprop="aggregateRating" itemscope
          itemtype="http://schema.org/AggregateRating">
         <?php for ($i = 5; $i > 0; $i--): ?>
@@ -12,8 +13,8 @@ $total = $this->database->get_total_votes($id)
         <?php endfor ?>
         <meta itemprop="worstRating" content="1">
         <meta itemprop="bestRating" content="5">
-        <meta itemprop="reviewCount" content="<?php echo $total ?>">
-        <meta itemprop="ratingValue" content="<?php echo $avg; ?>">
+		<meta itemprop="reviewCount" content="<?php echo $total ? $total : '1' ?>">
+        <meta itemprop="ratingValue" content="<?php echo $avg ? $avg : '5' ?>">
     </div>
     <div class="wpr-rating-loader wpr-hide">
         <i class="icon-spin4 animate-spin"></i>
@@ -27,4 +28,5 @@ $total = $this->database->get_total_votes($id)
             <span class="wpr-total"></span>
         <?php endif; ?>
     </div>
+    <meta itemprop="name" content="<?php echo $title; ?>">
 </div>

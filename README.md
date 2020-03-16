@@ -11,6 +11,7 @@ Features:
 ## Requirements ##
 * Wordpress >= 4.9.8
 * PHP >= 5.6
+
 ## Links ##
 https://wordpress.org/plugins/wp-post-rating/
 
