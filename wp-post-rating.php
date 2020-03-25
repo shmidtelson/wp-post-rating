@@ -23,6 +23,10 @@ if (!class_exists('InitRating')) {
 
     class InitRating
     {
+        public $position;
+        public $wprStarsMainColor;
+        public $wprStarsSecondColor;
+
         public $lang_vote = '';
 
         public function __construct()
@@ -52,9 +56,12 @@ if (!class_exists('InitRating')) {
             new Ajax($this->config, $this->database);
 
             $this->position = get_option('wpr_position');
+            $this->wprStarsMainColor = get_option('wpr_stars_main_color');
+            $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
 
-            if ($this->position == 'shortcode')
+            if ($this->position == 'shortcode') {
                 add_shortcode('wp_rating', [$this, 'displayRating']);
+            }
 
             // Add settings link
 //            add_filter("plugin_action_links_{$this->config->PLUGIN_NAME}", [$this, 'add_settings_link_to_plugin_list']);
@@ -62,11 +69,14 @@ if (!class_exists('InitRating')) {
             add_filter("plugin_action_links_" . plugin_basename(__FILE__), [$this, 'add_settings_link_to_plugin_list']);
 
             // Adding widgets
-            add_action( 'widgets_init', [$this, 'wpr_load_widget']);
+            add_action('widgets_init', [$this, 'wpr_load_widget']);
         }
 
         public function include_css_js()
         {
+            /**
+             * Main files
+             */
             wp_enqueue_style(
                 'wp-post-rating',
                 $this->config->PLUGIN_URL . 'assets/css/wp-post-rating.min.css',
@@ -82,6 +92,17 @@ if (!class_exists('InitRating')) {
                 $this->config->PLUGIN_VERSION,
                 true
             );
+
+            $custom_css = sprintf(":root {
+--wpr-main-color: %s;
+--wpr-second-color: %s;
+}",
+                get_option('wpr_stars_main_color'),
+                get_option('wpr_stars_second_color')
+            );
+
+            wp_add_inline_style('wp-post-rating', $custom_css);
+
         }
 
 //        public function add_rating_after_content($content)
@@ -100,10 +121,11 @@ if (!class_exists('InitRating')) {
         public function load_plugin_text_domain()
         {
             $locale = apply_filters('plugin_locale', get_locale(), $this->config->PLUGIN_NAME);
-            if ($loaded = load_textdomain($this->config->PLUGIN_NAME, trailingslashit(WP_LANG_DIR) . $this->config->PLUGIN_NAME . DIRECTORY_SEPARATOR . $this->config->PLUGIN_NAME . '-' . $locale . '.mo')) {
+            if ($loaded = load_textdomain($this->config->PLUGIN_NAME,
+                trailingslashit(WP_LANG_DIR) . $this->config->PLUGIN_NAME . DIRECTORY_SEPARATOR . $this->config->PLUGIN_NAME . '-' . $locale . '.mo')) {
                 return $loaded;
             } else {
-                load_plugin_textdomain($this->config->PLUGIN_NAME, FALSE, basename(dirname(__FILE__)) . '/languages/');
+                load_plugin_textdomain($this->config->PLUGIN_NAME, false, basename(dirname(__FILE__)) . '/languages/');
             }
         }
 
@@ -149,13 +171,14 @@ if (!class_exists('InitRating')) {
             return $html;
         }
 
-        public function wpr_load_widget(){
-            register_widget( new WPR_Widget($this->config) );
+        public function wpr_load_widget()
+        {
+            register_widget(new WPR_Widget($this->config));
         }
 
     }
 
-    $WPR_PLUGIN = new InitRating();
+    $WPR_PLUGIN = new InitRating;
 
 }
 

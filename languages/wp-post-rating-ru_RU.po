@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wp Post Rating\n"
-"POT-Creation-Date: 2019-11-10 12:51+0300\n"
-"PO-Revision-Date: 2019-11-10 12:52+0300\n"
+"POT-Creation-Date: 2020-03-25 23:31+0300\n"
+"PO-Revision-Date: 2020-03-25 23:32+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -30,47 +30,47 @@ msgstr "Список записей по рейтингу"
 msgid "You may order displayed posts"
 msgstr "Вы можете настроить сортировку выводимых записей"
 
-#: classes/WPR_Widget.php:48
+#: classes/WPR_Widget.php:45
 msgid "New title"
 msgstr "Новый заголовок"
 
-#: classes/WPR_Widget.php:89
+#: classes/WPR_Widget.php:86
 msgid "Title"
 msgstr "Заголовок"
 
-#: classes/WPR_Widget.php:95
+#: classes/WPR_Widget.php:92
 msgid "Count of posts"
 msgstr "Количество записей"
 
-#: classes/WPR_Widget.php:105
+#: classes/WPR_Widget.php:102
 msgid "Order by"
 msgstr "Сортировать по"
 
-#: classes/WPR_Widget.php:111
+#: classes/WPR_Widget.php:108
 msgid "Sort by"
 msgstr "Сортировать как"
 
-#: classes/WPR_Widget.php:120
+#: classes/WPR_Widget.php:117
 msgid "Wrapper posts"
 msgstr "Оболочка записей"
 
-#: classes/WPR_Widget.php:127
+#: classes/WPR_Widget.php:124
 msgid "Wrapper for all posts, supports shortcodes: "
 msgstr "Оболочка всех записей, поддерживает шорткоды: "
 
-#: classes/WPR_Widget.php:134
+#: classes/WPR_Widget.php:131
 msgid "Wrapper one post"
 msgstr "Оболочка одной записи"
 
-#: classes/WPR_Widget.php:141
+#: classes/WPR_Widget.php:138
 msgid "Wrapper for one post, supports shortcodes: "
 msgstr "Оболочка для одной записи, поддерживает шорткоды: "
 
-#: classes/WPR_Widget.php:147
+#: classes/WPR_Widget.php:144
 msgid "Date format"
 msgstr "Формат даты"
 
-#: classes/WPR_Widget.php:151
+#: classes/WPR_Widget.php:148
 msgid ""
 "Dates formats is here <a href=\"https://codex.wordpress.org/"
 "Formatting_Date_and_Time\">https://codex.wordpress.org/"
@@ -80,7 +80,7 @@ msgstr ""
 "wordpress.org/Formatting_Date_and_Time\">https://codex.wordpress.org/"
 "Formatting_Date_and_Time</a>"
 
-#: classes/WPR_Widget.php:215
+#: classes/WPR_Widget.php:212
 msgid "Guest"
 msgstr "Гость"
 
@@ -116,7 +116,7 @@ msgstr "Дата создания"
 msgid "Delete"
 msgstr "Удалить"
 
-#: classes/admin/RatingsList.php:158
+#: classes/admin/RatingsList.php:146
 #, php-format
 msgid "Deleted %s vote"
 msgid_plural "Deleted %s votes"
@@ -124,43 +124,51 @@ msgstr[0] "Удален %s голос"
 msgstr[1] "Удалено %s голоса"
 msgstr[2] "Удалено %s голосов"
 
-#: classes/admin/RatingsList.php:165
+#: classes/admin/RatingsList.php:153
 msgid "No ratings avaliable."
 msgstr "Пока никто не голосовал."
 
-#: classes/admin/Settings.php:32 classes/admin/Settings.php:33
+#: classes/admin/Settings.php:36 classes/admin/Settings.php:37
 msgid "WPR Settings"
 msgstr "Настройки звездного рейтинга"
 
-#: classes/admin/Settings.php:46
+#: classes/admin/Settings.php:50
 msgid "All votes"
 msgstr "Все голоса"
 
-#: classes/admin/Settings.php:48
+#: classes/admin/Settings.php:52
 msgid "Star rating settings"
 msgstr "Настройки звездного рейтинга"
 
-#: classes/admin/Settings.php:52 classes/admin/Settings.php:56
+#: classes/admin/Settings.php:56 classes/admin/Settings.php:60
 msgid "Star rating position in content"
 msgstr "Позиция рейтинга в контенте"
 
-#: classes/admin/Settings.php:61
+#: classes/admin/Settings.php:66
 msgid "Shortcode"
 msgstr "Шорткод"
 
-#: classes/admin/Settings.php:66
+#: classes/admin/Settings.php:71
 msgid "How to custom display rating widget"
 msgstr "Как программно вывести рейтинг на сайте"
 
-#: classes/admin/Settings.php:69
+#: classes/admin/Settings.php:74
 msgid "Display in content"
 msgstr "Как показать в контенте"
 
-#: classes/admin/Settings.php:73
+#: classes/admin/Settings.php:78
 msgid "Display in PHP code"
 msgstr "Как отобразить в PHP коде"
 
-#: templates/admin_ratings_list.php:2 wp-post-rating.php:136
+#: classes/admin/Settings.php:88 classes/admin/Settings.php:93
+msgid "Stars color"
+msgstr "Цвет звезд"
+
+#: classes/admin/Settings.php:98
+msgid "Second (darker) color choose automatically"
+msgstr "Дополнительный (темный) цвет подбирается автоматически"
+
+#: templates/admin_ratings_list.php:2 wp-post-rating.php:158
 msgid "Settings"
 msgstr "Настройки"
 
@@ -168,24 +176,24 @@ msgstr "Настройки"
 msgid "Stars rating list"
 msgstr "Список всех голосов"
 
-#: templates/main.php:11
+#: templates/main.php:12
 #, php-format
 msgid "Vote %s"
 msgstr "Поставить %s"
 
-#: templates/main.php:23
+#: templates/main.php:24
 msgid "Votes"
 msgstr "Голосов"
 
-#: templates/main.php:26
+#: templates/main.php:27
 msgid "Vote"
 msgstr "Голосовать"
 
-msgid "Wp Post Rating"
-msgstr "WP Рейтинг материалов"
+#~ msgid "Wp Post Rating"
+#~ msgstr "WP Рейтинг материалов"
 
-msgid "Powerful post rating wordpress plugin."
-msgstr "Мощный и быстрый плагин звездного рейтинга для Wordpress."
+#~ msgid "Powerful post rating wordpress plugin."
+#~ msgstr "Мощный и быстрый плагин звездного рейтинга для Wordpress."
 
 #~ msgid "%s star"
 #~ msgid_plural "%s stars"

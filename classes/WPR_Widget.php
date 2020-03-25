@@ -27,9 +27,6 @@ class WPR_Widget extends \WP_Widget
             'orderby' => $instance['orderby'],
             'sort' => $instance['sort'],
         ]);
-//        echo '<pre>';
-//var_dump($instance);
-//        echo '</pre>';
         echo $args['before_widget'];
         if (!empty($title))
             echo $args['before_title'] . $title . $args['after_title'];

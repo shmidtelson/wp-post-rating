@@ -21,8 +21,12 @@ class Settings extends \WP_List_Table
     {
         // Rating position in content
         add_option('wpr_position', 'After');
+        add_option('wpr_stars_main_color', '#fdd835');
+        add_option('wpr_stars_second_color', '#fbc02d');
         register_setting('wpr_options_group', 'wpr_position');
         register_setting('wpr_options_group', 'wpr_post_types');
+        register_setting('wpr_options_group', 'wpr_stars_main_color');
+        register_setting('wpr_options_group', 'wpr_stars_second_color');
     }
 
     public function wpr_register_options_page()
@@ -53,7 +57,8 @@ class Settings extends \WP_List_Table
                         <td>
                             <fieldset>
                                 <legend class="screen-reader-text">
-                                    <span><?php _e('Star rating position in content', $this->config->PLUGIN_NAME) ?></span>
+                                    <span><?php _e('Star rating position in content',
+                                            $this->config->PLUGIN_NAME) ?></span>
                                 </legend>
                                 <?php $this->setting_dropdown_fn([
 //                                    'before' => __('Before content', $this->config->PLUGIN_NAME),
@@ -63,17 +68,37 @@ class Settings extends \WP_List_Table
                                 <br>
                                 <div class="shortcode-checked-js" style="display: none">
                                     <p class="description" id="tagline-description">
-                                        <?=__('How to custom display rating widget', $this->config->PLUGIN_NAME)?>
+                                        <?= __('How to custom display rating widget', $this->config->PLUGIN_NAME) ?>
                                     </p>
                                     <p>
-                                        <b><?=__('Display in content', $this->config->PLUGIN_NAME)?></b>
-                                        <input class="regular-text" value="[wp_rating]"  onclick="select()"/>
+                                        <b><?= __('Display in content', $this->config->PLUGIN_NAME) ?></b>
+                                        <input class="regular-text" value="[wp_rating]" onclick="select()"/>
                                     </p>
                                     <p>
-                                        <b><?=__('Display in PHP code', $this->config->PLUGIN_NAME)?></b>
-                                        <input class="regular-text" value="echo do_shortcode('[wp_rating]');" onclick="select()"/>
+                                        <b><?= __('Display in PHP code', $this->config->PLUGIN_NAME) ?></b>
+                                        <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
+                                               onclick="select()"/>
                                     </p>
                                 </div>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e('Stars color', $this->config->PLUGIN_NAME) ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <legend class="screen-reader-text">
+                                    <span><?php _e('Stars color', $this->config->PLUGIN_NAME) ?></span>
+                                </legend>
+                                <input class="color_chooser_js" name="wpr_stars_main_color" type="text"
+                                       value="<?= get_option('wpr_stars_main_color') ?>"/>
+                                <p class="colors-description" id="colors-description">
+                                    <?= __('Second (darker) color choose automatically', $this->config->PLUGIN_NAME) ?>
+                                </p>
+                                <input class="second_color_chooser_js" name="wpr_stars_second_color" type="hidden"
+                                       value="<?= get_option('wpr_stars_second_color') ?>"/>
                             </fieldset>
                         </td>
                     </tr>
@@ -224,8 +249,16 @@ class Settings extends \WP_List_Table
     function admin_page_scripts($hook)
     {
         if ($hook === 'settings_page_' . $this->OPTION_SLUG) {
-            wp_register_script('admin-settings-page', $this->config->PLUGIN_URL . 'assets/js/min/admin-settings-page.min.js', ['jquery']);
-            wp_register_style('admin-settings-page', $this->config->PLUGIN_URL . 'assets/css/admin-settings-page.min.css');
+            /**
+             * COLOR PICKER
+             */
+            wp_enqueue_script('wp-color-picker');
+            wp_enqueue_style('wp-color-picker');
+
+            wp_register_script('admin-settings-page',
+                $this->config->PLUGIN_URL . 'assets/js/min/admin-settings-page.min.js', ['jquery', 'wp-color-picker']);
+            wp_register_style('admin-settings-page',
+                $this->config->PLUGIN_URL . 'assets/css/admin-settings-page.min.css');
             wp_enqueue_style('admin-settings-page');
             wp_enqueue_script('admin-settings-page');
         }
