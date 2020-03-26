@@ -1,24 +1,25 @@
-=== Plugin Name ===
+=== Wp Post Rating ===
 Contributors: shmidtelson
 Donate link: https://romua1d.ru/
-Tags: 5 star,google rating,postrating,rating,ratings,seo rating,rating snippet
+Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating snippet
 Requires at least: 4.9.8
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
- 
-Powerful, seo, fastest, no-jquery stars rating plugin.
- 
+
 == Description ==
  
 WP-POST-RATING is powerful rating plugin with ajax security requests.
 Features:
-* Very faster
-* Seo-friendly
-* Without jQuery (Native js)
-* Customize color of stars
+**Very faster**
+Plugin use OOP and Vanilla JS, svg icons and CSS variables
+**Seo-friendly**
+Plugin use Schema for show stars rating in google search results
+**Without jQuery (Native js)**
+**Customize color of stars**
+You may customize color of stars and second color automatically generated
  
 == Installation ==
  
@@ -31,6 +32,8 @@ Features:
 1. How to displaing on your site
 2. List of all votes
 3. Settings page
+4. Display widget on frontend
+5. Widget settings
  
 == Changelog ==
 
