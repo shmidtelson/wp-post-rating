@@ -10,31 +10,28 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
- 
-WP-POST-RATING is powerful rating plugin with ajax security requests.
-Features:
-**Very faster**
-Plugin use OOP and Vanilla JS, svg icons and CSS variables
-**Seo-friendly**
-Plugin use Schema for show stars rating in google search results
-**Without jQuery (Native js)**
-**Customize color of stars**
-You may customize color of stars and second color automatically generated
- 
+
+## WP-POST-RATING is powerful rating plugin with ajax security requests.
+
+###Features:
+* Very faster
+*Plugin use OOP and Vanilla JS, svg icons and CSS variables*
+
+* Seo-friendly
+*Plugin use Schema for show stars rating in google search results*
+
+* Without jQuery (Native js)
+*Native js is very fast*
+
+* Customize color of stars
+*You may customize color of stars and second color automatically generated*
+
 == Installation ==
- 
+
 1. Upload `wp-post-rating` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. In settings copy shortcode and put it in your template.
 
-== Screenshots ==
-
-1. How to displaing on your site
-2. List of all votes
-3. Settings page
-4. Display widget on frontend
-5. Widget settings
- 
 == Changelog ==
 
 = 1.0.4 =
@@ -61,3 +58,10 @@ Release.
 * Ajax voting
 * Votes in admin panel
 * Shortcode support
+
+== Screenshots ==
+1. How to displaing on your site
+2. List of all votes
+3. Settings page
+4. Display widget on frontend
+5. Widget settings
