@@ -171,7 +171,7 @@ class RatingsList extends \WP_List_Table
         $paged = isset($_REQUEST['paged']) ? max(0, intval($_REQUEST['paged']) - 1) : 0;
         $orderby = (isset($_REQUEST['orderby']) && in_array($_REQUEST['orderby'], array_keys($this->get_sortable_columns()))) ? $_REQUEST['orderby'] : 'id';
         $order = (isset($_REQUEST['order']) && in_array($_REQUEST['order'], ['asc', 'desc'])) ? $_REQUEST['order'] : 'asc';
-
+        $offset = $per_page * $paged;
         // [REQUIRED] define $items array
         // notice that last argument is ARRAY_A, so we will retrieve array
         $users_table = $wpdb->prefix . 'users';
@@ -185,7 +185,7 @@ LEFT JOIN {$users_table} as t2 ON t1.user_id = t2.id
 LEFT JOIN {$posts_table} as t3 ON t1.post_id = t3.ID
 ORDER BY {$orderby} {$order}
 LIMIT {$per_page} 
-OFFSET {$paged}
+OFFSET {$offset}
 SQL
             , ARRAY_A
         );

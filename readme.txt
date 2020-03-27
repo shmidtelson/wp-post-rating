@@ -26,6 +26,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Customize color of stars
 *You may customize color of stars and second color automatically generated*
 
+###Functional:
+* Shortcodes for show rating `[wp_rating]`
+* Widget for show latest (any sort) votes in sidebar (other place)
+
 == Installation ==
 
 1. Upload `wp-post-rating` folder to the `/wp-content/plugins/` directory
@@ -33,7 +37,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
-
+= 1.0.4.1 =
+* Fix bug with pagination all votes in admin area
 = 1.0.4 =
 * Added color chooser support
 = 1.0.3.3 =
