@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wp Post Rating\n"
-"POT-Creation-Date: 2020-03-25 23:31+0300\n"
-"PO-Revision-Date: 2020-03-25 23:32+0300\n"
+"POT-Creation-Date: 2020-07-11 19:23+0300\n"
+"PO-Revision-Date: 2020-07-11 19:24+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -128,47 +128,55 @@ msgstr[2] "Удалено %s голосов"
 msgid "No ratings avaliable."
 msgstr "Пока никто не голосовал."
 
-#: classes/admin/Settings.php:36 classes/admin/Settings.php:37
+#: classes/admin/Settings.php:40 classes/admin/Settings.php:41
 msgid "WPR Settings"
 msgstr "Настройки звездного рейтинга"
 
-#: classes/admin/Settings.php:50
+#: classes/admin/Settings.php:54
 msgid "All votes"
 msgstr "Все голоса"
 
-#: classes/admin/Settings.php:52
+#: classes/admin/Settings.php:56
 msgid "Star rating settings"
 msgstr "Настройки звездного рейтинга"
 
-#: classes/admin/Settings.php:56 classes/admin/Settings.php:60
+#: classes/admin/Settings.php:60 classes/admin/Settings.php:64
 msgid "Star rating position in content"
 msgstr "Позиция рейтинга в контенте"
 
-#: classes/admin/Settings.php:66
+#: classes/admin/Settings.php:70
 msgid "Shortcode"
 msgstr "Шорткод"
 
-#: classes/admin/Settings.php:71
+#: classes/admin/Settings.php:75
 msgid "How to custom display rating widget"
 msgstr "Как программно вывести рейтинг на сайте"
 
-#: classes/admin/Settings.php:74
+#: classes/admin/Settings.php:78
 msgid "Display in content"
 msgstr "Как показать в контенте"
 
-#: classes/admin/Settings.php:78
+#: classes/admin/Settings.php:82
 msgid "Display in PHP code"
 msgstr "Как отобразить в PHP коде"
 
-#: classes/admin/Settings.php:88 classes/admin/Settings.php:93
+#: classes/admin/Settings.php:116 classes/admin/Settings.php:121
 msgid "Stars color"
 msgstr "Цвет звезд"
 
-#: classes/admin/Settings.php:98
+#: classes/admin/Settings.php:126
 msgid "Second (darker) color choose automatically"
 msgstr "Дополнительный (темный) цвет подбирается автоматически"
 
-#: templates/admin_ratings_list.php:2 wp-post-rating.php:158
+#: classes/admin/Settings.php:135
+msgid "Text (border) color"
+msgstr "Цвет текста (рамки вокруг)"
+
+#: classes/admin/Settings.php:146
+msgid "Tooltip background color"
+msgstr "Цвет тултипа, бэкраунда"
+
+#: templates/admin_ratings_list.php:2 wp-post-rating.php:145
 msgid "Settings"
 msgstr "Настройки"
 
