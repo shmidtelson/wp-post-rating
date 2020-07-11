@@ -53,13 +53,35 @@ window.onload = function () {
 jQuery(document).ready(function ($) {
     var mainColor = $('.color_chooser_js');
     var secondColor = $('.second_color_chooser_js');
+    var textColor = $('.text_color_chooser_js');
+    var textBackgroundColor = $('.text_background_color_chooser_js');
+
+    var setCssVariables = function () {
+        document.documentElement.style.setProperty('--wpr-main-color', mainColor.val());
+        document.documentElement.style.setProperty('--wpr-second-color', secondColor.val());
+        document.documentElement.style.setProperty('--wpr-text-color', textColor.val());
+        document.documentElement.style.setProperty('--wpr-text-background-color', textBackgroundColor.val());
+    }
+
+    setCssVariables()
+
 
     var myOptions = {
         // функция обратного вызова, срабатывающая каждый раз
         // при выборе цвета (когда водите мышкой по палитре)
         change: function () {
+            setCssVariables()
             secondColor.val(ColorLuminance(mainColor.val(), -0.2))
         },
     };
     mainColor.wpColorPicker(myOptions);
+
+    var myOptions = {
+        change: function () {
+            setCssVariables()
+        },
+    }
+    textColor.wpColorPicker(myOptions);
+    textBackgroundColor.wpColorPicker(myOptions);
+
 });

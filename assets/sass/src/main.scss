@@ -1,0 +1,149 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('../font/fontello.eot?34932983');
+  src: url('../font/fontello.eot?34932983#iefix') format('embedded-opentype'),
+  url('../font/fontello.woff2?34932983') format('woff2'),
+  url('../font/fontello.woff?34932983') format('woff'),
+  url('../font/fontello.ttf?34932983') format('truetype'),
+  url('../font/fontello.svg?34932983#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?34932983#fontello') format('svg');
+  }
+}
+*/
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello", serif;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .1em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .1em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-star {
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  color: var(--wpr-main-color);
+}
+
+.icon-star:before {
+  content: '\e800';
+}
+
+.icon-star-filled:before {
+  content: '\e801';
+}
+
+.icon-star:before {
+  position: relative;
+}
+
+
+.wpr-wrapp {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+
+  .wpr-rating {
+    overflow: hidden;
+    display: flex;
+    position: relative;
+
+    max-width: 200px;
+    font-size: 30px;
+
+    height: 40px;
+    flex-direction: row-reverse;
+  }
+
+  .wpr-rating-loader {
+    display: flex;
+    align-items: center;
+
+  }
+
+  .wpr-info-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    background: var(--wpr-text-background-color);
+    border: 1px solid var(--wpr-text-color);
+    color: var(--wpr-text-color);
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 0 5px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      left: -5px;
+      top: auto;
+      z-index: 1;
+      background: var(--wpr-text-background-color);
+      border: 1px solid var(--wpr-text-color);
+      transform: rotate(45deg);
+      border-top: none;
+      border-right: none;
+    }
+  }
+
+  .icon-star.checked ~ .icon-star:before,
+  .icon-star.checked:before {
+    content: '\e801';
+  }
+
+  .icon-star:hover {
+    cursor: pointer;
+
+    .icon-star:before {
+      content: '\e801';
+
+    }
+  }
+
+  .icon-star:hover ~ .icon-star:before,
+  .icon-star:hover:before {
+    content: '\e801';
+    color: var(--wpr-second-color);;
+  }
+}
+

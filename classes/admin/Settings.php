@@ -23,10 +23,14 @@ class Settings extends \WP_List_Table
         add_option('wpr_position', 'After');
         add_option('wpr_stars_main_color', '#fdd835');
         add_option('wpr_stars_second_color', '#fbc02d');
+        add_option('wpr_stars_text_color', '#000');
+        add_option('wpr_stars_text_background_color', '#fff');
         register_setting('wpr_options_group', 'wpr_position');
         register_setting('wpr_options_group', 'wpr_post_types');
         register_setting('wpr_options_group', 'wpr_stars_main_color');
         register_setting('wpr_options_group', 'wpr_stars_second_color');
+        register_setting('wpr_options_group', 'wpr_stars_text_color');
+        register_setting('wpr_options_group', 'wpr_stars_text_background_color');
     }
 
     public function wpr_register_options_page()
@@ -84,6 +88,30 @@ class Settings extends \WP_List_Table
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"></th>
+                        <td>
+                            <fieldset>
+                                <div class="wpr-wrapp wpr-wrapp-admin">
+                                    <div class="wpr-rating">
+                                        <span class="icon-star checked" data-value="5" title="Vote 5 "></span>
+                                        <span class="icon-star" data-value="4"
+                                              title="Vote 4 "></span>
+                                        <span class="icon-star" data-value="3"
+                                              title="Vote 3 "></span>
+                                        <span class="icon-star" data-value="2"
+                                              title="Vote 2 "></span>
+                                        <span class="icon-star" data-value="1"
+                                              title="Vote 1 "></span>
+                                    </div>
+                                    <div class="wpr-info-container">
+                                        <span>Votes&nbsp;</span>
+                                        <span class="wpr-total">(1)</span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row">
                             <?php _e('Stars color', $this->config->PLUGIN_NAME) ?>
                         </th>
@@ -102,27 +130,28 @@ class Settings extends \WP_List_Table
                             </fieldset>
                         </td>
                     </tr>
-
-                    <!--                    <tr>-->
-                    <!--                        <th scope="row">-->
-                    <?php //_e('Showing on post types', $this->config->PLUGIN_NAME)
-                    ?><!--</th>-->
-                    <!--                        <td>-->
-                    <!--                            <fieldset>-->
-                    <!--                                <legend class="screen-reader-text">-->
-                    <!--                                    <span>-->
-                    <?php //_e('Showing on post types', $this->config->PLUGIN_NAME)
-                    ?><!--</span>-->
-                    <!--                                </legend>-->
-                    <!--                                --><?php //$this->setting_chk1_fn([
-                    //                                    'before' => __('Before content', $this->config->PLUGIN_NAME),
-                    //                                    'after' => __('After content', $this->config->PLUGIN_NAME),
-                    //                                ], 'wpr_post_types')
-                    ?>
-                    <!--                                <br>-->
-                    <!--                            </fieldset>-->
-                    <!--                        </td>-->
-                    <!--                    </tr>-->
+                    <tr>
+                        <th scope="row">
+                            <?php _e('Text (border) color', $this->config->PLUGIN_NAME) ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <input class="text_color_chooser_js" name="wpr_stars_text_color" type="text"
+                                       value="<?= get_option('wpr_stars_text_color') ?>"/>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e('Tooltip background color', $this->config->PLUGIN_NAME) ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <input class="text_background_color_chooser_js" name="wpr_stars_text_background_color" type="text"
+                                       value="<?= get_option('wpr_stars_text_background_color') ?>"/>
+                            </fieldset>
+                        </td>
+                    </tr>
                 </table>
                 <?php submit_button(); ?>
             </form>

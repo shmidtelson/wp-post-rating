@@ -1,3 +1,7 @@
-.test {
-  font-weight: bold;
+@import "./src/main.scss";
+.wpr-wrapp-admin {
+  justify-content: start;
+}
+.wp-picker-holder {
+  position: absolute;
 }

@@ -4,7 +4,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: http://romua1d.ru/wp_post_rating
 Description: Powerful post rating wordpress plugin.
-Version: 1.0.4.2
+Version: 1.0.5
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
@@ -25,6 +25,8 @@ if (!class_exists('InitRating')) {
         public $position = 'shortcode';
         public $wprStarsMainColor;
         public $wprStarsSecondColor;
+        public $wprStarsTextColor;
+        public $wprStarsTextBackgroundColor;
 
         public function __construct()
         {
@@ -52,6 +54,8 @@ if (!class_exists('InitRating')) {
             $this->position = get_option('wpr_position');
             $this->wprStarsMainColor = get_option('wpr_stars_main_color');
             $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
+            $this->wprStarsTextColor = get_option('wpr_stars_text_color');
+            $this->wprStarsTextBackgroundColor = get_option('wpr_stars_text_background_color');
 
             if ($this->position == 'shortcode') {
                 add_shortcode('wp_rating', [$this, 'displayRating']);
@@ -88,9 +92,13 @@ if (!class_exists('InitRating')) {
             $custom_css = sprintf(":root {
 --wpr-main-color: %s;
 --wpr-second-color: %s;
+--wpr-text-color: %s;
+--wpr-text-background-color: %s;
 }",
                 get_option('wpr_stars_main_color'),
-                get_option('wpr_stars_second_color')
+                get_option('wpr_stars_second_color'),
+                get_option('wpr_stars_text_color'),
+                get_option('wpr_stars_text_background_color')
             );
 
             wp_add_inline_style('wp-post-rating', $custom_css);
