@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Wp Post Rating
 Plugin URI: http://romua1d.ru/wp_post_rating
@@ -11,160 +10,122 @@ Text Domain: wp-post-rating
 License: MIT
 */
 
-namespace WPR_Plugin;
-
-use WPR_Plugin\Admin\Admin;
-use WPR_Plugin\Admin\Settings;
-
 //* Don't access this file directly
 defined('ABSPATH') or die();
 
-if (!class_exists('InitRating')) {
-    class InitRating
+require_once 'vendor/autoload.php';
+
+use WPR\Service\ConfigService;
+use WPR\Service\ScriptsService;
+use WPR\Service\DocumentService;
+use WPR\Service\TranslateService;
+use WPR\Service\MaintenanceService;
+
+/**
+ * Container create
+ */
+$containerBuilder = new \DI\ContainerBuilder();
+$containerBuilder->useAutowiring(true);
+$containerBuilder->useAnnotations(false);
+$containerBuilder->addDefinitions([
+    ConfigService::class => \DI\create( ConfigService::class),
+    ScriptsService::class => \DI\create(ScriptsService::class),
+    DocumentService::class => \DI\create(DocumentService::class),
+    TranslateService::class => \DI\create(TranslateService::class),
+    MaintenanceService::class => \DI\create(MaintenanceService::class),
+]);
+$containerBuilder->build();
+
+/**
+ * Wordpress hooks
+ */
+add_action('wp_enqueue_scripts', [new ScriptsService(), 'initScripts']);
+add_action('wp_head', [new DocumentService(), 'addNonceToHead']);
+add_action('init', [new TranslateService(), 'loadPluginTextDomain']);
+
+register_activation_hook(__FILE__, [$this->database, 'plugin_install']);
+
+
+class RatingDisplay
+{
+    public $position = 'shortcode';
+    public $wprStarsMainColor;
+    public $wprStarsSecondColor;
+    public $wprStarsTextColor;
+    public $wprStarsTextBackgroundColor;
+
+    public function __construct()
     {
-        public $position = 'shortcode';
-        public $wprStarsMainColor;
-        public $wprStarsSecondColor;
-        public $wprStarsTextColor;
-        public $wprStarsTextBackgroundColor;
+        // load classes
+        $this->load_classes();
 
-        public function __construct()
-        {
-            add_action('wp_enqueue_scripts', [$this, 'include_css_js']);
+        // load config
+        $this->config = new Config();
+        $this->database = new Database($this->config);
 
-            // Ajax
-            add_action('wp_head', [$this, 'add_meta_nonce']);
 
-            // Internationalization
-            add_action('init', [$this, 'load_plugin_text_domain']);
 
-            // load classes
-            $this->load_classes();
+        new Settings($this->config);
+        new Admin($this->config);
+        new Ajax($this->config, $this->database);
 
-            // load config
-            $this->config = new Config();
-            $this->database = new Database($this->config);
+        $this->position = get_option('wpr_position');
+        $this->wprStarsMainColor = get_option('wpr_stars_main_color');
+        $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
+        $this->wprStarsTextColor = get_option('wpr_stars_text_color');
+        $this->wprStarsTextBackgroundColor = get_option('wpr_stars_text_background_color');
 
-            register_activation_hook(__FILE__, [$this->database, 'plugin_install']);
-
-            new Settings($this->config);
-            new Admin($this->config);
-            new Ajax($this->config, $this->database);
-
-            $this->position = get_option('wpr_position');
-            $this->wprStarsMainColor = get_option('wpr_stars_main_color');
-            $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
-            $this->wprStarsTextColor = get_option('wpr_stars_text_color');
-            $this->wprStarsTextBackgroundColor = get_option('wpr_stars_text_background_color');
-
-            if ($this->position == 'shortcode') {
-                add_shortcode('wp_rating', [$this, 'displayRating']);
-            }
-
-            // Add settings link
-            add_filter("plugin_action_links_" . plugin_basename(__FILE__), [$this, 'add_settings_link_to_plugin_list']);
-
-            // Adding widgets
-            add_action('widgets_init', [$this, 'wpr_load_widget']);
+        if ($this->position == 'shortcode') {
+            add_shortcode('wp_rating', [$this, 'displayRating']);
         }
 
-        public function include_css_js()
-        {
-            /**
-             * Main files
-             */
-            wp_enqueue_style(
-                'wp-post-rating',
-                $this->config->PLUGIN_URL . 'assets/css/wp-post-rating.min.css',
-                [],
-                $this->config->PLUGIN_VERSION,
-                'all'
-            );
+        // Add settings link
+        add_filter("plugin_action_links_" . plugin_basename(__FILE__), [$this, 'add_settings_link_to_plugin_list']);
 
-            wp_enqueue_script(
-                'wp-post-rating',
-                $this->config->PLUGIN_URL . 'assets/js/min/wp-post-rating.min.js',
-                ['jquery'],
-                $this->config->PLUGIN_VERSION,
-                true
-            );
+        // Adding widgets
+        add_action('widgets_init', [$this, 'wpr_load_widget']);
+    }
 
-            $custom_css = sprintf(":root {
---wpr-main-color: %s;
---wpr-second-color: %s;
---wpr-text-color: %s;
---wpr-text-background-color: %s;
-}",
-                get_option('wpr_stars_main_color'),
-                get_option('wpr_stars_second_color'),
-                get_option('wpr_stars_text_color'),
-                get_option('wpr_stars_text_background_color')
-            );
+    /**
+     * @return bool
+     */
 
-            wp_add_inline_style('wp-post-rating', $custom_css);
-
-        }
-
+    public function load_classes()
+    {
         /**
-         * @return bool
+         * Functions
+         * Require all PHP files in the /classes/ directory
          */
-        public function load_plugin_text_domain()
-        {
-            $locale = apply_filters('plugin_locale', get_locale(), $this->config->PLUGIN_NAME);
-            if ($loaded = load_textdomain($this->config->PLUGIN_NAME,
-                trailingslashit(WP_LANG_DIR) . $this->config->PLUGIN_NAME . DIRECTORY_SEPARATOR . $this->config->PLUGIN_NAME . '-' . $locale . '.mo')) {
-                return $loaded;
-            }
-
-            return load_plugin_textdomain($this->config->PLUGIN_NAME, false, basename(dirname(__FILE__)) . '/languages/');
+        foreach (glob(__DIR__ . "/classes/*.php") as $function) {
+            require_once $function;
         }
-
-        public function load_classes()
-        {
-            /**
-             * Functions
-             * Require all PHP files in the /classes/ directory
-             */
-            foreach (glob(__DIR__ . "/classes/*.php") as $function) {
-                require_once $function;
-            }
-            foreach (glob(__DIR__ . "/classes/admin/*.php") as $function) {
-                require_once $function;
-            }
+        foreach (glob(__DIR__ . "/classes/admin/*.php") as $function) {
+            require_once $function;
         }
+    }
 
-        public function add_meta_nonce()
-        {
-            $ajax_nonce = wp_create_nonce($this->config->PLUGIN_NONCE_KEY);
-            echo '<meta name="_wpr_nonce" content="' . $ajax_nonce . '" />';
-        }
-
-        public function add_settings_link_to_plugin_list($links)
-        {
-            $settings_link = '<a href="options-general.php?page=wpr-settings">'
-                . __('Settings', $this->config->PLUGIN_NAME) .
-                '</a>';
-            array_push($links, $settings_link);
-            return $links;
-
-        }
-
-        public function displayRating()
-        {
-            ob_start();
-            require $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
-            $html = ob_get_clean();
-
-            return $html;
-        }
-
-        public function wpr_load_widget()
-        {
-            register_widget(new WPR_Widget($this->config));
-        }
+    public function add_settings_link_to_plugin_list($links)
+    {
+        $settings_link = '<a href="options-general.php?page=wpr-settings">'
+            . __('Settings', $this->config->PLUGIN_NAME) .
+            '</a>';
+        array_push($links, $settings_link);
+        return $links;
 
     }
 
-    $WPR_PLUGIN = new InitRating;
-}
+    public function displayRating()
+    {
+        ob_start();
+        require $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
+        $html = ob_get_clean();
 
+        return $html;
+    }
+
+    public function wpr_load_widget()
+    {
+        register_widget(new WPR_Widget($this->config));
+    }
+
+}
