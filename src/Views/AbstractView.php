@@ -11,15 +11,14 @@ use Twig\Loader\FilesystemLoader;
 class AbstractView
 {
     protected $twig;
-    protected $container;
+    protected $config;
 
     public function __construct()
     {
-        $this->container = new Container();
-        ;
         $this->twig = new Environment(
             new FilesystemLoader(
-                $this->container->get(ConfigService::class)->getPluginPath() . '/views')
+                (new Container())->get(ConfigService::class)->getPluginPath() . '/views')
         );
+        $this->config = (new Container())->get(ConfigService::class);
     }
 }

@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-abstract class AbstractService
+use DI\Container;
+
+abstract class AbstractService implements ServiceInterface
 {
 	protected $config;
 
-	public function __construct(ConfigService $config)
+	public function __construct()
 	{
-		$this->config = $config;
+		$this->config = (new Container())->get(ConfigService::class);
 	}
 }

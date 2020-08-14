@@ -9,20 +9,30 @@ class ConfigService
 	const PLUGIN_NONCE_KEY = "WPR_rating_key";
 	const PLUGIN_VERSION = '1.0';
 	const PLUGIN_NAME = 'wp-post-rating';
+	const PLUGIN_DB_VERSION = '1.1';
+	const PLUGIN_VOTE_INTERVAL = '1 day';
 
-    public $PLUGIN_DB_VERSION = '1.1';
-    public $PLUGIN_FULL_TABLE_NAME = '';
-    public $PLUGIN_VOTE_INTERVAL = '1 day';
+	public function __construct()
+	{
+		global $wpdb;
+		$this->wpdb = $wpdb;
+	}
 
 	/**
 	 * @return string
 	 */
     public function getTableName()
     {
-	    global $wpdb;
-	    return $wpdb->prefix . self::PLUGIN_TABLE_NAME;
+	    return $this->wpdb->prefix . self::PLUGIN_TABLE_NAME;
     }
 
+	/**
+	 * @return string
+	 */
+    public function getDatabaseCharsetCollate()
+    {
+	    return $this->wpdb->get_charset_collate();
+    }
 	/**
 	 * @return string
 	 */
@@ -44,12 +54,13 @@ class ConfigService
     public function getUserIp()
     {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            return $_SERVER['HTTP_CLIENT_IP'];
         }
-        return $ip;
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+
+        return $_SERVER['REMOTE_ADDR'];
     }
 }

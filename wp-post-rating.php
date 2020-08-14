@@ -14,13 +14,6 @@ License: MIT
 defined('ABSPATH') or die();
 
 require_once 'vendor/autoload.php';
-
-use WPR\Service\ConfigService;
-use WPR\Service\ScriptsService;
-use WPR\Service\DocumentService;
-use WPR\Service\TranslateService;
-use WPR\Service\MaintenanceService;
-
 /**
  * Container create
  */
@@ -28,23 +21,30 @@ $containerBuilder = new \DI\ContainerBuilder();
 $containerBuilder->useAutowiring(true);
 $containerBuilder->useAnnotations(false);
 $containerBuilder->addDefinitions([
-    ConfigService::class => \DI\create( ConfigService::class),
-    ScriptsService::class => \DI\create(ScriptsService::class),
-    DocumentService::class => \DI\create(DocumentService::class),
-    TranslateService::class => \DI\create(TranslateService::class),
-    MaintenanceService::class => \DI\create(MaintenanceService::class),
+    \WPR\Service\ConfigService::class => \DI\create( \WPR\Service\ConfigService::class),
+    \WPR\Service\ScriptsService::class => \DI\create(\WPR\Service\ScriptsService::class),
+    \WPR\Service\DocumentService::class => \DI\create(\WPR\Service\DocumentService::class),
+    \WPR\Service\TranslateService::class => \DI\create(\WPR\Service\TranslateService::class),
+    \WPR\Views\RatingView::class => \DI\create(\WPR\Service\TranslateService::class),
+    \WPR\Service\MaintenanceService::class => \DI\create(\WPR\Service\MaintenanceService::class)
+        ->constructor(\WPR\Service\MaintenanceService::class),
 ]);
 $containerBuilder->build();
 
+$container = new \DI\Container();
 /**
  * Wordpress hooks
  */
-add_action('wp_enqueue_scripts', [new ScriptsService(), 'initScripts']);
-add_action('wp_head', [new DocumentService(), 'addNonceToHead']);
-add_action('init', [new TranslateService(), 'loadPluginTextDomain']);
-
-register_activation_hook(__FILE__, [$this->database, 'plugin_install']);
-
+// Include js and css
+add_action('wp_enqueue_scripts', [$container->get(\WPR\Service\ScriptsService::class), 'initScripts']);
+// Add nonce to head
+add_action('wp_head', [$container->get(\WPR\Service\DocumentService::class), 'addNonceToHead']);
+// Load translates
+add_action('init', [$container->get(\WPR\Service\TranslateService::class), 'loadPluginTextDomain']);
+// Start install tables if not exists
+register_activation_hook(__FILE__, [$container->get(\WPR\Service\MaintenanceService::class), 'installPlugin']);
+// Add shortcodes
+add_shortcode('wp_rating', [$container->get(\WPR\Views\RatingView::class), 'renderStars']);
 
 class RatingDisplay
 {
@@ -56,28 +56,6 @@ class RatingDisplay
 
     public function __construct()
     {
-        // load classes
-        $this->load_classes();
-
-        // load config
-        $this->config = new Config();
-        $this->database = new Database($this->config);
-
-
-
-        new Settings($this->config);
-        new Admin($this->config);
-        new Ajax($this->config, $this->database);
-
-        $this->position = get_option('wpr_position');
-        $this->wprStarsMainColor = get_option('wpr_stars_main_color');
-        $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
-        $this->wprStarsTextColor = get_option('wpr_stars_text_color');
-        $this->wprStarsTextBackgroundColor = get_option('wpr_stars_text_background_color');
-
-        if ($this->position == 'shortcode') {
-            add_shortcode('wp_rating', [$this, 'displayRating']);
-        }
 
         // Add settings link
         add_filter("plugin_action_links_" . plugin_basename(__FILE__), [$this, 'add_settings_link_to_plugin_list']);
@@ -112,15 +90,6 @@ class RatingDisplay
         array_push($links, $settings_link);
         return $links;
 
-    }
-
-    public function displayRating()
-    {
-        ob_start();
-        require $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
-        $html = ob_get_clean();
-
-        return $html;
     }
 
     public function wpr_load_widget()
