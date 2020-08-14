@@ -16,7 +16,7 @@ class ScriptsService extends AbstractService
          */
         wp_enqueue_style(
             self::SCRIPT_NAME,
-            $this->config->getPluginUrl() . 'assets/css/wp-post-rating.min.css',
+            $this->config->getPluginCssPath() . 'wp-post-rating.min.css',
             [],
             ConfigService::PLUGIN_VERSION,
             'all'
@@ -24,12 +24,13 @@ class ScriptsService extends AbstractService
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            $this->config->getPluginUrl() . 'assets/js/min/wp-post-rating.min.js',
+            $this->config->getPluginJSPath() . 'wp-post-rating.min.js',
             ['jquery'],
             ConfigService::PLUGIN_VERSION,
             true
         );
 
+        // TODO: Вернуть настройки
         $custom_css = sprintf("
 :root {
 	--wpr-main-color: %s;

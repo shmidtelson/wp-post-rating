@@ -63,4 +63,20 @@ class ConfigService
 
         return $_SERVER['REMOTE_ADDR'];
     }
+
+    /**
+     * @return string
+     */
+    public function getPluginCssPath()
+    {
+        return $this->getPluginUrl() . 'assets/css/';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPluginJSPath()
+    {
+        return $this->getPluginUrl() . 'assets/js/min/';
+    }
 }
