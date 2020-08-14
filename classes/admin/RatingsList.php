@@ -13,8 +13,6 @@ class RatingsList extends \WP_List_Table
 
     public function __construct($a, $config)
     {
-
-
         $this->config = $config;
         parent::__construct([
             'singular' => 'wp_list_vote', //Singular label
@@ -22,7 +20,6 @@ class RatingsList extends \WP_List_Table
             'ajax' => false //We won't support Ajax for this table
         ]);
         $this->prepare_items();
-
     }
 
     /**

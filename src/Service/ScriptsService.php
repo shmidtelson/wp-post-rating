@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use DI\Container;
-
 class ScriptsService extends AbstractService
 {
+    const SCRIPT_NAME = 'wp-post-rating';
 	/**
 	 * Активация скриптов
 	 */
@@ -16,18 +15,18 @@ class ScriptsService extends AbstractService
          * Main files
          */
         wp_enqueue_style(
-            'wp-post-rating',
+            self::SCRIPT_NAME,
             $this->config->getPluginUrl() . 'assets/css/wp-post-rating.min.css',
             [],
-            $this->config::PLUGIN_VERSION,
+            ConfigService::PLUGIN_VERSION,
             'all'
         );
 
         wp_enqueue_script(
-            'wp-post-rating',
+            self::SCRIPT_NAME,
             $this->config->getPluginUrl() . 'assets/js/min/wp-post-rating.min.js',
             ['jquery'],
-            $this->config::PLUGIN_VERSION,
+            ConfigService::PLUGIN_VERSION,
             true
         );
 

@@ -22,7 +22,7 @@ class TransExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('_e', [$this, 'translateData']),
+            new TwigFunction('__', [$this, 'translateData']),
         ];
     }
 
@@ -33,6 +33,6 @@ class TransExtension extends AbstractExtension
      */
     public function translateData(string $text)
     {
-        return __($text, $this->config::PLUGIN_NAME);
+        return __($text, ConfigService::PLUGIN_NAME);
     }
 }

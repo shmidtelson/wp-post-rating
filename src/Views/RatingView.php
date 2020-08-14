@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WPR\Views;
 
+use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 
 class RatingView extends AbstractView
@@ -27,7 +28,7 @@ class RatingView extends AbstractView
             'title' => get_the_title($id),
             'avgRating' => $this->service->getAvgRating($id),
             'total' => $this->service->getTotalVotesByPostId($id),
-            'pluginName' => $this->config::PLUGIN_NAME,
+            'pluginName' => ConfigService::PLUGIN_NAME,
         ]);
     }
 }

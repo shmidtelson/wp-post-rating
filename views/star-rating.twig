@@ -3,7 +3,7 @@
          itemtype="http://schema.org/AggregateRating">
         {% for i in 5..1 %}
         <span class="icon-star{% if i == avg %}checked{% endif %}" data-value="{{ i }}"
-              title="{{ _e("Vote %s"|format(i)) }}"></span>
+              title="{{ __("Vote %s"|format(i)) }}"></span>
         {% endfor %}
         <meta itemprop="worstRating" content="1">
         <meta itemprop="bestRating" content="5">
@@ -15,10 +15,10 @@
     </div>
     <div class="wpr-info-container">
         {% if total %}
-            <span>{{ _e('Votes') }}&nbsp;</span>
+            <span>{{ __('Votes') }}&nbsp;</span>
             <span class="wpr-total">({{ total }})</span>
         {% else %}
-            <span>{{ _e('Vote') }}</span>
+            <span>{{ __('Vote') }}</span>
             <span class="wpr-total"></span>
         {% endif %}
     </div>

@@ -1,32 +1,38 @@
 <?php
+declare(strict_types=1);
 
-namespace WPR_Plugin;
+namespace WPR\Wordpress;
+
+use WPR\Service\ConfigService;
+use WPR\Service\WidgetService;
 
 class WPR_Widget extends \WP_Widget
 {
+    const WIDGET_NAME = 'wpr_widget';
+
     public $min_posts_count = 1;
     public $max_posts_count = 10;
+    /**
+     * @var WidgetService
+     */
+    private $service;
 
-    function __construct($config)
+    function __construct(WidgetService $service)
     {
-        $this->config = $config;
-
         parent::__construct(
-            'wpr_widget',
-            __('List posts by rating', $config->PLUGIN_NAME),
-            ['description' => __('You may order displayed posts', $config->PLUGIN_NAME),]
+            self::WIDGET_NAME,
+            __('List posts by rating', ConfigService::PLUGIN_NAME),
+            ['description' => __('You may order displayed posts', ConfigService::PLUGIN_NAME),]
         );
+
+        $this->service = $service;
     }
 
     public function widget($args, $instance)
     {
         $title = apply_filters('widget_title', $instance['title']);
 
-        $posts = $this->get_posts((object)[
-            'count' => $instance['count_posts'],
-            'orderby' => $instance['orderby'],
-            'sort' => $instance['sort'],
-        ]);
+        $posts = $this->service->getPostsFilter($instance['count_posts'], $instance['orderby'], $instance['sort']);
         echo $args['before_widget'];
         if (!empty($title))
             echo $args['before_title'] . $title . $args['after_title'];
@@ -42,7 +48,7 @@ class WPR_Widget extends \WP_Widget
         if (isset($instance['title'])) {
             $title = $instance['title'];
         } else {
-            $title = __('New title', $this->config->PLUGIN_NAME);
+            $title = __('New title', ConfigService::PLUGIN_NAME);
         }
 
         if (isset($instance['count_posts'])) {
@@ -83,13 +89,13 @@ class WPR_Widget extends \WP_Widget
 
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', ConfigService::PLUGIN_NAME); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
                    name="<?php echo $this->get_field_name('title'); ?>" type="text"
                    value="<?php echo esc_attr($title); ?>"/>
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('count_posts'); ?>"><?php _e('Count of posts', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('count_posts'); ?>"><?php _e('Count of posts', ConfigService::PLUGIN_NAME); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('count_posts'); ?>"
                    name="<?php echo $this->get_field_name('count_posts'); ?>" type="number"
                    value="<?php echo esc_attr($count_posts); ?>"
@@ -99,13 +105,13 @@ class WPR_Widget extends \WP_Widget
             />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('orderby'); ?>"><?php _e('Order by', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('orderby'); ?>"><?php _e('Order by', ConfigService::PLUGIN_NAME); ?></label>
             <select name="<?php echo $this->get_field_name('orderby'); ?>"
                     id="<?php echo $this->get_field_id('orderby'); ?>">
                 <option value="date" <?= ($orderby == 'date') ? 'selected' : '' ?>>Date</option>
             </select>
 
-            <label for="<?php echo $this->get_field_id('sort'); ?>"><?php _e('Sort by', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('sort'); ?>"><?php _e('Sort by', ConfigService::PLUGIN_NAME); ?></label>
             <select name="<?php echo $this->get_field_name('sort'); ?>"
                     id="<?php echo $this->get_field_id('sort'); ?>">
                 <option value="asc" <?= ($sort == 'asc') ? 'selected' : '' ?>>ASC</option>
@@ -114,38 +120,38 @@ class WPR_Widget extends \WP_Widget
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('hwrap'); ?>"><?php _e('Wrapper posts', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('hwrap'); ?>"><?php _e('Wrapper posts', ConfigService::PLUGIN_NAME); ?></label>
             <textarea
-                    class="widefat"
-                    id="<?php echo $this->get_field_id('hwrap'); ?>"
-                    name="<?php echo $this->get_field_name('hwrap'); ?>"
+                class="widefat"
+                id="<?php echo $this->get_field_id('hwrap'); ?>"
+                name="<?php echo $this->get_field_name('hwrap'); ?>"
             ><?php echo $hwrap; ?></textarea>
             <small>
-                <?php _e('Wrapper for all posts, supports shortcodes: ', $this->config->PLUGIN_NAME) ?>
+                <?php _e('Wrapper for all posts, supports shortcodes: ', ConfigService::PLUGIN_NAME) ?>
                 <code>[posts]</code>
             </small>
         </p>
 
 
         <p>
-            <label for="<?php echo $this->get_field_id('pwrap'); ?>"><?php _e('Wrapper one post', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('pwrap'); ?>"><?php _e('Wrapper one post', ConfigService::PLUGIN_NAME); ?></label>
             <textarea
-                    class="widefat"
-                    id="<?php echo $this->get_field_id('pwrap'); ?>"
-                    name="<?php echo $this->get_field_name('pwrap'); ?>"
+                class="widefat"
+                id="<?php echo $this->get_field_id('pwrap'); ?>"
+                name="<?php echo $this->get_field_name('pwrap'); ?>"
             ><?php echo $pwrap; ?></textarea>
             <small>
-                <?php _e('Wrapper for one post, supports shortcodes: ', $this->config->PLUGIN_NAME) ?> <code>[date]
+                <?php _e('Wrapper for one post, supports shortcodes: ', ConfigService::PLUGIN_NAME) ?> <code>[date]
                     [stars] [post_title] [author_name]</code>
             </small>
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('date_format'); ?>"><?php _e('Date format', $this->config->PLUGIN_NAME); ?></label>
+            <label for="<?php echo $this->get_field_id('date_format'); ?>"><?php _e('Date format', ConfigService::PLUGIN_NAME); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('date_format'); ?>"
                    name="<?php echo $this->get_field_name('date_format'); ?>" type="text"
                    value="<?php echo esc_attr($date_format); ?>"/>
-            <small><?php _e('Dates formats is here <a href="https://codex.wordpress.org/Formatting_Date_and_Time">https://codex.wordpress.org/Formatting_Date_and_Time</a>', $this->config->PLUGIN_NAME) ?></small>
+            <small><?php _e('Dates formats is here <a href="https://codex.wordpress.org/Formatting_Date_and_Time">https://codex.wordpress.org/Formatting_Date_and_Time</a>', ConfigService::PLUGIN_NAME) ?></small>
         </p>
 
         <?php
@@ -165,35 +171,6 @@ class WPR_Widget extends \WP_Widget
         return $instance;
     }
 
-    public function get_posts($obj)
-    {
-        global $wpdb;
-
-        $results = $wpdb->get_results("
-        SELECT post_id, user_id, created_at, vote
-        FROM {$this->config->PLUGIN_FULL_TABLE_NAME}
-        {$this->queryGetOrder($obj->orderby, $obj->sort)}
-        {$this->queryGetLimit($obj->count)}
-", ARRAY_A);
-
-        return $results;
-    }
-
-    public function queryGetLimit($limit)
-    {
-        if ($limit > 10) $limit = $this->max_posts_count;
-        if ($limit < 1) $limit = $this->min_posts_count;
-        return "LIMIT 0, {$limit}";
-    }
-
-    public function queryGetOrder($orderby = 'date', $sort = 'asc')
-    {
-        if ($orderby == 'date') $orderby = 'created_at';
-        if ($sort == 'asc') $sort = 'ASC';
-        if ($sort == 'desc') $sort = 'DESC';
-        return "ORDER BY {$orderby} {$sort}";
-    }
-
     public function render_posts($posts, $html_wrapper, $post_wrapper, $date_format)
     {
         $html = '';
@@ -209,7 +186,7 @@ class WPR_Widget extends \WP_Widget
 
             $post_name = "<a href=" . get_the_permalink($post['post_id']) . ">" . get_the_title($post['post_id']) . "</a>";
             $user = get_user_by('ID', $post['user_id']);
-            $user_name = ($user) ? $user->display_name : __('Guest', $this->config->PLUGIN_NAME);
+            $user_name = ($user) ? $user->display_name : __('Guest', ConfigService::PLUGIN_NAME);
 
             $w = str_replace('[date]', $date, $w);
             $w = str_replace('[stars]', $stars, $w);
