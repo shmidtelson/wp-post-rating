@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Repository;
@@ -12,10 +13,10 @@ class RatingRepository extends AbstractRepository
      */
     public function getTotalVotesByPostId(int $postId)
     {
-        $sql = sprintf("
+        $sql = sprintf('
 SELECT COUNT(id) as total_rating 
 FROM %s 
-WHERE post_id = %s",
+WHERE post_id = %s',
             $this->config->getTableName(),
             $postId
         );
@@ -30,10 +31,10 @@ WHERE post_id = %s",
      */
     public function getAvgRating(int $postId)
     {
-        $sql = sprintf("
+        $sql = sprintf('
 SELECT avg(vote) as avg_rating 
 FROM %s
-WHERE post_id = %s",
+WHERE post_id = %s',
         $this->config->getTableName(),
         $postId
         );

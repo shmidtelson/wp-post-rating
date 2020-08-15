@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WPR\Twig;
 
 use DI\Container;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use WPR\Service\ConfigService;
+use Twig\Extension\AbstractExtension;
 
 class TransExtension extends AbstractExtension
 {

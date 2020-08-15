@@ -11,18 +11,20 @@ class WPR_Widget extends \WP_Widget
     const WIDGET_NAME = 'wpr_widget';
 
     public $min_posts_count = 1;
+
     public $max_posts_count = 10;
+
     /**
      * @var WidgetService
      */
     private $service;
 
-    function __construct(WidgetService $service)
+    public function __construct(WidgetService $service)
     {
         parent::__construct(
             self::WIDGET_NAME,
             __('List posts by rating', ConfigService::PLUGIN_NAME),
-            ['description' => __('You may order displayed posts', ConfigService::PLUGIN_NAME),]
+            ['description' => __('You may order displayed posts', ConfigService::PLUGIN_NAME)]
         );
 
         $this->service = $service;
@@ -34,8 +36,9 @@ class WPR_Widget extends \WP_Widget
 
         $posts = $this->service->getPostsFilter($instance['count_posts'], $instance['orderby'], $instance['sort']);
         echo $args['before_widget'];
-        if (!empty($title))
-            echo $args['before_title'] . $title . $args['after_title'];
+        if (!empty($title)) {
+            echo $args['before_title'].$title.$args['after_title'];
+        }
 
         echo $this->render_posts($posts, $instance['hwrap'], $instance['pwrap'], $instance['date_format']);
 
@@ -44,7 +47,6 @@ class WPR_Widget extends \WP_Widget
 
     public function form($instance)
     {
-
         if (isset($instance['title'])) {
             $title = $instance['title'];
         } else {
@@ -85,9 +87,7 @@ class WPR_Widget extends \WP_Widget
             $date_format = $instance['date_format'];
         } else {
             $date_format = 'd F, Y';
-        }
-
-        ?>
+        } ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', ConfigService::PLUGIN_NAME); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
@@ -181,10 +181,10 @@ class WPR_Widget extends \WP_Widget
             $date = date_i18n($date_format, strtotime($post['created_at']));
             $stars =
                 '<small class="wpr_rating_list">'
-                . str_repeat('<span class="icon-star"></span>', $post['vote'])
-                . '</small>';
+                .str_repeat('<span class="icon-star"></span>', $post['vote'])
+                .'</small>';
 
-            $post_name = "<a href=" . get_the_permalink($post['post_id']) . ">" . get_the_title($post['post_id']) . "</a>";
+            $post_name = '<a href='.get_the_permalink($post['post_id']).'>'.get_the_title($post['post_id']).'</a>';
             $user = get_user_by('ID', $post['user_id']);
             $user_name = ($user) ? $user->display_name : __('Guest', ConfigService::PLUGIN_NAME);
 
@@ -200,5 +200,4 @@ class WPR_Widget extends \WP_Widget
 
         return $html;
     }
-
 }

@@ -1,22 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Views;
 
 use DI\Container;
-use WPR\Service\ConfigService;
-use WPR\Twig\TransExtension;
 use Twig\Environment;
+use WPR\Twig\TransExtension;
+use WPR\Service\ConfigService;
 use Twig\Loader\FilesystemLoader;
 
 class AbstractView
 {
     protected $twig;
+
     protected $config;
 
     public function __construct()
     {
-        $this->twig   = $this->getTwigEnvironment();
+        $this->twig = $this->getTwigEnvironment();
         $this->config = (new Container())->get(ConfigService::class);
     }
 
@@ -24,7 +26,7 @@ class AbstractView
     {
         $twig = new Environment(
             new FilesystemLoader(
-                (new Container())->get(ConfigService::class)->getPluginPath() . '/views')
+                (new Container())->get(ConfigService::class)->getPluginPath().'/views')
         );
 
         $twig->addExtension(new TransExtension());

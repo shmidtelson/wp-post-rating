@@ -1,53 +1,61 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Service;
 
 class ConfigService
 {
-	const PLUGIN_TABLE_NAME = "wpr_rating";
-	const PLUGIN_NONCE_KEY = "WPR_rating_key";
-	const PLUGIN_VERSION = '2.0.1';
-	const PLUGIN_NAME = 'wp-post-rating';
-	const PLUGIN_DB_VERSION = '1.1';
-	const PLUGIN_VOTE_INTERVAL = '1 day';
+    const PLUGIN_TABLE_NAME = 'wpr_rating';
 
-	public function __construct()
-	{
-		global $wpdb;
-		$this->wpdb = $wpdb;
-	}
+    const PLUGIN_NONCE_KEY = 'WPR_rating_key';
 
-	/**
-	 * @return string
-	 */
+    const PLUGIN_VERSION = '2.0.1';
+
+    const PLUGIN_NAME = 'wp-post-rating';
+
+    const PLUGIN_DB_VERSION = '1.1';
+
+    const PLUGIN_VOTE_INTERVAL = '1 day';
+
+    public function __construct()
+    {
+        global $wpdb;
+        $this->wpdb = $wpdb;
+    }
+
+    /**
+     * @return string
+     */
     public function getTableName()
     {
-	    return $this->wpdb->prefix . self::PLUGIN_TABLE_NAME;
+        return $this->wpdb->prefix.self::PLUGIN_TABLE_NAME;
     }
 
-	/**
-	 * @return string
-	 */
+    /**
+     * @return string
+     */
     public function getDatabaseCharsetCollate()
     {
-	    return $this->wpdb->get_charset_collate();
-    }
-	/**
-	 * @return string
-	 */
-    public function getPluginPath()
-    {
-    	return plugin_dir_path(dirname(dirname(__FILE__)));
+        return $this->wpdb->get_charset_collate();
     }
 
-	/**
-	 * @return string
-	 */
+    /**
+     * @return string
+     */
+    public function getPluginPath()
+    {
+        return plugin_dir_path(dirname(dirname(__FILE__)));
+    }
+
+    /**
+     * @return string
+     */
     public function getPluginUrl()
     {
-    	return plugin_dir_url(dirname(dirname(__FILE__)));
+        return plugin_dir_url(dirname(dirname(__FILE__)));
     }
+
     /**
      * @return mixed
      */
@@ -69,7 +77,7 @@ class ConfigService
      */
     public function getPluginCssPath()
     {
-        return $this->getPluginUrl() . 'assets/css/';
+        return $this->getPluginUrl().'assets/css/';
     }
 
     /**
@@ -77,6 +85,6 @@ class ConfigService
      */
     public function getPluginJSPath()
     {
-        return $this->getPluginUrl() . 'assets/js/min/';
+        return $this->getPluginUrl().'assets/js/min/';
     }
 }

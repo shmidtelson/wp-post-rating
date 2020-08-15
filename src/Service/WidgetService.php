@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Service;
 
 use DI\Container;
-use WPR\Repository\WidgetRepository;
 use WPR\Wordpress\WPR_Widget;
+use WPR\Repository\WidgetRepository;
 
 class WidgetService
 {
@@ -29,7 +30,7 @@ class WidgetService
     }
 
     /**
-     * @param int $count
+     * @param int    $count
      * @param string $orderBy
      * @param string $sort
      *

@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Service;
-
 
 use WPR\Repository\RatingRepository;
 
@@ -34,7 +34,7 @@ class RatingService extends AbstractService
             return $default;
         }
 
-        if ($result[0]->total_rating === "0") {
+        if ($result[0]->total_rating === '0') {
             return $default;
         }
 
@@ -56,6 +56,6 @@ class RatingService extends AbstractService
             return $default;
         }
 
-        return round((float)$result[0]->avg_rating, $symbolsAfterDot);
+        return round((float) $result[0]->avg_rating, $symbolsAfterDot);
     }
 }

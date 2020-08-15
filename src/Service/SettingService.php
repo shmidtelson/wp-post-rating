@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Service;
@@ -31,7 +32,9 @@ class SettingService extends AbstractService
         $settingsDto = new SettingDto();
         $data = json_decode($this->repository->get(), true);
 
-        if ($data === null) return null;
+        if ($data === null) {
+            return $settingsDto;
+        }
 
         $settingsDto->loadData($data);
 

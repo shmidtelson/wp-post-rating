@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
-
 class WidgetRepository extends AbstractRepository
 {
     const MIN_POSTS_COUNT = 1;
@@ -11,7 +10,8 @@ class WidgetRepository extends AbstractRepository
 
     public function getPostsFilter(int $count, string $orderBy, string $sort)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
 SELECT post_id, user_id, created_at, vote
 FROM %s
 %s

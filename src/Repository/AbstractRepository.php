@@ -7,13 +7,13 @@ use WPR\Service\ConfigService;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
-	protected $config;
-	protected $wpdb;
+    protected $config;
+    protected $wpdb;
 
-	public function __construct(ConfigService $config)
-	{
-		global $wpdb;
-		$this->wpdb = $wpdb;
-		$this->config = $config;
-	}
+    public function __construct(ConfigService $config)
+    {
+        global $wpdb;
+        $this->wpdb = $wpdb;
+        $this->config = $config;
+    }
 }
