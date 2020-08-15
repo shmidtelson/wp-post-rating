@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use WPR\Entity\RatingEntity;
 use WPR\Repository\RatingRepository;
 
 class RatingService extends AbstractService
@@ -18,6 +19,61 @@ class RatingService extends AbstractService
         parent::__construct();
 
         $this->repository = $repository;
+    }
+
+    /**
+     * @param int $postId
+     *
+     * @return array|object|null
+     */
+    public function getLatestVoteAuthenticated(int $postId)
+    {
+        return $this->repository->getLatestVoteByPostIdAndUserId($postId, get_current_user_id());
+    }
+
+    /**
+     * @param int $postId
+     *
+     * @return array|object|null
+     */
+    public function getLatestVoteGuest(int $postId)
+    {
+        return $this->repository->getLatestVoteByPostIdAndUserIp(
+            $postId,
+            $this->config->getUserIp()
+        );
+    }
+
+    /**
+     * @param int  $vote
+     * @param null $id
+     *
+     * @return bool
+     */
+    public function save(int $vote, $id = null): bool
+    {
+        $entity = new RatingEntity();
+
+        try {
+            $entity->setId($id);
+            $entity->setUserId(get_current_user_id());
+            $entity->setIp($this->config->getUserIp());
+            $entity->setCreatedAt(current_time('Y-m-d H:i:s'));
+            $entity->setVote($vote);
+
+            if ($id === null) {
+                $this->repository->save($entity);
+            }
+
+            if ($id > 0) {
+                $this->repository->update($entity);
+            }
+        } catch (\Throwable $e) {
+            echo $e;
+            return false;
+        }
+
+        return true;
     }
 
     /**

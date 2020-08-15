@@ -34,7 +34,7 @@ class WPR_Widget extends \WP_Widget
     {
         $title = apply_filters('widget_title', $instance['title']);
 
-        $posts = $this->service->getPostsFilter($instance['count_posts'], $instance['orderby'], $instance['sort']);
+        $posts = $this->service->getPostsFilter((int) $instance['count_posts'], $instance['orderby'], $instance['sort']);
         echo $args['before_widget'];
         if (!empty($title)) {
             echo $args['before_title'].$title.$args['after_title'];
