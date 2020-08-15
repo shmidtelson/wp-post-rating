@@ -1,12 +1,13 @@
 // Include gulp
-let gulp = require('gulp');
+const gulp = require('gulp');
 // Include plugins
-let sass = require('gulp-sass');
-let rename = require('gulp-rename');
-let cleanCSS = require('gulp-clean-css');
-let uglify = require('gulp-uglify');
-let autoprefixer = require('gulp-autoprefixer');
-let path = require('path');
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
+const cleanCSS = require('gulp-clean-css');
+const uglify = require('gulp-uglify');
+const autoprefixer = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
+const path = require('path');
 
 sass.compiler = require('node-sass');
 
@@ -23,7 +24,8 @@ gulp.task('sass', () => {
 
 gulp.task('js', () => {
         return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
-            .pipe(uglify())
+            .pipe(babel())
+            // .pipe(uglify())
             .pipe(rename({suffix: '.min'}))
             .pipe(gulp.dest('./assets/js/min'))
     }

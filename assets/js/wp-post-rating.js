@@ -1,4 +1,4 @@
-var AjaxSendRequest = function () {
+const AjaxSendRequest = function () {
     this.ajax_response = '';
     this.ajaxVars = {
         ajaxurl: "/wp-admin/admin-ajax.php",
@@ -8,14 +8,14 @@ var AjaxSendRequest = function () {
     this.request = new XMLHttpRequest();
 
     this.ajax_vote = function (post_id, vote) {
-        var data = {
+        const data = {
             'action': 'wpr_voted',
             'nonce': this.ajaxVars.nonce,
             'post_id': post_id,
             'vote': vote
         };
 
-        var data_str = Object.keys(data).map(function (prop) {
+        const data_str = Object.keys(data).map(function (prop) {
             return [prop, data[prop]].map(encodeURIComponent).join("=");
         }).join("&");
 
@@ -25,26 +25,26 @@ var AjaxSendRequest = function () {
     }
 };
 
-var ajaxClient = new AjaxSendRequest();
+const ajaxClient = new AjaxSendRequest();
 
-var Stars = function () {
-    var that = this;
+const Stars = function () {
+    const that = this;
     this.stars = document.querySelectorAll(".wpr-wrapp .icon-star");
 
     this.hasClass = function (target, className) {
         return (' ' + target.className + ' ').indexOf(' ' + className + ' ') > -1;
     };
 
-    for (i = 0; i < this.stars.length; i++) {
+    for (let i = 0; i < this.stars.length; i++) {
         this.stars[i].addEventListener('click', function () {
-            var parent = this.parentElement;
-            var superparent = parent.parentElement;
-            var loader = superparent.getElementsByClassName('wpr-rating-loader')[0];
+            const parent = this.parentElement;
+            const superparent = parent.parentElement;
+            const loader = superparent.getElementsByClassName('wpr-rating-loader')[0];
             loader.classList.remove('wpr-hide');
             parent.classList.add('wpr-hide');
-            childrens = parent.children;
+            let childrens = parent.children;
 
-            var submitStars = this.dataset.value;
+            const submitStars = this.dataset.value;
 
             ajaxClient.ajax_vote(parent.dataset.id, submitStars);
 
@@ -53,15 +53,15 @@ var Stars = function () {
                     if (ajaxClient.request.responseText != null) {
                         setTimeout(function () {
                             try {
-                                var resp = JSON.parse(ajaxClient.request.responseText);
-
+                                const resp = JSON.parse(ajaxClient.request.responseText);
+                                console.log(resp)
                                 for (i in childrens) {
                                     if (that.hasClass(childrens[i], "checked"))
                                         childrens[i].classList.remove("checked");
                                 }
 
-                                childrens[Math.abs(parseInt(resp['avg']) - 5)].classList.add("checked");
-                                document.querySelector('#wpr-widget-' + parent.dataset.id + ' .wpr-total').innerHTML = '(' + parseInt(resp['total']) + ')';
+                                childrens[Math.abs(parseInt(resp.data.avg) - 5)].classList.add("checked");
+                                document.querySelector('#wpr-widget-' + parent.dataset.id + ' .wpr-total').innerHTML = '(' + parseInt(resp.data.total) + ')';
                             } catch (e) {
                             }
                             loader.classList.add('wpr-hide');

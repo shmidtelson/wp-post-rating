@@ -181,7 +181,7 @@ class WPR_Widget extends \WP_Widget
             $date = date_i18n($date_format, strtotime($post['created_at']));
             $stars =
                 '<small class="wpr_rating_list">'
-                .str_repeat('<span class="icon-star"></span>', $post['vote'])
+                .str_repeat('<span class="icon-star"></span>', (int) $post['vote'])
                 .'</small>';
 
             $post_name = '<a href='.get_the_permalink($post['post_id']).'>'.get_the_title($post['post_id']).'</a>';

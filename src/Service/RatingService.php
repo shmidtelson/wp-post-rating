@@ -79,7 +79,7 @@ class RatingService extends AbstractService
      *
      * @return int
      */
-    public function getTotalVotesByPostId(int $postId, int $default = 1)
+    public function getTotalVotesByPostId(int $postId, int $default = 0): int
     {
         $result = $this->repository->getTotalVotesByPostId($postId);
 
@@ -91,7 +91,7 @@ class RatingService extends AbstractService
             return $default;
         }
 
-        return $result[0]->total_rating;
+        return (int) $result[0]->total_rating;
     }
 
     /**
@@ -101,7 +101,7 @@ class RatingService extends AbstractService
      *
      * @return float|int|mixed
      */
-    public function getAvgRating(int $postId, int $symbolsAfterDot = 0, int $default = 5)
+    public function getAvgRating(int $postId, int $symbolsAfterDot = 0, int $default = 0)
     {
         $result = $this->repository->getAvgRating($postId);
 

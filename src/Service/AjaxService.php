@@ -37,10 +37,12 @@ class AjaxService extends AbstractService
 
         $latestVote = $this->serviceRating->getUserLatestVoteByPostId($postId);
 
+        $action = $this->saveVote($latestVote, $vote, $postId);
+
         echo json_encode(new SuccessResponseDto([
             'avg' => $this->serviceRating->getAvgRating($postId, 0),
             'total' => $this->serviceRating->getTotalVotesByPostId($postId),
-            'action' => $this->saveVote($latestVote, $vote, $postId),
+            'action' => $action,
         ]));
         wp_die();
     }
