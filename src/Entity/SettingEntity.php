@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace WPR\Dto;
+namespace WPR\Entity;
 
-class SettingDto
+class SettingEntity
 {
     public $position = 'shortcode';
     public $starsMainColor = '#fdd835';

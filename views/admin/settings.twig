@@ -1,5 +1,5 @@
 <div class="wrap">
-    <form method="post" action="options.php">
+    <form method="post" action="{{ formActionLink }}">
         <a href="?page=wp-post-rating"
            class="page-title-action">{{ __('All votes') }}</a> &nbsp;
 
@@ -15,9 +15,7 @@
                                 {{ __('Star rating position in content') }}
                             </span>
                         </legend>
-                        {{ settingDropdownPosition }}
-                        <br>
-                        <div class="shortcode-checked-js" style="display: none">
+                        <div class="shortcode-checked-js">
                             <p class="description" id="tagline-description">
                                 {{ __('How to custom display rating widget') }}
                             </p>
@@ -51,7 +49,7 @@
                                       title="Vote 1 "></span>
                             </div>
                             <div class="wpr-info-container">
-                                <span>Votes&nbsp;</span>
+                                <span>{{ __('Votes') }}&nbsp;</span>
                                 <span class="wpr-total">(1)</span>
                             </div>
                         </div>
@@ -67,12 +65,12 @@
                         <legend class="screen-reader-text">
                             <span>{{ __('Stars color') }}</span>
                         </legend>
-                        <input class="color_chooser_js" name="wpr_stars_main_color" type="text"
+                        <input class="color_chooser_js" name="main_color" type="text"
                                value="{{ options.getStarsMainColor }}"/>
                         <p class="colors-description" id="colors-description">
                             {{ __('Second (darker) color choose automatically') }}
                         </p>
-                        <input class="second_color_chooser_js" name="wpr_stars_second_color" type="hidden"
+                        <input class="second_color_chooser_js" name="second_color" type="hidden"
                                value="{{ options.getStarsSecondColor }}"/>
                     </fieldset>
                 </td>
@@ -83,7 +81,7 @@
                 </th>
                 <td>
                     <fieldset>
-                        <input class="text_color_chooser_js" name="wpr_stars_text_color" type="text"
+                        <input class="text_color_chooser_js" name="text_color" type="text"
                                value="{{ options.getStarsTextColor }}"/>
                     </fieldset>
                 </td>
@@ -94,7 +92,7 @@
                 </th>
                 <td>
                     <fieldset>
-                        <input class="text_background_color_chooser_js" name="wpr_stars_text_background_color" type="text"
+                        <input class="text_background_color_chooser_js" name="text_background_color" type="text"
                                value="{{ options.getStarsTextBackgroundColor }}"/>
                     </fieldset>
                 </td>
@@ -102,5 +100,6 @@
         </table>
         {{ formSubmitButton|raw }}
         {{ formHiddenField|raw }}
+        <input type="hidden" name="action" value="wpr-update">
     </form>
 </div>

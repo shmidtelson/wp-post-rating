@@ -24,11 +24,12 @@ use WPR\Wordpress\WPR_Widget;
 use WPR\Service\ConfigService;
 use WPR\Service\WidgetService;
 use WPR\Service\ScriptsService;
+use WPR\Service\SettingService;
 use WPR\Service\DocumentService;
 use WPR\Service\TranslateService;
-use WPR\Service\SettingService;
 use WPR\Views\Admin\MenuItemView;
 use WPR\Service\MaintenanceService;
+use WPR\Service\SettingFormService;
 use WPR\Views\Admin\RatingTableView;
 use WPR\Service\Admin\AdminMenuService;
 
@@ -46,12 +47,12 @@ $containerBuilder->addDefinitions([
     TranslateService::class => create(TranslateService::class),
     MaintenanceService::class => create(MaintenanceService::class),
     SettingService::class => create(SettingService::class),
+    SettingFormService::class => create(SettingFormService::class),
 
     AdminMenuService::class => create(AdminMenuService::class),
 
     RatingView::class => create(TranslateService::class),
     MenuItemView::class => create(MenuItemView::class),
-    RatingTableView::class => create(RatingTableView::class),
 
     WPR_Widget::class => create(WPR_Widget::class),
 ]);
@@ -85,4 +86,6 @@ add_action('wp_ajax_wpr_voted', [$container->get(AjaxService::class), 'actionVot
 add_action('admin_menu', [$container->get(AdminMenuService::class), 'addMenuSection']);
 // Settings
 add_action('admin_init', [$container->get(SettingService::class), 'setDefaultSettings']);
-
+// Settings save form
+add_action('admin_post_wpr-update', [$container->get(SettingFormService::class), 'saveForm']);
+add_action('admin_notices', [$container->get(SettingFormService::class), 'successMessage']);

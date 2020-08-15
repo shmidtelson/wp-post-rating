@@ -35,12 +35,12 @@ class RatingTableView extends \WP_List_Table
 
         $this->twig = TwigInitEnvironment::getTwigEnvironment();
         $this->serviceRating = $serviceRating;
-
-        $this->prepare_items();
     }
 
     public function loadRatingTable()
     {
+        $this->prepare_items();
+
         echo $this->twig->render('admin/ratings-table.twig', [
                 'content' => $this->displayTable(),
         ]);
@@ -150,7 +150,7 @@ class RatingTableView extends \WP_List_Table
     public function success_deleted($d)
     {
         echo $this->twig->render(
-            'admin/messages/deleted.twig',
+            'admin/messages/success.twig',
             ['content' => sprintf(_n('Deleted %s vote', 'Deleted %s votes', $d, ConfigService::PLUGIN_NAME), $d)]
         );
     }
