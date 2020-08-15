@@ -38,6 +38,7 @@ class SettingFormService
 
         $this->serviceSetting->save($settingEntity);
 
+        // TODO: Вызывает баг. Сохранение остается
         $location = add_query_arg([self::SUCCESS_KEY => 'ID'], htmlspecialchars($_POST['_wp_http_referer']));
         wp_redirect($location);
     }

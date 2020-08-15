@@ -28,6 +28,16 @@
                                 <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
                                        onclick="select()"/>
                             </p>
+                            <p>
+                                <b>{{ __('Display total votes for current post') }}</b>
+                                <input class="regular-text" value="[wp_rating_total]"
+                                       onclick="select()"/>
+                            </p>
+                            <p>
+                                <b>{{ __('Display average votes for current post') }}</b>
+                                <input class="regular-text" value="[wp_rating_avg]"
+                                       onclick="select()"/>
+                            </p>
                         </div>
                     </fieldset>
                 </td>

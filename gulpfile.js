@@ -7,7 +7,6 @@ const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
-const path = require('path');
 
 sass.compiler = require('node-sass');
 
@@ -25,7 +24,7 @@ gulp.task('sass', () => {
 gulp.task('js', () => {
         return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
             .pipe(babel())
-            // .pipe(uglify())
+            .pipe(uglify())
             .pipe(rename({suffix: '.min'}))
             .pipe(gulp.dest('./assets/js/min'))
     }

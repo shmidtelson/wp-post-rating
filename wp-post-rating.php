@@ -30,7 +30,6 @@ use WPR\Service\TranslateService;
 use WPR\Views\Admin\MenuItemView;
 use WPR\Service\MaintenanceService;
 use WPR\Service\SettingFormService;
-use WPR\Views\Admin\RatingTableView;
 use WPR\Service\Admin\AdminMenuService;
 
 #################################################
@@ -75,6 +74,8 @@ add_action('init', [$container->get(TranslateService::class), 'loadPluginTextDom
 register_activation_hook(__FILE__, [$container->get(MaintenanceService::class), 'installPlugin']);
 // Add shortcodes
 add_shortcode('wp_rating', [$container->get(RatingView::class), 'renderStars']);
+add_shortcode('wp_rating_total', [$container->get(RatingView::class), 'getRatingTotal']);
+add_shortcode('wp_rating_avg', [$container->get(RatingView::class), 'getRatingAvg']);
 // Add settings link
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$container->get(MenuItemView::class), 'addSettingsLinkToPluginList']);
 // Add widgets

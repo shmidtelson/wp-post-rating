@@ -31,4 +31,20 @@ class RatingView extends AbstractView
             'pluginName' => ConfigService::PLUGIN_NAME,
         ]);
     }
+
+    /**
+     * @return float|int|mixed
+     */
+    public function getRatingAvg()
+    {
+        return $this->service->getAvgRating(get_the_ID());
+    }
+
+    /**
+     * @return int
+     */
+    public function getRatingTotal()
+    {
+        return $this->service->getTotalVotesByPostId(get_the_ID());
+    }
 }
