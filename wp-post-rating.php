@@ -28,6 +28,8 @@ use WPR\Service\DocumentService;
 use WPR\Service\TranslateService;
 use WPR\Views\Admin\MenuItemView;
 use WPR\Service\MaintenanceService;
+use WPR\Views\Admin\RatingTableView;
+use WPR\Service\Admin\AdminMenuService;
 
 #################################################
 ############## Container create #################
@@ -43,8 +45,11 @@ $containerBuilder->addDefinitions([
     TranslateService::class => create(TranslateService::class),
     MaintenanceService::class => create(MaintenanceService::class),
 
+    AdminMenuService::class => create(AdminMenuService::class),
+
     RatingView::class => create(TranslateService::class),
     MenuItemView::class => create(MenuItemView::class),
+    RatingTableView::class => create(RatingTableView::class),
 
     WPR_Widget::class => create(WPR_Widget::class),
 ]);
@@ -72,3 +77,9 @@ add_action('widgets_init', [$container->get(WidgetService::class), 'loadWidget']
 // Add ajax
 add_action('wp_ajax_nopriv_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
 add_action('wp_ajax_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
+// Add settings page to admin menu
+add_action('admin_menu', [$container->get(AdminMenuService::class), 'addMenuSection']);
+// Settings
+add_action('admin_init', [$this, 'wpr_register_settings']);
+add_action('admin_menu', [$this, 'wpr_register_options_page']);
+add_action('admin_enqueue_scripts', [$this, 'admin_page_scripts']);

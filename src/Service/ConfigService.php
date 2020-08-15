@@ -18,6 +18,10 @@ class ConfigService
 
     const PLUGIN_VOTE_INTERVAL = '1 day';
 
+    const USERS_TABLE_NAME = 'users';
+
+    const POSTS_TABLE_NAME = 'posts';
+
     public function __construct()
     {
         global $wpdb;
@@ -26,12 +30,28 @@ class ConfigService
 
     /**
      * @return string
+     * Return table name of plugin
      */
     public function getTableName()
     {
         return $this->wpdb->prefix.self::PLUGIN_TABLE_NAME;
     }
 
+    /**
+     * @return string
+     */
+    public function getUsersTableName()
+    {
+        return $this->wpdb->prefix.self::USERS_TABLE_NAME;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostsTableName()
+    {
+        return  $this->wpdb->prefix.self::POSTS_TABLE_NAME;
+    }
     /**
      * @return string
      */

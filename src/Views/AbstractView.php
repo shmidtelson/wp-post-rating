@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace WPR\Views;
 
 use DI\Container;
-use Twig\Environment;
-use WPR\Twig\TransExtension;
 use WPR\Service\ConfigService;
-use Twig\Loader\FilesystemLoader;
+use WPR\Twig\TwigInitEnvironment;
 
 class AbstractView
 {
@@ -18,19 +16,7 @@ class AbstractView
 
     public function __construct()
     {
-        $this->twig = $this->getTwigEnvironment();
+        $this->twig = TwigInitEnvironment::getTwigEnvironment();
         $this->config = (new Container())->get(ConfigService::class);
-    }
-
-    private function getTwigEnvironment()
-    {
-        $twig = new Environment(
-            new FilesystemLoader(
-                (new Container())->get(ConfigService::class)->getPluginPath().'/views')
-        );
-
-        $twig->addExtension(new TransExtension());
-
-        return $twig;
     }
 }

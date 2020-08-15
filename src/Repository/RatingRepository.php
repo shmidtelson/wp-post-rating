@@ -63,7 +63,26 @@ LIMIT 1
      */
     public function save(RatingEntity $entity)
     {
-        return $this->wpdb->insert($this->config->getTableName(), (array)$entity);
+        return $this->wpdb->insert($this->config->getTableName(), (array) $entity);
+    }
+
+    /**
+     * @param string $ids
+     *
+     * @return bool|int
+     */
+    public function delete(string $ids)
+    {
+        $sql = sprintf('
+DELETE 
+FROM %s
+WHERE id IN (%s)
+',
+        $this->config->getTableName(),
+        $ids
+        );
+
+        return $this->wpdb->query($sql);
     }
 
     /**
@@ -75,7 +94,7 @@ LIMIT 1
     {
         return $this->wpdb->update(
             $this->config->getTableName(),
-            (array)$entity,
+            (array) $entity,
             ['id' => $entity->getId()]
         );
     }
@@ -116,5 +135,45 @@ WHERE post_id = %s',
         );
 
         return $this->wpdb->get_results($sql);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTotalVotes()
+    {
+        $sql = sprintf(
+'
+SELECT COUNT(id) 
+FROM %s
+',
+            $this->config->getTableName()
+        );
+
+        return $this->wpdb->get_var($sql);
+    }
+
+    public function getRatingList(string $order, string $orderBy, int $perPage, int $offset)
+    {
+        $sql = sprintf(
+            '
+SELECT t1.id,t2.display_name,t3.post_title,t1.vote,t1.ip,t1.created_at 
+FROM %s as t1
+LEFT JOIN %s as t2 ON t1.user_id = t2.id
+LEFT JOIN %s as t3 ON t1.post_id = t3.ID
+ORDER BY %s %s
+LIMIT %s
+OFFSET %s
+        ',
+            $this->config->getTableName(),
+            $this->config->getUsersTableName(),
+            $this->config->getPostsTableName(),
+            $orderBy,
+            $order,
+            $perPage,
+            $offset
+        );
+
+        return $this->wpdb->get_results($sql, ARRAY_A);
     }
 }

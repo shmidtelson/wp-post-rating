@@ -73,6 +73,12 @@ class RatingService extends AbstractService
         return true;
     }
 
+    public function delete(array $ids)
+    {
+        return $this->repository->delete(
+            implode(',', $ids)
+        );
+    }
     /**
      * @param int $postId
      * @param int $default
@@ -110,5 +116,31 @@ class RatingService extends AbstractService
         }
 
         return round((float) $result[0]->avg_rating, $symbolsAfterDot);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTotalVotes()
+    {
+        return $this->repository->getTotalVotes();
+    }
+
+    /**
+     * @param string $order
+     * @param string $orderBy
+     * @param int    $offset
+     * @param int    $perPage
+     *
+     * @return array|object|null
+     */
+    public function getRatingList(string $order, string $orderBy, int $offset, int $perPage)
+    {
+        return $this->repository->getRatingList(
+            $order,
+            $orderBy,
+            $perPage,
+            $offset
+        );
     }
 }
