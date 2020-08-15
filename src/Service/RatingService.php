@@ -26,18 +26,13 @@ class RatingService extends AbstractService
      *
      * @return array|object|null
      */
-    public function getLatestVoteAuthenticated(int $postId)
+    public function getUserLatestVoteByPostId(int $postId)
     {
-        return $this->repository->getLatestVoteByPostIdAndUserId($postId, get_current_user_id());
-    }
+        $userId = get_current_user_id();
+        if ($userId) {
+            return $this->repository->getLatestVoteByPostIdAndUserId($postId, $userId);
+        }
 
-    /**
-     * @param int $postId
-     *
-     * @return array|object|null
-     */
-    public function getLatestVoteGuest(int $postId)
-    {
         return $this->repository->getLatestVoteByPostIdAndUserIp(
             $postId,
             $this->config->getUserIp()
@@ -45,17 +40,19 @@ class RatingService extends AbstractService
     }
 
     /**
-     * @param int  $vote
+     * @param int $vote
+     * @param int $postId
      * @param null $id
      *
      * @return bool
      */
-    public function save(int $vote, $id = null): bool
+    public function save(int $vote, int $postId, $id = null): bool
     {
         $entity = new RatingEntity();
 
         try {
             $entity->setId($id);
+            $entity->setPostId($postId);
             $entity->setUserId(get_current_user_id());
             $entity->setIp($this->config->getUserIp());
             $entity->setCreatedAt(current_time('Y-m-d H:i:s'));
