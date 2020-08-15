@@ -1,169 +1,43 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
+use WPR\Service\SettingService;
+use WPR\Twig\TwigInitEnvironment;
+
 class SettingsView extends \WP_List_Table
 {
-    public $config;
-    private $OPTION_SLUG = 'wpr-settings';
+    private $twig;
 
-    public function __construct($config)
+    /**
+     * @var SettingService
+     */
+    private $serviceSetting;
+
+    public function __construct(SettingService $serviceSetting)
     {
-        $this->config = $config;
-        add_action('admin_init', [$this, 'wpr_register_settings']);
-        add_action('admin_menu', [$this, 'wpr_register_options_page']);
-        add_action('admin_enqueue_scripts', [$this, 'admin_page_scripts']);
-        $this->change_hidden_menu();
+        parent::__construct();
+        $this->twig = TwigInitEnvironment::getTwigEnvironment();
+        $this->serviceSetting = $serviceSetting;
 
+        $this->changeHiddenMenu();
     }
 
-    public function wpr_register_settings()
+    public function addOptionsPage()
     {
-        // Rating position in content
-        add_option('wpr_position', 'After');
-        add_option('wpr_stars_main_color', '#fdd835');
-        add_option('wpr_stars_second_color', '#fbc02d');
-        add_option('wpr_stars_text_color', '#000');
-        add_option('wpr_stars_text_background_color', '#fff');
-        register_setting('wpr_options_group', 'wpr_position');
-        register_setting('wpr_options_group', 'wpr_post_types');
-        register_setting('wpr_options_group', 'wpr_stars_main_color');
-        register_setting('wpr_options_group', 'wpr_stars_second_color');
-        register_setting('wpr_options_group', 'wpr_stars_text_color');
-        register_setting('wpr_options_group', 'wpr_stars_text_background_color');
-    }
-
-    public function wpr_register_options_page()
-    {
-        add_submenu_page(
-            null,
-            __('WPR Settings', $this->config->PLUGIN_NAME),
-            __('WPR Settings', $this->config->PLUGIN_NAME),
-            'manage_options',
-            $this->OPTION_SLUG,
-            [$this, 'wpr_options_page']
-        );
-    }
-
-    public function wpr_options_page()
-    {
-        ?>
-        <div class="wrap">
-            <form method="post" action="options.php">
-                <a href="?page=wp-post-rating"
-                   class="page-title-action"><?php _e('All votes', $this->config->PLUGIN_NAME); ?></a>
-                <?php settings_fields('wpr_options_group'); ?>
-                <h1 class="wp-heading-inline"><?php _e('Star rating settings', $this->config->PLUGIN_NAME) ?></h1>
-
-                <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php _e('Star rating position in content', $this->config->PLUGIN_NAME) ?></th>
-                        <td>
-                            <fieldset>
-                                <legend class="screen-reader-text">
-                                    <span><?php _e('Star rating position in content',
-                                            $this->config->PLUGIN_NAME) ?></span>
-                                </legend>
-                                <?php $this->setting_dropdown_fn([
-//                                    'before' => __('Before content', $this->config->PLUGIN_NAME),
-//                                    'after' => __('After content', $this->config->PLUGIN_NAME),
-                                    'shortcode' => __('Shortcode', $this->config->PLUGIN_NAME),
-                                ], 'wpr_position') ?>
-                                <br>
-                                <div class="shortcode-checked-js" style="display: none">
-                                    <p class="description" id="tagline-description">
-                                        <?= __('How to custom display rating widget', $this->config->PLUGIN_NAME) ?>
-                                    </p>
-                                    <p>
-                                        <b><?= __('Display in content', $this->config->PLUGIN_NAME) ?></b>
-                                        <input class="regular-text" value="[wp_rating]" onclick="select()"/>
-                                    </p>
-                                    <p>
-                                        <b><?= __('Display in PHP code', $this->config->PLUGIN_NAME) ?></b>
-                                        <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
-                                               onclick="select()"/>
-                                    </p>
-                                </div>
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>
-                            <fieldset>
-                                <div class="wpr-wrapp wpr-wrapp-admin">
-                                    <div class="wpr-rating">
-                                        <span class="icon-star checked" data-value="5" title="Vote 5 "></span>
-                                        <span class="icon-star" data-value="4"
-                                              title="Vote 4 "></span>
-                                        <span class="icon-star" data-value="3"
-                                              title="Vote 3 "></span>
-                                        <span class="icon-star" data-value="2"
-                                              title="Vote 2 "></span>
-                                        <span class="icon-star" data-value="1"
-                                              title="Vote 1 "></span>
-                                    </div>
-                                    <div class="wpr-info-container">
-                                        <span>Votes&nbsp;</span>
-                                        <span class="wpr-total">(1)</span>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <?php _e('Stars color', $this->config->PLUGIN_NAME) ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <legend class="screen-reader-text">
-                                    <span><?php _e('Stars color', $this->config->PLUGIN_NAME) ?></span>
-                                </legend>
-                                <input class="color_chooser_js" name="wpr_stars_main_color" type="text"
-                                       value="<?= get_option('wpr_stars_main_color') ?>"/>
-                                <p class="colors-description" id="colors-description">
-                                    <?= __('Second (darker) color choose automatically', $this->config->PLUGIN_NAME) ?>
-                                </p>
-                                <input class="second_color_chooser_js" name="wpr_stars_second_color" type="hidden"
-                                       value="<?= get_option('wpr_stars_second_color') ?>"/>
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <?php _e('Text (border) color', $this->config->PLUGIN_NAME) ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <input class="text_color_chooser_js" name="wpr_stars_text_color" type="text"
-                                       value="<?= get_option('wpr_stars_text_color') ?>"/>
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <?php _e('Tooltip background color', $this->config->PLUGIN_NAME) ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <input class="text_background_color_chooser_js" name="wpr_stars_text_background_color" type="text"
-                                       value="<?= get_option('wpr_stars_text_background_color') ?>"/>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-                <?php submit_button(); ?>
-            </form>
-        </div>
-        <?php
+        echo $this->twig->render('admin/settings.twig', [
+            'options' => $this->serviceSetting->getSetting(),
+            'formHiddenField' => $this->formHiddenFields(),
+            'formSubmitButton' => $this->formSubmitButton(),
+        ]);
     }
 
     /**
-     * Custom activate menu
+     * Custom activate menu.
      */
-    public function change_hidden_menu()
+    public function changeHiddenMenu()
     {
         if (isset($_GET['page']) and $_GET['page'] == 'wpr-settings') {
             add_action('admin_init', function () {
@@ -171,19 +45,19 @@ class SettingsView extends \WP_List_Table
 
                 foreach ($submenu['options-general.php'] as $key => $value) {
                     if ('wp-post-rating' == $value[2]) {
-                        $submenu['options-general.php'][$key][4] = "current";
+                        $submenu['options-general.php'][$key][4] = 'current';
                     }
                 }
 
                 foreach ($menu as $key => $value) {
                     if ('options-general.php' == $value[2]) {
-                        $menu[$key][4] .= " wp-menu-open";
+                        $menu[$key][4] .= ' wp-menu-open';
                     }
-
                 }
             });
         }
     }
+
     /**************************************************************
      * Buttons display methods
      */
@@ -193,7 +67,7 @@ class SettingsView extends \WP_List_Table
 //        echo '<p>Below are some examples of different option controls.</p>';
 //    }
 
-// DROP-DOWN-BOX - Name: plugin_options[dropdown1]
+    // DROP-DOWN-BOX - Name: plugin_options[dropdown1]
     public function setting_dropdown_fn($items_list, $option_name)
     {
         $current_option = get_option($option_name);
@@ -202,32 +76,32 @@ class SettingsView extends \WP_List_Table
             $selected = ($current_option == $key) ? 'selected="selected"' : '';
             echo "<option value='$key' $selected>$value</option>";
         }
-        echo "</select>";
+        echo '</select>';
     }
 
-//// TEXTAREA - Name: plugin_options[text_area]
+    //// TEXTAREA - Name: plugin_options[text_area]
 //    public function setting_textarea_fn()
 //    {
 //        $options = get_option('plugin_options');
 //        echo "<textarea id='plugin_textarea_string' name='plugin_options[text_area]' rows='7' cols='50' type='textarea'>{$options['text_area']}</textarea>";
 //    }
 //
-//// TEXTBOX - Name: plugin_options[text_string]
+    //// TEXTBOX - Name: plugin_options[text_string]
 //    public function setting_string_fn()
 //    {
 //        $options = get_option('plugin_options');
 //        echo "<input id='plugin_text_string' name='plugin_options[text_string]' size='40' type='text' value='{$options['text_string']}' />";
 //    }
 //
-//// PASSWORD-TEXTBOX - Name: plugin_options[pass_string]
+    //// PASSWORD-TEXTBOX - Name: plugin_options[pass_string]
 //    public function setting_pass_fn()
 //    {
 //        $options = get_option('plugin_options');
 //        echo "<input id='plugin_text_pass' name='plugin_options[pass_string]' size='40' type='password' value='{$options['pass_string']}' />";
 //    }
 //
-//// CHECKBOX - Name: plugin_options[chkbox1]
-/// # TODO: ADD CUSTOM POST TYPES SELECT
+    //// CHECKBOX - Name: plugin_options[chkbox1]
+    /// # TODO: ADD CUSTOM POST TYPES SELECT
     public function setting_chk1_fn($items_list, $option_name)
     {
         $options = get_option($option_name);
@@ -236,13 +110,17 @@ class SettingsView extends \WP_List_Table
         }
         foreach ($items_list as $key => $value) {
             echo '<label>';
-            echo "<input " . $checked . " id='{$option_name}_{$key}' name='{$option_name}[]' type='checkbox' value='{$key}' />";
+            echo '<input '.$checked." id='{$option_name}_{$key}' name='{$option_name}[]' type='checkbox' value='{$key}' />";
             echo '</label>';
         }
-
     }
+
+    public function get_columns()
+    {
+    }
+
 //
-//// CHECKBOX - Name: plugin_options[chkbox2]
+    //// CHECKBOX - Name: plugin_options[chkbox2]
 //    public function setting_chk2_fn()
 //    {
 //        $options = get_option('plugin_options');
@@ -252,7 +130,7 @@ class SettingsView extends \WP_List_Table
 //        echo "<input " . $checked . " id='plugin_chk2' name='plugin_options[chkbox2]' type='checkbox' />";
 //    }
 //
-//// RADIO-BUTTON - Name: plugin_options[option_set1]
+    //// RADIO-BUTTON - Name: plugin_options[option_set1]
 //    public function setting_radio_fn()
 //    {
 //        $options = get_option('plugin_options');
@@ -263,34 +141,44 @@ class SettingsView extends \WP_List_Table
 //        }
 //    }
 //
-//// WYSIWYG Visual Editor - Name: plugin_options[textarea_one]
+    //// WYSIWYG Visual Editor - Name: plugin_options[textarea_one]
 //    public function setting_visual_fn()
 //    {
 //        $options = get_option('plugin_options');
 //        $args = array("textarea_name" => "plugin_options[textarea_one]");
 //        wp_editor($options['textarea_one'], "plugin_options[textarea_one]", $args);
 //
-//// Add another text box
+    //// Add another text box
 //        $options = get_option('plugin_options');
 //        $args = array("textarea_name" => "plugin_options[textarea_two]");
 //        wp_editor($options['textarea_two'], "plugin_options[textarea_two]", $args);
 //    }
 
-    function admin_page_scripts($hook)
+    /**
+     * @return false|string
+     *                      Hidden fields for setting form
+     */
+    private function formHiddenFields()
     {
-        if ($hook === 'settings_page_' . $this->OPTION_SLUG) {
-            /**
-             * COLOR PICKER
-             */
-            wp_enqueue_script('wp-color-picker');
-            wp_enqueue_style('wp-color-picker');
+        ob_start();
+        settings_fields('wpr_options_group');
+        $html = ob_get_contents();
+        ob_end_clean();
 
-            wp_register_script('admin-settings-page',
-                $this->config->PLUGIN_URL . 'assets/js/min/admin-settings-page.min.js', ['jquery', 'wp-color-picker']);
-            wp_register_style('admin-settings-page',
-                $this->config->PLUGIN_URL . 'assets/css/admin-settings-page.min.css');
-            wp_enqueue_style('admin-settings-page');
-            wp_enqueue_script('admin-settings-page');
-        }
+        return $html;
+    }
+
+    /**
+     * @return false|string
+     *                      Submit button for form
+     */
+    private function formSubmitButton()
+    {
+        ob_start();
+        submit_button();
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        return $html;
     }
 }

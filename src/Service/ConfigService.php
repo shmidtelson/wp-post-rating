@@ -22,6 +22,8 @@ class ConfigService
 
     const POSTS_TABLE_NAME = 'posts';
 
+    const OPTIONS_KEY = 'wpr-settings';
+
     public function __construct()
     {
         global $wpdb;
@@ -30,7 +32,7 @@ class ConfigService
 
     /**
      * @return string
-     * Return table name of plugin
+     *                Return table name of plugin
      */
     public function getTableName()
     {
@@ -52,6 +54,7 @@ class ConfigService
     {
         return  $this->wpdb->prefix.self::POSTS_TABLE_NAME;
     }
+
     /**
      * @return string
      */

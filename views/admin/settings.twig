@@ -1,0 +1,106 @@
+<div class="wrap">
+    <form method="post" action="options.php">
+        <a href="?page=wp-post-rating"
+           class="page-title-action">{{ __('All votes') }}</a> &nbsp;
+
+        <h1 class="wp-heading-inline">{{ __('Star rating settings') }}</h1>
+
+        <table class="form-table">
+            <tr>
+                <th scope="row">{{ __('Star rating position in content') }}</th>
+                <td>
+                    <fieldset>
+                        <legend class="screen-reader-text">
+                            <span>
+                                {{ __('Star rating position in content') }}
+                            </span>
+                        </legend>
+                        {{ settingDropdownPosition }}
+                        <br>
+                        <div class="shortcode-checked-js" style="display: none">
+                            <p class="description" id="tagline-description">
+                                {{ __('How to custom display rating widget') }}
+                            </p>
+                            <p>
+                                <b>{{ __('Display in content') }}</b>
+                                <input class="regular-text" value="[wp_rating]" onclick="select()"/>
+                            </p>
+                            <p>
+                                <b>{{ __('Display in PHP code') }}</b>
+                                <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
+                                       onclick="select()"/>
+                            </p>
+                        </div>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"></th>
+                <td>
+                    <fieldset>
+                        <div class="wpr-wrapp wpr-wrapp-admin">
+                            <div class="wpr-rating">
+                                <span class="icon-star checked" data-value="5" title="Vote 5 "></span>
+                                <span class="icon-star" data-value="4"
+                                      title="Vote 4 "></span>
+                                <span class="icon-star" data-value="3"
+                                      title="Vote 3 "></span>
+                                <span class="icon-star" data-value="2"
+                                      title="Vote 2 "></span>
+                                <span class="icon-star" data-value="1"
+                                      title="Vote 1 "></span>
+                            </div>
+                            <div class="wpr-info-container">
+                                <span>Votes&nbsp;</span>
+                                <span class="wpr-total">(1)</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    {{ __('Stars color') }}
+                </th>
+                <td>
+                    <fieldset>
+                        <legend class="screen-reader-text">
+                            <span>{{ __('Stars color') }}</span>
+                        </legend>
+                        <input class="color_chooser_js" name="wpr_stars_main_color" type="text"
+                               value="{{ options.getStarsMainColor }}"/>
+                        <p class="colors-description" id="colors-description">
+                            {{ __('Second (darker) color choose automatically') }}
+                        </p>
+                        <input class="second_color_chooser_js" name="wpr_stars_second_color" type="hidden"
+                               value="{{ options.getStarsSecondColor }}"/>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    {{ __('Text (border) color') }}
+                </th>
+                <td>
+                    <fieldset>
+                        <input class="text_color_chooser_js" name="wpr_stars_text_color" type="text"
+                               value="{{ options.getStarsTextColor }}"/>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    {{ __('Tooltip background color') }}
+                </th>
+                <td>
+                    <fieldset>
+                        <input class="text_background_color_chooser_js" name="wpr_stars_text_background_color" type="text"
+                               value="{{ options.getStarsTextBackgroundColor }}"/>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+        {{ formSubmitButton|raw }}
+        {{ formHiddenField|raw }}
+    </form>
+</div>

@@ -26,6 +26,7 @@ use WPR\Service\WidgetService;
 use WPR\Service\ScriptsService;
 use WPR\Service\DocumentService;
 use WPR\Service\TranslateService;
+use WPR\Service\SettingService;
 use WPR\Views\Admin\MenuItemView;
 use WPR\Service\MaintenanceService;
 use WPR\Views\Admin\RatingTableView;
@@ -44,6 +45,7 @@ $containerBuilder->addDefinitions([
     DocumentService::class => create(DocumentService::class),
     TranslateService::class => create(TranslateService::class),
     MaintenanceService::class => create(MaintenanceService::class),
+    SettingService::class => create(SettingService::class),
 
     AdminMenuService::class => create(AdminMenuService::class),
 
@@ -62,6 +64,8 @@ $container = new Container();
 
 // Include js and css
 add_action('wp_enqueue_scripts', [$container->get(ScriptsService::class), 'initScripts']);
+// Admin Scripts
+add_action('admin_enqueue_scripts', [$container->get(ScriptsService::class), 'initAdminScripts']);
 // Add nonce to head
 add_action('wp_head', [$container->get(DocumentService::class), 'addNonceToHead']);
 // Load translates
@@ -80,6 +84,5 @@ add_action('wp_ajax_wpr_voted', [$container->get(AjaxService::class), 'actionVot
 // Add settings page to admin menu
 add_action('admin_menu', [$container->get(AdminMenuService::class), 'addMenuSection']);
 // Settings
-add_action('admin_init', [$this, 'wpr_register_settings']);
-add_action('admin_menu', [$this, 'wpr_register_options_page']);
-add_action('admin_enqueue_scripts', [$this, 'admin_page_scripts']);
+add_action('admin_init', [$container->get(SettingService::class), 'setDefaultSettings']);
+

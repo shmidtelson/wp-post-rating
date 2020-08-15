@@ -7,6 +7,7 @@ namespace WPR\Service\Admin;
 use DI\Container;
 use WPR\Service\ConfigService;
 use WPR\Views\Admin\RatingTableView;
+use WPR\Views\Admin\SettingsView;
 
 class AdminMenuService
 {
@@ -19,6 +20,15 @@ class AdminMenuService
             'manage_options', //capability
             ConfigService::PLUGIN_NAME, //menu_slug,
             [(new Container())->get(RatingTableView::class), 'loadRatingTable']
+        );
+
+        add_submenu_page(
+            null,
+            __('WPR Settings', ConfigService::PLUGIN_NAME),
+            __('WPR Settings', ConfigService::PLUGIN_NAME),
+            'manage_options',
+            ConfigService::OPTIONS_KEY,
+            [(new Container())->get(SettingsView::class), 'addOptionsPage']
         );
     }
 }
