@@ -7,8 +7,8 @@ namespace WPR\Service\Admin;
 use DI\Container;
 use WPR\Service\ConfigService;
 use WPR\Twig\TwigInitEnvironment;
-use WPR\Views\Admin\RatingTableView;
 use WPR\Views\Admin\SettingsView;
+use WPR\Views\Admin\RatingTableView;
 
 class AdminMenuService
 {
@@ -18,6 +18,7 @@ class AdminMenuService
     {
         $this->twig = TwigInitEnvironment::getTwigEnvironment();
     }
+
     public function addMenuSection()
     {
         add_submenu_page(
