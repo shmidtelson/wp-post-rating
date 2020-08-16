@@ -11,7 +11,7 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigInitEnvironment
 {
-    static function getTwigEnvironment()
+    public static function getTwigEnvironment()
     {
         $twig = new Environment(
             new FilesystemLoader(
