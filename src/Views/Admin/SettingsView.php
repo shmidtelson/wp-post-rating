@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WPR\Service\ConfigService;
 use WPR\Service\SettingService;
 use WPR\Twig\TwigInitEnvironment;
 

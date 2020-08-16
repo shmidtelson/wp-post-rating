@@ -1,7 +1,7 @@
 <div class="wrap">
     <form method="post" action="{{ formActionLink }}">
         <a href="?page=wp-post-rating"
-           class="page-title-action">{{ __('All votes') }}</a> &nbsp;
+           class="page-title-action">{{ __('All votes','1231231') }}</a> &nbsp;
 
         <h1 class="wp-heading-inline">{{ __('Star rating settings') }}</h1>
 
@@ -17,14 +17,11 @@
                         </legend>
                         <div class="shortcode-checked-js">
                             <p class="description" id="tagline-description">
-                                {{ __('How to custom display rating widget') }}
+                                {{ __('How to custom display rating widget. Shortcode or PHP') }}
                             </p>
                             <p>
                                 <b>{{ __('Display in content') }}</b>
                                 <input class="regular-text" value="[wp_rating]" onclick="select()"/>
-                            </p>
-                            <p>
-                                <b>{{ __('Display in PHP code') }}</b>
                                 <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
                                        onclick="select()"/>
                             </p>
@@ -32,10 +29,14 @@
                                 <b>{{ __('Display total votes for current post') }}</b>
                                 <input class="regular-text" value="[wp_rating_total]"
                                        onclick="select()"/>
+                                <input class="regular-text" value="echo do_shortcode('[wp_rating_total]');"
+                                       onclick="select()"/>
                             </p>
                             <p>
                                 <b>{{ __('Display average votes for current post') }}</b>
                                 <input class="regular-text" value="[wp_rating_avg]"
+                                       onclick="select()"/>
+                                <input class="regular-text" value="echo do_shortcode('[wp_rating_avg]');"
                                        onclick="select()"/>
                             </p>
                         </div>
@@ -104,6 +105,20 @@
                     <fieldset>
                         <input class="text_background_color_chooser_js" name="text_background_color" type="text"
                                value="{{ options.getStarsTextBackgroundColor }}"/>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    {{ __('Enable schema markup') }}
+                </th>
+                <td>
+                    <fieldset>
+                        <input name="schema_enable"
+                           type="checkbox"
+                           value="1"
+                           {% if options.isSchemaEnable %}checked{% endif %}
+                        />
                     </fieldset>
                 </td>
             </tr>

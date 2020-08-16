@@ -10,6 +10,7 @@ class SettingEntity
     public $starsSecondColor = '#fbc02d';
     public $starsTextColor = '#000';
     public $starsTextBackgroundColor = '#fff';
+    public $schemaEnable = true;
 
     public function loadData(array $data)
     {
@@ -18,6 +19,7 @@ class SettingEntity
         $this->setStarsSecondColor($data['starsSecondColor']);
         $this->setStarsTextColor($data['starsTextColor']);
         $this->setStarsTextBackgroundColor($data['starsTextBackgroundColor']);
+        $this->setSchemaEnable($data['schemaEnable']);
     }
 
     /**
@@ -98,5 +100,21 @@ class SettingEntity
     public function setStarsTextBackgroundColor($starsTextBackgroundColor): void
     {
         $this->starsTextBackgroundColor = $starsTextBackgroundColor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSchemaEnable(): bool
+    {
+        return $this->schemaEnable;
+    }
+
+    /**
+     * @param bool $schemaEnable
+     */
+    public function setSchemaEnable(bool $schemaEnable): void
+    {
+        $this->schemaEnable = $schemaEnable;
     }
 }

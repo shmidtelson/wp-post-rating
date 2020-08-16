@@ -33,7 +33,7 @@ class SettingFormService
         $settingEntity->setStarsSecondColor(htmlspecialchars($_POST['second_color']));
         $settingEntity->setStarsTextColor(htmlspecialchars($_POST['text_color']));
         $settingEntity->setStarsTextBackgroundColor(htmlspecialchars($_POST['text_background_color']));
-
+        $settingEntity->setSchemaEnable(array_key_exists('schema_enable', $_POST));
         $this->validate($settingEntity);
 
         $this->serviceSetting->save($settingEntity);

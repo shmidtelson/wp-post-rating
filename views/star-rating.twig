@@ -1,14 +1,10 @@
-<div class="wpr-wrapp" id="wpr-widget-{{ postId }}" itemscope itemtype="http://schema.org/Product">
-    <div class="wpr-rating" data-id="{{ postId }}" itemprop="aggregateRating" itemscope
-         itemtype="http://schema.org/AggregateRating">
+{#<?php#}
+<div class="wpr-wrapp" id="wpr-widget-{{ postId }}">
+    <div class="wpr-rating" data-id="{{ postId }}">
         {% for i in 5..1 %}
         <span class="icon-star {% if i == avgRating %}checked{% endif %}" data-value="{{ i }}"
               title="{{ __("Vote %s"|format(i)) }}"></span>
         {% endfor %}
-        <meta itemprop="worstRating" content="1">
-        <meta itemprop="bestRating" content="5">
-        <meta itemprop="reviewCount" content="{% if total %}{{ total }}{% else %}1{% endif %}">
-        <meta itemprop="ratingValue" content="{% if avgRating %}{{ avgRating }}{% else %}5{% endif %}">
     </div>
     <div class="wpr-rating-loader wpr-hide">
         <i class="icon-spin4 animate-spin"></i>
@@ -22,5 +18,5 @@
             <span class="wpr-total"></span>
         {% endif %}
     </div>
-    <meta itemprop="name" content="{{ title }}">
 </div>
+{{ jsonMarkup|raw }}

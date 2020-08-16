@@ -12,11 +12,16 @@ class RatingView extends AbstractView
      * @var RatingService
      */
     private $service;
+    /**
+     * @var SchemaOrgView
+     */
+    private $viewSchemaOrg;
 
-    public function __construct(RatingService $service)
+    public function __construct(RatingService $service, SchemaOrgView $viewSchemaOrg)
     {
         parent::__construct();
         $this->service = $service;
+        $this->viewSchemaOrg = $viewSchemaOrg;
     }
 
     public function renderStars()
@@ -28,7 +33,7 @@ class RatingView extends AbstractView
             'title' => get_the_title($id),
             'avgRating' => $this->service->getAvgRating($id),
             'total' => $this->service->getTotalVotesByPostId($id),
-            'pluginName' => ConfigService::PLUGIN_NAME,
+            'jsonMarkup' => $this->viewSchemaOrg->getJSONLD(),
         ]);
     }
 
