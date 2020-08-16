@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Views;
 
-use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 
 class RatingView extends AbstractView
@@ -12,6 +12,7 @@ class RatingView extends AbstractView
      * @var RatingService
      */
     private $service;
+
     /**
      * @var SchemaOrgView
      */

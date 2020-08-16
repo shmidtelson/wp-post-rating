@@ -6,17 +6,24 @@ namespace WPR\Service\Admin;
 
 use DI\Container;
 use WPR\Service\ConfigService;
+use WPR\Twig\TwigInitEnvironment;
 use WPR\Views\Admin\RatingTableView;
 use WPR\Views\Admin\SettingsView;
 
 class AdminMenuService
 {
+    private $twig;
+
+    public function __construct()
+    {
+        $this->twig = TwigInitEnvironment::getTwigEnvironment();
+    }
     public function addMenuSection()
     {
         add_submenu_page(
             'options-general.php',
-            '🟊 '.__('Stars rating', ConfigService::PLUGIN_NAME), //page title
-            '🟊 '.__('Stars rating', ConfigService::PLUGIN_NAME), //menu title
+            $this->twig->render('admin/menu/stars-menu.twig'),
+            $this->twig->render('admin/menu/stars-menu.twig'),
             'manage_options', //capability
             ConfigService::PLUGIN_NAME, //menu_slug,
             [(new Container())->get(RatingTableView::class), 'loadRatingTable']
