@@ -27,9 +27,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 *You may customize color of stars and second color automatically generated*
 
 ###Functional:
-* Shortcodes for show rating `[wp_rating]`
 * Widget for show latest (any sort) votes in sidebar (other place)
-
+####Shortcodes:
+* `[wp_rating]` show rating
+* `[wp_rating_total]` show total votes for current post
+* `[wp_rating_avg]` show total votes for current post
 == Installation ==
 
 1. Upload `wp-post-rating` folder to the `/wp-content/plugins/` directory
