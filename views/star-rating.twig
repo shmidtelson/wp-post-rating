@@ -1,9 +1,7 @@
-{#<?php#}
 <div class="wpr-wrapp" id="wpr-widget-{{ postId }}">
     <div class="wpr-rating" data-id="{{ postId }}">
         {% for i in 5..1 %}
-        <span class="icon-star {% if i == avgRating %}checked{% endif %}" data-value="{{ i }}"
-              title="{{ __("Vote %s"|format(i)) }}"></span>
+            <span class="icon-star {% if i == avgRating %}checked{% endif %}" data-value="{{ i }}"></span>
         {% endfor %}
     </div>
     <div class="wpr-rating-loader wpr-hide">
@@ -11,10 +9,10 @@
     </div>
     <div class="wpr-info-container">
         {% if total %}
-            <span>{{ __('Votes') }}&nbsp;</span>
+            <span>{{ __('Votes', PLUGIN_NAME) }}&nbsp;</span>
             <span class="wpr-total">({{ total }})</span>
         {% else %}
-            <span>{{ __('Vote') }}</span>
+            <span>{{ __('Vote', PLUGIN_NAME) }}</span>
             <span class="wpr-total"></span>
         {% endif %}
     </div>

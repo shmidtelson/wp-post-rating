@@ -1,39 +1,39 @@
 <div class="wrap">
     <form method="post" action="{{ formActionLink }}">
         <a href="?page=wp-post-rating"
-           class="page-title-action">{{ __('All votes', 'wp-post-rating') }}</a> &nbsp;
+           class="page-title-action">{{ __('All votes', PLUGIN_NAME) }}</a> &nbsp;
 
-        <h1 class="wp-heading-inline">{{ __('Star rating settings') }}</h1>
+        <h1 class="wp-heading-inline">{{ __('Star rating settings', PLUGIN_NAME) }}</h1>
 
         <table class="form-table">
             <tr>
-                <th scope="row">{{ __('Star rating position in content') }}</th>
+                <th scope="row">{{ __('Star rating position in content', PLUGIN_NAME) }}</th>
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text">
                             <span>
-                                {{ __('Star rating position in content') }}
+                                {{ __('Star rating position in content', PLUGIN_NAME) }}
                             </span>
                         </legend>
                         <div class="shortcode-checked-js">
                             <p class="description" id="tagline-description">
-                                {{ __('How to custom display rating widget. Shortcode or PHP') }}
+                                {{ __('How to custom display rating widget. Shortcode or PHP', PLUGIN_NAME) }}
                             </p>
                             <p>
-                                <b>{{ __('Display in content') }}</b>
+                                <b>{{ __('Display in content', PLUGIN_NAME) }}</b>
                                 <input class="regular-text" value="[wp_rating]" onclick="select()"/>
                                 <input class="regular-text" value="echo do_shortcode('[wp_rating]');"
                                        onclick="select()"/>
                             </p>
                             <p>
-                                <b>{{ __('Display total votes for current post') }}</b>
+                                <b>{{ __('Display total votes for current post', PLUGIN_NAME) }}</b>
                                 <input class="regular-text" value="[wp_rating_total]"
                                        onclick="select()"/>
                                 <input class="regular-text" value="echo do_shortcode('[wp_rating_total]');"
                                        onclick="select()"/>
                             </p>
                             <p>
-                                <b>{{ __('Display average votes for current post') }}</b>
+                                <b>{{ __('Display average votes for current post', PLUGIN_NAME) }}</b>
                                 <input class="regular-text" value="[wp_rating_avg]"
                                        onclick="select()"/>
                                 <input class="regular-text" value="echo do_shortcode('[wp_rating_avg]');"
@@ -49,18 +49,18 @@
                     <fieldset>
                         <div class="wpr-wrapp wpr-wrapp-admin">
                             <div class="wpr-rating">
-                                <span class="icon-star checked" data-value="5" title="Vote 5 "></span>
+                                <span class="icon-star checked" data-value="5" title="{{ __('Vote', PLUGIN_NAME) }} 5"></span>
                                 <span class="icon-star" data-value="4"
-                                      title="Vote 4 "></span>
+                                      title="{{ __('Vote', PLUGIN_NAME) }} 4"></span>
                                 <span class="icon-star" data-value="3"
-                                      title="Vote 3 "></span>
+                                      title="{{ __('Vote', PLUGIN_NAME) }} 3"></span>
                                 <span class="icon-star" data-value="2"
-                                      title="Vote 2 "></span>
+                                      title="{{ __('Vote', PLUGIN_NAME) }} 2"></span>
                                 <span class="icon-star" data-value="1"
-                                      title="Vote 1 "></span>
+                                      title="{{ __('Vote', PLUGIN_NAME) }} 1"></span>
                             </div>
                             <div class="wpr-info-container">
-                                <span>{{ __('Votes') }}&nbsp;</span>
+                                <span>{{ __('Votes', PLUGIN_NAME) }}&nbsp;</span>
                                 <span class="wpr-total">(1)</span>
                             </div>
                         </div>
@@ -69,17 +69,17 @@
             </tr>
             <tr>
                 <th scope="row">
-                    {{ __('Stars color') }}
+                    {{ __('Stars color', PLUGIN_NAME) }}
                 </th>
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text">
-                            <span>{{ __('Stars color') }}</span>
+                            <span>{{ __('Stars color', PLUGIN_NAME) }}</span>
                         </legend>
                         <input class="color_chooser_js" name="main_color" type="text"
                                value="{{ options.getStarsMainColor }}"/>
                         <p class="colors-description" id="colors-description">
-                            {{ __('Second (darker) color choose automatically') }}
+                            {{ __('Second (darker) color choose automatically', PLUGIN_NAME) }}
                         </p>
                         <input class="second_color_chooser_js" name="second_color" type="hidden"
                                value="{{ options.getStarsSecondColor }}"/>
@@ -88,7 +88,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    {{ __('Text (border) color') }}
+                    {{ __('Text (border) color', PLUGIN_NAME) }}
                 </th>
                 <td>
                     <fieldset>
@@ -99,7 +99,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    {{ __('Tooltip background color') }}
+                    {{ __('Tooltip background color', PLUGIN_NAME) }}
                 </th>
                 <td>
                     <fieldset>
@@ -110,7 +110,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    {{ __('Enable schema markup') }}
+                    {{ __('Enable schema markup', PLUGIN_NAME) }}
                 </th>
                 <td>
                     <fieldset>

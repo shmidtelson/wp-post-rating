@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wp Post Rating\n"
-"POT-Creation-Date: 2020-08-16 16:02+0300\n"
-"PO-Revision-Date: 2020-08-16 16:02+0300\n"
+"POT-Creation-Date: 2020-08-17 21:42+0300\n"
+"PO-Revision-Date: 2020-08-17 21:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -21,6 +21,10 @@ msgstr ""
 "_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: views/admin/menu/stars-menu.twig:1
+msgid "Stars rating"
+msgstr "Звездный рейтинг"
 
 #: views/admin/parts/item-menu.twig:2 views/admin/ratings-table.twig:2
 msgid "Settings"
@@ -58,7 +62,7 @@ msgstr "Показать количество проголосовавших д�
 msgid "Display average votes for current post"
 msgstr "Показать среднее число голосов для текущего поста"
 
-#: views/admin/settings.twig:63 views/star-rating.twig:14
+#: views/admin/settings.twig:63 views/star-rating.twig:12
 msgid "Votes"
 msgstr "Голосов"
 
@@ -82,17 +86,12 @@ msgstr "Цвет тултипа, бэкраунда"
 msgid "Enable schema markup"
 msgstr "Активировать Schema.org разметку. Для SEO"
 
-#: views/star-rating.twig:17
+#: views/star-rating.twig:15
 msgid "Vote"
 msgstr "Голосовать"
 
-#: src/Service/Admin/AdminMenuService.php:18
-#: src/Service/Admin/AdminMenuService.php:19
-msgid "Stars rating"
-msgstr "Звездный рейтинг"
-
-#: src/Service/Admin/AdminMenuService.php:27
-#: src/Service/Admin/AdminMenuService.php:28
+#: src/Service/Admin/AdminMenuService.php:35
+#: src/Service/Admin/AdminMenuService.php:36
 msgid "WPR Settings"
 msgstr "Настройки звездного рейтинга"
 
@@ -210,30 +209,3 @@ msgstr ""
 "Всевозможные форматы  даты доступны по ссылке <a href=\"https://codex."
 "wordpress.org/Formatting_Date_and_Time\">https://codex.wordpress.org/"
 "Formatting_Date_and_Time</a>"
-
-#~ msgid "Shortcode"
-#~ msgstr "Шорткод"
-
-#~ msgid "Display in PHP code"
-#~ msgstr "Как отобразить в PHP коде"
-
-#~ msgid "Vote %s"
-#~ msgstr "Поставить %s"
-
-#~ msgid "Wp Post Rating"
-#~ msgstr "WP Рейтинг материалов"
-
-#~ msgid "Powerful post rating wordpress plugin."
-#~ msgstr "Мощный и быстрый плагин звездного рейтинга для Wordpress."
-
-#~ msgid "%s star"
-#~ msgid_plural "%s stars"
-#~ msgstr[0] "%s звезда"
-#~ msgstr[1] "%s звезды"
-#~ msgstr[2] "%s звезд"
-
-#~ msgid "Before content"
-#~ msgstr "Перед контентом"
-
-#~ msgid "After content"
-#~ msgstr "После контента"

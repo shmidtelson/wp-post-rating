@@ -6,6 +6,7 @@ namespace WPR\Twig;
 
 use DI\Container;
 use Twig\Environment;
+use Twig\TwigFunction;
 use WPR\Service\ConfigService;
 use Twig\Loader\FilesystemLoader;
 
@@ -17,9 +18,8 @@ class TwigInitEnvironment
             new FilesystemLoader(
                 (new Container())->get(ConfigService::class)->getPluginPath().'/views')
         );
-
-        $twig->addExtension(new TransExtension());
-
+        $twig->addGlobal('PLUGIN_NAME', ConfigService::PLUGIN_NAME);
+        $twig->addFunction(new TwigFunction('__', '__'));
         return $twig;
     }
 }
