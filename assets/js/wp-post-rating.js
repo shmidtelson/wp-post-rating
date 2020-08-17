@@ -54,7 +54,6 @@ const Stars = function () {
                         setTimeout(function () {
                             try {
                                 const resp = JSON.parse(ajaxClient.request.responseText);
-                                console.log(resp)
                                 for (i in childrens) {
                                     if (that.hasClass(childrens[i], "checked"))
                                         childrens[i].classList.remove("checked");
