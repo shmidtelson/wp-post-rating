@@ -1,170 +1,92 @@
 <?php
-
 /*
 Plugin Name: Wp Post Rating
 Plugin URI: http://romua1d.ru/wp_post_rating
 Description: Powerful post rating wordpress plugin.
-Version: 1.0.5
+Version: 1.1.0
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
 License: MIT
 */
 
-namespace WPR_Plugin;
-
-use WPR_Plugin\Admin\Admin;
-use WPR_Plugin\Admin\Settings;
-
 //* Don't access this file directly
 defined('ABSPATH') or die();
 
-if (!class_exists('InitRating')) {
-    class InitRating
-    {
-        public $position = 'shortcode';
-        public $wprStarsMainColor;
-        public $wprStarsSecondColor;
-        public $wprStarsTextColor;
-        public $wprStarsTextBackgroundColor;
+require_once 'vendor/autoload.php';
 
-        public function __construct()
-        {
-            add_action('wp_enqueue_scripts', [$this, 'include_css_js']);
+use DI\Container;
+use function DI\create;
+use DI\ContainerBuilder;
+use WPR\Views\RatingView;
+use WPR\Service\AjaxService;
+use WPR\Wordpress\WPR_Widget;
+use WPR\Service\ConfigService;
+use WPR\Service\WidgetService;
+use WPR\Service\ScriptsService;
+use WPR\Service\SettingService;
+use WPR\Service\DocumentService;
+use WPR\Service\TranslateService;
+use WPR\Views\Admin\MenuItemView;
+use WPR\Service\MaintenanceService;
+use WPR\Service\SettingFormService;
+use WPR\Service\Admin\AdminMenuService;
 
-            // Ajax
-            add_action('wp_head', [$this, 'add_meta_nonce']);
+#################################################
+############## Container create #################
+#################################################
+$containerBuilder = new ContainerBuilder();
+$containerBuilder->useAutowiring(true);
+$containerBuilder->useAnnotations(false);
+$containerBuilder->addDefinitions([
+    AjaxService::class => create(AjaxService::class),
+    ConfigService::class => create(ConfigService::class),
+    ScriptsService::class => create(ScriptsService::class),
+    DocumentService::class => create(DocumentService::class),
+    TranslateService::class => create(TranslateService::class),
+    MaintenanceService::class => create(MaintenanceService::class),
+    SettingService::class => create(SettingService::class),
+    SettingFormService::class => create(SettingFormService::class),
 
-            // Internationalization
-            add_action('init', [$this, 'load_plugin_text_domain']);
+    AdminMenuService::class => create(AdminMenuService::class),
 
-            // load classes
-            $this->load_classes();
+    RatingView::class => create(TranslateService::class),
+    MenuItemView::class => create(MenuItemView::class),
 
-            // load config
-            $this->config = new Config();
-            $this->database = new Database($this->config);
+    WPR_Widget::class => create(WPR_Widget::class),
+]);
+$containerBuilder->build();
+$container = new Container();
 
-            register_activation_hook(__FILE__, [$this->database, 'plugin_install']);
+#################################################
+############## Wordpress hooks ##################
+#################################################
 
-            new Settings($this->config);
-            new Admin($this->config);
-            new Ajax($this->config, $this->database);
-
-            $this->position = get_option('wpr_position');
-            $this->wprStarsMainColor = get_option('wpr_stars_main_color');
-            $this->wprStarsSecondColor = get_option('wpr_stars_second_color');
-            $this->wprStarsTextColor = get_option('wpr_stars_text_color');
-            $this->wprStarsTextBackgroundColor = get_option('wpr_stars_text_background_color');
-
-            if ($this->position == 'shortcode') {
-                add_shortcode('wp_rating', [$this, 'displayRating']);
-            }
-
-            // Add settings link
-            add_filter("plugin_action_links_" . plugin_basename(__FILE__), [$this, 'add_settings_link_to_plugin_list']);
-
-            // Adding widgets
-            add_action('widgets_init', [$this, 'wpr_load_widget']);
-        }
-
-        public function include_css_js()
-        {
-            /**
-             * Main files
-             */
-            wp_enqueue_style(
-                'wp-post-rating',
-                $this->config->PLUGIN_URL . 'assets/css/wp-post-rating.min.css',
-                [],
-                $this->config->PLUGIN_VERSION,
-                'all'
-            );
-
-            wp_enqueue_script(
-                'wp-post-rating',
-                $this->config->PLUGIN_URL . 'assets/js/min/wp-post-rating.min.js',
-                ['jquery'],
-                $this->config->PLUGIN_VERSION,
-                true
-            );
-
-            $custom_css = sprintf(":root {
---wpr-main-color: %s;
---wpr-second-color: %s;
---wpr-text-color: %s;
---wpr-text-background-color: %s;
-}",
-                get_option('wpr_stars_main_color'),
-                get_option('wpr_stars_second_color'),
-                get_option('wpr_stars_text_color'),
-                get_option('wpr_stars_text_background_color')
-            );
-
-            wp_add_inline_style('wp-post-rating', $custom_css);
-
-        }
-
-        /**
-         * @return bool
-         */
-        public function load_plugin_text_domain()
-        {
-            $locale = apply_filters('plugin_locale', get_locale(), $this->config->PLUGIN_NAME);
-            if ($loaded = load_textdomain($this->config->PLUGIN_NAME,
-                trailingslashit(WP_LANG_DIR) . $this->config->PLUGIN_NAME . DIRECTORY_SEPARATOR . $this->config->PLUGIN_NAME . '-' . $locale . '.mo')) {
-                return $loaded;
-            }
-
-            return load_plugin_textdomain($this->config->PLUGIN_NAME, false, basename(dirname(__FILE__)) . '/languages/');
-        }
-
-        public function load_classes()
-        {
-            /**
-             * Functions
-             * Require all PHP files in the /classes/ directory
-             */
-            foreach (glob(__DIR__ . "/classes/*.php") as $function) {
-                require_once $function;
-            }
-            foreach (glob(__DIR__ . "/classes/admin/*.php") as $function) {
-                require_once $function;
-            }
-        }
-
-        public function add_meta_nonce()
-        {
-            $ajax_nonce = wp_create_nonce($this->config->PLUGIN_NONCE_KEY);
-            echo '<meta name="_wpr_nonce" content="' . $ajax_nonce . '" />';
-        }
-
-        public function add_settings_link_to_plugin_list($links)
-        {
-            $settings_link = '<a href="options-general.php?page=wpr-settings">'
-                . __('Settings', $this->config->PLUGIN_NAME) .
-                '</a>';
-            array_push($links, $settings_link);
-            return $links;
-
-        }
-
-        public function displayRating()
-        {
-            ob_start();
-            require $this->config->PLUGIN_PATH . 'templates' . DIRECTORY_SEPARATOR . 'main.php';
-            $html = ob_get_clean();
-
-            return $html;
-        }
-
-        public function wpr_load_widget()
-        {
-            register_widget(new WPR_Widget($this->config));
-        }
-
-    }
-
-    $WPR_PLUGIN = new InitRating;
-}
-
+// Include js and css
+add_action('wp_enqueue_scripts', [$container->get(ScriptsService::class), 'initScripts']);
+// Admin Scripts
+add_action('admin_enqueue_scripts', [$container->get(ScriptsService::class), 'initAdminScripts']);
+// Add nonce to head
+add_action('wp_head', [$container->get(DocumentService::class), 'addNonceToHead']);
+// Load translates
+add_action('init', [$container->get(TranslateService::class), 'loadPluginTextDomain']);
+// Start install tables if not exists
+register_activation_hook(__FILE__, [$container->get(MaintenanceService::class), 'installPlugin']);
+// Add shortcodes
+add_shortcode('wp_rating', [$container->get(RatingView::class), 'renderStars']);
+add_shortcode('wp_rating_total', [$container->get(RatingView::class), 'getRatingTotal']);
+add_shortcode('wp_rating_avg', [$container->get(RatingView::class), 'getRatingAvg']);
+// Add settings link
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$container->get(MenuItemView::class), 'addSettingsLinkToPluginList']);
+// Add widgets
+add_action('widgets_init', [$container->get(WidgetService::class), 'loadWidget']);
+// Add ajax
+add_action('wp_ajax_nopriv_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
+add_action('wp_ajax_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
+// Add settings page to admin menu
+add_action('admin_menu', [$container->get(AdminMenuService::class), 'addMenuSection']);
+// Settings
+add_action('admin_init', [$container->get(SettingService::class), 'setDefaultSettings']);
+// Settings save form
+add_action('admin_post_wpr-update', [$container->get(SettingFormService::class), 'saveForm']);
+add_action('admin_notices', [$container->get(SettingFormService::class), 'successMessage']);

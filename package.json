@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp sass && gulp js",
+    "watch": "gulp watch"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +17,10 @@
     "node-sass": "^4.14.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
     "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0-beta.2",
     "gulp-clean-css": "^4.3.0"
   },
   "browsers": [

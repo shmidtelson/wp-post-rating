@@ -1,0 +1,17 @@
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ ratingAvg }}",
+            "ratingCount": "{{ ratingCount }}",
+            "worstRating": "1",
+            "bestRating": "5"
+        },
+        {% if thumbnail %}
+        "image": "{{ thumbnail }}",
+        {% endif %}
+        "name": "{{ title }}"
+    }
+</script>

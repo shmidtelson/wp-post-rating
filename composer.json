@@ -1,0 +1,20 @@
+{
+    "name": "romua1d/wp-post-rating",
+    "description": "Wordpress Post Rating",
+    "authors": [
+        {
+            "name": "romua1d",
+            "email": "admin@romua1d.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WPR\\": "src/"
+        }
+    },
+    "require": {
+        "php" : "^7.2.0",
+        "php-di/php-di": "^6.2",
+        "twig/twig": "^3.0"
+    }
+}
