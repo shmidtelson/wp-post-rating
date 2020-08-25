@@ -35,7 +35,7 @@ class SchemaOrgView extends AbstractView
 
             return $this->twig->render('star-rating-schema.twig', [
                 'title' => get_the_title($postId),
-                'thumbnail' => get_the_post_thumbnail($postId),
+                'thumbnail' => get_the_post_thumbnail_url($postId),
                 'ratingCount' => $this->serviceRating->getTotalVotesByPostId($postId),
                 'ratingAvg' => $this->serviceRating->getAvgRating($postId),
             ]);
