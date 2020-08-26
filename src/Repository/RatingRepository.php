@@ -34,11 +34,11 @@ LIMIT 1
 
     /**
      * @param int $postId
-     * @param int $userIp
+     * @param string $userIp
      *
      * @return array|object|null
      */
-    public function getLatestVoteByPostIdAndUserIp(int $postId, int $userIp)
+    public function getLatestVoteByPostIdAndUserIp(int $postId, string $userIp)
     {
         $sql = sprintf(
             "
