@@ -63,11 +63,13 @@ const Stars = function () {
                                 document.querySelector('#wpr-widget-' + parent.dataset.id + ' .wpr-total').innerHTML = '(' + parseInt(resp.data.total) + ')';
                             } catch (e) {
                             }
-                            loader.classList.add('wpr-hide');
-                            parent.classList.remove('wpr-hide');
+
                         }, 300);
                     } else console.log("Ajax error: No data received")
                 }
+
+                loader.classList.add('wpr-hide');
+                parent.classList.remove('wpr-hide');
             };
         });
     }
