@@ -5,7 +5,7 @@ Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating sni
 Requires at least: 4.9.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 1.1.0.2
+Stable tag: 1.1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.1.0.3 =
+* Fixed bug which blocked work with page builders, like as Divi, Beaver, Visual Composer, Themify, Elementor, Oxygen
 = 1.1.0.2 =
 * Fixed bug with ajax request
 * Fixed schema.org json
