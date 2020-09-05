@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@production
+      - uses: actions/checkout@v2
 
       - name: WordPress Plugin Deploy
         uses: nk-o/action-wordpress-plugin-deploy@master
