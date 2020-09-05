@@ -43,6 +43,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.1.0.4 =
+* Fix critical bug
 = 1.1.0.3 =
 * Fixed bug which blocked work with page builders, like as Divi, Beaver, Visual Composer, Themify, Elementor, Oxygen
 = 1.1.0.2 =
