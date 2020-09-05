@@ -1,22 +1,14 @@
 name: Deploy Plugin to WordPress.org
 on:
   push:
-    tags:
-    - "v*"
-  pull_request:
-    tags:
-    - "v*"
+    branches:
+      - production
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@production
-
-      - name: Build
-        run: |
-          npm install
-          npm run build
+      - uses: actions/checkout@v2
 
       - name: WordPress Plugin Deploy
         uses: nk-o/action-wordpress-plugin-deploy@master
