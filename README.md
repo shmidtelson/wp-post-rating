@@ -1,4 +1,4 @@
-![Screenshot](https://raw.githubusercontent.com/shmidtelson/wp-post-rating/dev/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/shmidtelson/wp-post-rating/dev/.plugin-assets/screenshot-1.png)
 
 # Wordpress post stars rating plugin
 ## Description ##
