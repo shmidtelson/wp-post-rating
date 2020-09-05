@@ -24,7 +24,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 *Native js is very fast*
 
 * Customize color of stars
-*You can customize color of stars and second color automatically generated*
+*You can customize color of stars and the second color will generate automatic*
 
 * MultiLanguages
 +English
