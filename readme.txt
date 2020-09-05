@@ -27,8 +27,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 *You may customize color of stars and second color automatically generated*
 
 * MultiLanguages
-*English
-*Russian
++English
++Russian
 
 ###Functional:
 * Widget for show latest (any sort) votes in sidebar (other place)
