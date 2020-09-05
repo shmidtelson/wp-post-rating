@@ -1,11 +1,11 @@
 === Wp Post Rating ===
 Contributors: shmidtelson
-Donate link: https://romua1d.ru/
+Donate link: https://github.com/shmidtelson/wp-post-rating
 Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating snippet
 Requires at least: 4.9.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 1.1.0.3
+Stable tag: 1.1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

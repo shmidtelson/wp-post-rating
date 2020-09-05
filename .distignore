@@ -10,3 +10,7 @@ gulpfile.js
 package-lock.json
 package.json
 php.cache.dist
+assets/sass
+assets/config.json
+assets/js/admin-settings-page.js
+assets/js/wp-post-rating.js
