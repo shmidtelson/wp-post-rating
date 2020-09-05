@@ -1,11 +1,8 @@
 name: Deploy Plugin to WordPress.org
 on:
   push:
-    tags:
-    - "v*"
-  pull_request:
-    tags:
-    - "v*"
+    branches:
+      - production
 
 jobs:
   deploy:
