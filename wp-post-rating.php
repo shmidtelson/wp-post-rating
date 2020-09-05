@@ -37,10 +37,10 @@ use WPR\Service\WordpressFunctionsService;
 #################################################
 ############## Container create #################
 #################################################
-$containerBuilder = new ContainerBuilder();
-$containerBuilder->useAutowiring(true);
-$containerBuilder->useAnnotations(false);
-$containerBuilder->addDefinitions([
+$wprContainerBuilder = new ContainerBuilder();
+$wprContainerBuilder->useAutowiring(true);
+$wprContainerBuilder->useAnnotations(false);
+$wprContainerBuilder->addDefinitions([
     AjaxService::class => create(AjaxService::class),
     ConfigService::class => create(ConfigService::class),
     ScriptsService::class => create(ScriptsService::class),
@@ -58,38 +58,38 @@ $containerBuilder->addDefinitions([
 
     WPR_Widget::class => create(WPR_Widget::class),
 ]);
-$containerBuilder->build();
-$container = new Container();
+$wprContainerBuilder->build();
+$wprContainer = new Container();
 
 #################################################
 ############## Wordpress hooks ##################
 #################################################
 
 // Include js and css
-add_action('wp_enqueue_scripts', [$container->get(ScriptsService::class), 'initScripts']);
+add_action('wp_enqueue_scripts', [$wprContainer->get(ScriptsService::class), 'initScripts']);
 // Admin Scripts
-add_action('admin_enqueue_scripts', [$container->get(ScriptsService::class), 'initAdminScripts']);
+add_action('admin_enqueue_scripts', [$wprContainer->get(ScriptsService::class), 'initAdminScripts']);
 // Add nonce to head
-add_action('wp_head', [$container->get(DocumentService::class), 'addNonceToHead']);
+add_action('wp_head', [$wprContainer->get(DocumentService::class), 'addNonceToHead']);
 // Load translates
-add_action('init', [$container->get(TranslateService::class), 'loadPluginTextDomain']);
+add_action('init', [$wprContainer->get(TranslateService::class), 'loadPluginTextDomain']);
 // Start install tables if not exists
-register_activation_hook(__FILE__, [$container->get(MaintenanceService::class), 'installPlugin']);
+register_activation_hook(__FILE__, [$wprContainer->get(MaintenanceService::class), 'installPlugin']);
 // Add shortcodes
-add_shortcode('wp_rating', [$container->get(RatingView::class), 'renderStars']);
-add_shortcode('wp_rating_total', [$container->get(RatingView::class), 'getRatingTotal']);
-add_shortcode('wp_rating_avg', [$container->get(RatingView::class), 'getRatingAvg']);
+add_shortcode('wp_rating', [$wprContainer->get(RatingView::class), 'renderStars']);
+add_shortcode('wp_rating_total', [$wprContainer->get(RatingView::class), 'getRatingTotal']);
+add_shortcode('wp_rating_avg', [$wprContainer->get(RatingView::class), 'getRatingAvg']);
 // Add settings link
-add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$container->get(MenuItemView::class), 'addSettingsLinkToPluginList']);
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$wprContainer->get(MenuItemView::class), 'addSettingsLinkToPluginList']);
 // Add widgets
-add_action('widgets_init', [$container->get(WidgetService::class), 'loadWidget']);
+add_action('widgets_init', [$wprContainer->get(WidgetService::class), 'loadWidget']);
 // Add ajax
-add_action('wp_ajax_nopriv_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
-add_action('wp_ajax_wpr_voted', [$container->get(AjaxService::class), 'actionVote']);
+add_action('wp_ajax_nopriv_wpr_voted', [$wprContainer->get(AjaxService::class), 'actionVote']);
+add_action('wp_ajax_wpr_voted', [$wprContainer->get(AjaxService::class), 'actionVote']);
 // Add settings page to admin menu
-add_action('admin_menu', [$container->get(AdminMenuService::class), 'addMenuSection']);
+add_action('admin_menu', [$wprContainer->get(AdminMenuService::class), 'addMenuSection']);
 // Settings
-add_action('admin_init', [$container->get(SettingService::class), 'setDefaultSettings']);
+add_action('admin_init', [$wprContainer->get(SettingService::class), 'setDefaultSettings']);
 // Settings save form
-add_action('admin_post_wpr-update', [$container->get(SettingFormService::class), 'saveForm']);
-add_action('admin_notices', [$container->get(SettingFormService::class), 'successMessage']);
+add_action('admin_post_wpr-update', [$wprContainer->get(SettingFormService::class), 'saveForm']);
+add_action('admin_notices', [$wprContainer->get(SettingFormService::class), 'successMessage']);
