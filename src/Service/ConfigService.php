@@ -10,8 +10,6 @@ class ConfigService
 
     const PLUGIN_NONCE_KEY = 'WPR_rating_key';
 
-    const PLUGIN_VERSION = '1.1.0.4';
-
     const PLUGIN_NAME = 'wp-post-rating';
 
     const PLUGIN_DB_VERSION = '1.1';

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 class ScriptsService
 {
     const SCRIPT_NAME = 'wp-post-rating';
@@ -15,11 +17,20 @@ class ScriptsService
      * @var SettingService
      */
     private $settingService;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $params;
 
-    public function __construct(ConfigService $configService, SettingService $settingService)
+    public function __construct(
+        ConfigService $configService,
+        SettingService $settingService,
+        ParameterBagInterface $params
+    )
     {
         $this->configService = $configService;
         $this->settingService = $settingService;
+        $this->params = $params;
     }
 
     /**
@@ -34,7 +45,7 @@ class ScriptsService
             self::SCRIPT_NAME,
             $this->configService->getPluginCssPath().'wp-post-rating.min.css',
             [],
-            ConfigService::PLUGIN_VERSION,
+            $this->params->get('wpr.version'),
             'all'
         );
 
@@ -42,7 +53,7 @@ class ScriptsService
             self::SCRIPT_NAME,
             $this->configService->getPluginJSPath().'wp-post-rating.min.js',
             ['jquery'],
-            ConfigService::PLUGIN_VERSION,
+            $this->params->get('wpr.version'),
             true
         );
 
