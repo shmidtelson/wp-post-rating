@@ -6,7 +6,9 @@
 
 # Wordpress post stars rating plugin
 ## Description ##
-WP-POST-RATING is powerful rating plugin with ajax security requests. Plugin created based on the https://github.com/wppunk/WPPlugin
+WP-POST-RATING is powerful rating plugin with ajax security requests. 
+Plugin created based on the https://github.com/wppunk/WPPlugin
+Deploy through https://github.com/10up/action-wordpress-plugin-deploy
 ### Features:
 * Very faster
 * Seo-friendly
