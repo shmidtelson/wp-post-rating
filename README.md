@@ -2,7 +2,6 @@
 
 [![Latest Version](https://img.shields.io/github/release/shmidtelson/wp-post-rating.svg?style=flat-square)](https://github.com/shmidtelson/wp-post-rating/releases)
 [![Build Status](https://img.shields.io/github/workflow/status/shmidtelson/wp-post-rating/Deploy%20Plugin%20to%20WordPress.org?label=Deploy%20Plugin%20to%20WordPress.org&style=flat-square)](https://github.com/shmidtelson/wp-post-rating/actions?query=workflow%3A%22Deploy+Plugin+to+WordPress.org%22)
-[![HitCount](https://hits.dwyl.com/shmidtelson/wp-post-rating.svg)](http://hits.dwyl.com/shmidtelson/wp-post-rating)
 
 # Wordpress post stars rating plugin
 ## Description ##
