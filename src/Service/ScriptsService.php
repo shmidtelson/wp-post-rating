@@ -4,21 +4,16 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use WPR\Abstractions\Abstracts\AbstractService;
+use WPR\Abstractions\Traits\GetConfigServiceTrait;
+use WPR\Abstractions\Traits\GetSettingsServiceTrait;
+
 class ScriptsService extends AbstractService
 {
+    use GetConfigServiceTrait;
+    use GetSettingsServiceTrait;
+
     const SCRIPT_NAME = 'wp-post-rating';
-
-    /**
-     * @var SettingService
-     */
-    private $serviceSetting;
-
-    public function __construct(SettingService $serviceSetting)
-    {
-        parent::__construct();
-
-        $this->serviceSetting = $serviceSetting;
-    }
 
     /**
      * Активация скриптов.
@@ -30,7 +25,7 @@ class ScriptsService extends AbstractService
          */
         wp_enqueue_style(
             self::SCRIPT_NAME,
-            $this->config->getPluginCssPath().'wp-post-rating.min.css',
+            $this->getConfig()->getPluginCssPath().'wp-post-rating.min.css',
             [],
             ConfigService::PLUGIN_VERSION,
             'all'
@@ -38,13 +33,13 @@ class ScriptsService extends AbstractService
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            $this->config->getPluginJSPath().'wp-post-rating.min.js',
+            $this->getConfig()->getPluginJSPath().'wp-post-rating.min.js',
             ['jquery'],
             ConfigService::PLUGIN_VERSION,
             true
         );
 
-        $settingsDto = $this->serviceSetting->getSetting();
+        $settingsDto = $this->getSettings()->getSetting();
         $custom_css = sprintf('
 :root {
 	--wpr-main-color: %s;
@@ -75,12 +70,12 @@ class ScriptsService extends AbstractService
 
             wp_register_script(
                 'admin-settings-page',
-                $this->config->getPluginJSPath().'admin-settings-page.min.js',
+                $this->getConfig()->getPluginJSPath().'admin-settings-page.min.js',
                 ['jquery', 'wp-color-picker']
             );
             wp_register_style(
                 'admin-settings-page',
-                $this->config->getPluginCssPath().'admin-settings-page.min.css'
+                $this->getConfig()->getPluginCssPath().'admin-settings-page.min.css'
             );
             wp_enqueue_style('admin-settings-page');
             wp_enqueue_script('admin-settings-page');

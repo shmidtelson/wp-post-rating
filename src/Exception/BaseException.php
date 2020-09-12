@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WPR\Exceptions;
+namespace WPR\Exception;
 
 use Exception;
 

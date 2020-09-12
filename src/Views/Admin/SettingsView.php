@@ -4,30 +4,19 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WPR\Service\SettingService;
-use WPR\Twig\TwigInitEnvironment;
+use WPR\Abstractions\Abstracts\AbstractView;
+use WPR\Abstractions\Traits\GetSettingsServiceTrait;
 
-class SettingsView
+class SettingsView extends AbstractView
 {
-    private $twig;
-
-    /**
-     * @var SettingService
-     */
-    private $serviceSetting;
-
-    public function __construct(SettingService $serviceSetting)
-    {
-        $this->twig = TwigInitEnvironment::getTwigEnvironment();
-        $this->serviceSetting = $serviceSetting;
-
-        $this->changeHiddenMenu();
-    }
+    use GetSettingsServiceTrait;
 
     public function addOptionsPage()
     {
-        echo $this->twig->render('admin/settings.twig', [
-            'options' => $this->serviceSetting->getSetting(),
+        $this->changeHiddenMenu();
+
+        echo $this->twig->getTwig()->render('admin/settings.twig', [
+            'options' => $this->getSettings()->getSetting(),
             'formHiddenField' => $this->formHiddenFields(),
             'formSubmitButton' => $this->formSubmitButton(),
             'formActionLink' => esc_url(admin_url('admin-post.php')),

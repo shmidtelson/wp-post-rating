@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WPR\Views\AbstractView;
+use WPR\Abstractions\Abstracts\AbstractView;
 
 class MenuItemView extends AbstractView
 {
@@ -19,7 +19,7 @@ class MenuItemView extends AbstractView
      */
     public function addSettingsLinkToPluginList($links)
     {
-        array_push($links, $this->twig->render('admin/parts/item-menu.twig'));
+        array_push($links, $this->twig->getTwig()->render('admin/parts/item-menu.twig'));
 
         return $links;
     }

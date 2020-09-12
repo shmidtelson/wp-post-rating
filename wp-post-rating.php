@@ -3,7 +3,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: https://github.com/shmidtelson/wp-post-rating
 Description: Powerful post rating wordpress plugin
-Version: 1.1.0.4
+Version: 1.1.1.0
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
@@ -11,85 +11,78 @@ Domain Path: /languages
 License: MIT
 */
 
-//* Don't access this file directly
-defined('ABSPATH') or die();
+// Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-require_once 'vendor/autoload.php';
+use WPR\Plugin;
+use WPR\Vendor\Symfony\Component\Config\FileLocator;
+use WPR\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
+use WPR\Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-use DI\Container;
-use function DI\create;
-use DI\ContainerBuilder;
-use WPR\Views\RatingView;
-use WPR\Service\AjaxService;
-use WPR\Wordpress\WPR_Widget;
-use WPR\Service\ConfigService;
-use WPR\Service\WidgetService;
-use WPR\Service\ScriptsService;
-use WPR\Service\SettingService;
-use WPR\Service\DocumentService;
-use WPR\Service\TranslateService;
-use WPR\Views\Admin\MenuItemView;
-use WPR\Service\MaintenanceService;
-use WPR\Service\SettingFormService;
-use WPR\Service\Admin\AdminMenuService;
-use WPR\Service\WordpressFunctionsService;
+if (version_compare(phpversion(), '7.2.5', '<')) {
+    function plugin_name_php_notice()
+    {
+        ?>
+        <div class="notice notice-error">
+            <p>
+                <?php
+                echo wp_kses(
+                    __('The minimum version of PHP is <strong>7.2.5</strong>. Please update the PHP on your server and try again.', 'plugin_name'),
+                    [
+                        'strong' => [],
+                    ]
+                ); ?>
+            </p>
+        </div>
 
-#################################################
-############## Container create #################
-#################################################
-$wprContainerBuilder = new ContainerBuilder();
-$wprContainerBuilder->useAutowiring(true);
-$wprContainerBuilder->useAnnotations(false);
-$wprContainerBuilder->addDefinitions([
-    AjaxService::class => create(AjaxService::class),
-    ConfigService::class => create(ConfigService::class),
-    ScriptsService::class => create(ScriptsService::class),
-    DocumentService::class => create(DocumentService::class),
-    TranslateService::class => create(TranslateService::class),
-    MaintenanceService::class => create(MaintenanceService::class),
-    SettingService::class => create(SettingService::class),
-    SettingFormService::class => create(SettingFormService::class),
-    WordpressFunctionsService::class => create(WordpressFunctionsService::class),
+        <?php
+        // In case this is on plugin activation.
+        if (isset($_GET['activate'])) {
+            unset($_GET['activate']);
+        }
+    }
 
-    AdminMenuService::class => create(AdminMenuService::class),
+    add_action('admin_notices', 'plugin_name_php_notice');
 
-    RatingView::class => create(TranslateService::class),
-    MenuItemView::class => create(MenuItemView::class),
+    // Don't process the plugin code further.
+    return;
+}
 
-    WPR_Widget::class => create(WPR_Widget::class),
-]);
-$wprContainerBuilder->build();
-$wprContainer = new Container();
+if (!defined('PLUGIN_NAME_DEBUG')) {
+    /*
+     * Enable plugin debug mod.
+     */
+    define('PLUGIN_NAME_DEBUG', false);
+}
+/*
+ * Path to the plugin root directory.
+ */
+define('PLUGIN_NAME_PATH', plugin_dir_path(__FILE__));
+/*
+ * Url to the plugin root directory.
+ */
+define('PLUGIN_NAME_URL', plugin_dir_url(__FILE__));
 
-#################################################
-############## Wordpress hooks ##################
-#################################################
+/**
+ * Run plugin function.
+ *
+ * @throws Exception If something went wrong.
+ */
+function run_wp_post_rating()
+{
+    require_once PLUGIN_NAME_PATH.'vendor/autoload.php';
 
-// Include js and css
-add_action('wp_enqueue_scripts', [$wprContainer->get(ScriptsService::class), 'initScripts']);
-// Admin Scripts
-add_action('admin_enqueue_scripts', [$wprContainer->get(ScriptsService::class), 'initAdminScripts']);
-// Add nonce to head
-add_action('wp_head', [$wprContainer->get(DocumentService::class), 'addNonceToHead']);
-// Load translates
-add_action('init', [$wprContainer->get(TranslateService::class), 'loadPluginTextDomain']);
-// Start install tables if not exists
-register_activation_hook(__FILE__, [$wprContainer->get(MaintenanceService::class), 'installPlugin']);
-// Add shortcodes
-add_shortcode('wp_rating', [$wprContainer->get(RatingView::class), 'renderStars']);
-add_shortcode('wp_rating_total', [$wprContainer->get(RatingView::class), 'getRatingTotal']);
-add_shortcode('wp_rating_avg', [$wprContainer->get(RatingView::class), 'getRatingAvg']);
-// Add settings link
-add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$wprContainer->get(MenuItemView::class), 'addSettingsLinkToPluginList']);
-// Add widgets
-add_action('widgets_init', [$wprContainer->get(WidgetService::class), 'loadWidget']);
-// Add ajax
-add_action('wp_ajax_nopriv_wpr_voted', [$wprContainer->get(AjaxService::class), 'actionVote']);
-add_action('wp_ajax_wpr_voted', [$wprContainer->get(AjaxService::class), 'actionVote']);
-// Add settings page to admin menu
-add_action('admin_menu', [$wprContainer->get(AdminMenuService::class), 'addMenuSection']);
-// Settings
-add_action('admin_init', [$wprContainer->get(SettingService::class), 'setDefaultSettings']);
-// Settings save form
-add_action('admin_post_wpr-update', [$wprContainer->get(SettingFormService::class), 'saveForm']);
-add_action('admin_notices', [$wprContainer->get(SettingFormService::class), 'successMessage']);
+    $containerBuilder = new ContainerBuilder();
+    $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));
+    $loader->load(PLUGIN_NAME_PATH.'dependencies/services.php');
+    $containerBuilder->compile();
+
+    $wpPostRating = new Plugin($containerBuilder);
+    $wpPostRating->run();
+
+    do_action('wp_post_rating_init', $wpPostRating);
+}
+
+add_action('plugins_loaded', 'run_wp_post_rating');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
+use WPR\Abstractions\Abstracts\AbstractRepository;
 use WPR\Entity\RatingEntity;
 
 class RatingRepository extends AbstractRepository

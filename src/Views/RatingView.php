@@ -6,45 +6,20 @@ namespace WPR\Views;
 
 use WPR\Service\RatingService;
 use WPR\Service\WordpressFunctionsService;
+use WPR\Abstractions\Abstracts\AbstractView;
 
 class RatingView extends AbstractView
 {
-    /**
-     * @var RatingService
-     */
-    private $service;
-
-    /**
-     * @var SchemaOrgView
-     */
-    private $viewSchemaOrg;
-    /**
-     * @var WordpressFunctionsService
-     */
-    private $wordpressFunctionsService;
-
-    public function __construct(
-        RatingService $service,
-        SchemaOrgView $viewSchemaOrg,
-        WordpressFunctionsService $wordpressFunctionsService
-    )
-    {
-        parent::__construct();
-        $this->service = $service;
-        $this->viewSchemaOrg = $viewSchemaOrg;
-        $this->wordpressFunctionsService = $wordpressFunctionsService;
-    }
-
     public function renderStars()
     {
-        $id = $this->wordpressFunctionsService->getCurrentPostID();
+        $id = $this->container->get(WordpressFunctionsService::class)->getCurrentPostID();
 
-        return $this->twig->render('star-rating.twig', [
+        return $this->twig->getTwig()->render('star-rating.twig', [
             'postId' => $id,
             'title' => \get_the_title($id),
-            'avgRating' => $this->service->getAvgRating($id),
-            'total' => $this->service->getTotalVotesByPostId($id),
-            'jsonMarkup' => $this->viewSchemaOrg->getJSONLD(),
+            'avgRating' => $this->container->get(RatingService::class)->getAvgRating($id),
+            'total' => $this->container->get(RatingService::class)->getTotalVotesByPostId($id),
+            'jsonMarkup' => $this->container->get(SchemaOrgView::class)->getJSONLD(),
         ]);
     }
 
@@ -53,7 +28,7 @@ class RatingView extends AbstractView
      */
     public function getRatingAvg()
     {
-        return $this->service->getAvgRating($this->wordpressFunctionsService->getCurrentPostID());
+        return $this->container->get(RatingService::class)->getAvgRating($this->container->get(WordpressFunctionsService::class)->getCurrentPostID());
     }
 
     /**
@@ -61,6 +36,6 @@ class RatingView extends AbstractView
      */
     public function getRatingTotal()
     {
-        return $this->service->getTotalVotesByPostId($this->wordpressFunctionsService->getCurrentPostID());
+        return $this->container->get(RatingService::class)->getTotalVotesByPostId($this->container->get(WordpressFunctionsService::class)->getCurrentPostID());
     }
 }

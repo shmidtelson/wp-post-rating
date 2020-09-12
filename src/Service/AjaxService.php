@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use DateTime;
 use WPR\Dto\ErrorResponseDto;
 use WPR\Dto\SuccessResponseDto;
-use WPR\Exceptions\ValidationException;
+use WPR\Exception\ValidationException;
+use WPR\Abstractions\Abstracts\AbstractService;
 
 class AjaxService extends AbstractService
 {
-    private $serviceRating;
-
-    public function __construct(RatingService $serviceRating)
+    public function getRatingService(): RatingService
     {
-        parent::__construct();
-        $this->serviceRating = $serviceRating;
+        return $this->container->get(RatingService::class);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function actionVote(): void
     {
         check_ajax_referer(ConfigService::PLUGIN_NONCE_KEY, 'nonce');
@@ -35,48 +31,40 @@ class AjaxService extends AbstractService
             wp_die();
         }
 
-        $latestVote = $this->serviceRating->getUserLatestVoteByPostId($postId);
+        $latestVote = $this->getRatingService()->getUserLatestVoteByPostId($postId);
 
         $action = $this->saveVote($latestVote, $vote, $postId);
 
         echo json_encode(new SuccessResponseDto([
-            'avg' => $this->serviceRating->getAvgRating($postId, 0),
-            'total' => $this->serviceRating->getTotalVotesByPostId($postId),
+            'avg' => $this->getRatingService()->getAvgRating($postId, 0),
+            'total' => $this->getRatingService()->getTotalVotesByPostId($postId),
             'action' => $action,
         ]));
         wp_die();
     }
 
-    /**
-     * @param array $latestVote
-     * @param int   $vote
-     * @param int   $postId
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
     private function saveVote(array $latestVote, int $vote, int $postId): string
     {
         if (count($latestVote)) {
-            $now = new \DateTime();
-            $date = new \DateTime($latestVote[0]->created_at);
+            $now = new DateTime();
+            $date = new DateTime($latestVote[0]->created_at);
             $date_limit = $date->modify(ConfigService::PLUGIN_VOTE_INTERVAL);
 
             if ($now < $date_limit) {
-                $this->serviceRating->save($vote, $postId, $latestVote[0]->id);
+                $this->getRatingService()->save($vote, $postId, $latestVote[0]->id);
 
                 return 'updated';
             }
         }
 
-        $this->serviceRating->save($vote, $postId);
+        $this->getRatingService()->save($vote, $postId);
+
         return'created';
     }
 
     /**
-     * @param int    $postId
-     * @param string $vote
+     * @param int $postId
+     * @param int $vote
      *
      * @throws ValidationException
      */

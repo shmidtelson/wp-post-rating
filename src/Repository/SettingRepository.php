@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
-use WPR\Service\AbstractService;
+
+
+use WPR\Abstractions\Abstracts\AbstractService;
 
 class SettingRepository extends AbstractService
 {

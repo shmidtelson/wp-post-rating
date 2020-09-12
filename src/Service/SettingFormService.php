@@ -4,31 +4,27 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use WPR\Abstractions\Traits\GetSettingsServiceTrait;
 use WPR\Entity\SettingEntity;
-use WPR\Twig\TwigInitEnvironment;
 
 class SettingFormService
 {
-    const SUCCESS_KEY = 'wpr-success';
+    use GetSettingsServiceTrait;
 
-    /**
-     * @var SettingService
-     */
-    private $serviceSetting;
+    const SUCCESS_KEY = 'wpr-success';
 
     private $twig;
 
-    public function __construct(SettingService $serviceSetting)
+    public function __construct(TwigEnvironmentService $twigService)
     {
-        $this->serviceSetting = $serviceSetting;
-        $this->twig = TwigInitEnvironment::getTwigEnvironment();
+        $this->twig = $twigService;
     }
 
     public function saveForm(): void
     {
         $this->validateNonce();
 
-        $settingEntity = $this->serviceSetting->getSetting();
+        $settingEntity = $this->getSettings()->getSetting();
         $settingEntity->setStarsMainColor(htmlspecialchars($_POST['main_color']));
         $settingEntity->setStarsSecondColor(htmlspecialchars($_POST['second_color']));
         $settingEntity->setStarsTextColor(htmlspecialchars($_POST['text_color']));
@@ -36,7 +32,7 @@ class SettingFormService
         $settingEntity->setSchemaEnable(array_key_exists('schema_enable', $_POST));
         $this->validate($settingEntity);
 
-        $this->serviceSetting->save($settingEntity);
+        $this->getSettings()->save($settingEntity);
 
         // TODO: Вызывает баг. Сохранение остается
         $location = add_query_arg([self::SUCCESS_KEY => 'ID'], htmlspecialchars($_POST['_wp_http_referer']));
@@ -90,7 +86,7 @@ class SettingFormService
             return;
         }
 
-        echo $this->twig->render(
+        echo $this->twig->getTwig()->render(
             'admin/messages/success.twig',
             ['content' => __('Settings saved successful')]
         );

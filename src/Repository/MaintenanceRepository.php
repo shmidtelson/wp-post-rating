@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
+use WPR\Abstractions\Abstracts\AbstractRepository;
+
 class MaintenanceRepository extends AbstractRepository
 {
     /**

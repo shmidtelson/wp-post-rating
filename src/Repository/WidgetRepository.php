@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
+use WPR\Abstractions\Abstracts\AbstractRepository;
+
 class WidgetRepository extends AbstractRepository
 {
+
     const MIN_POSTS_COUNT = 1;
     const MAX_POSTS_COUNT = 10;
 

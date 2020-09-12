@@ -4,30 +4,28 @@ declare(strict_types=1);
 
 namespace WPR\Service\Admin;
 
-use DI\Container;
 use WPR\Service\ConfigService;
-use WPR\Twig\TwigInitEnvironment;
+use WPR\Service\TwigEnvironmentService;
 use WPR\Views\Admin\SettingsView;
 use WPR\Views\Admin\RatingTableView;
+use WPR\Abstractions\Abstracts\AbstractService;
 
-class AdminMenuService
+class AdminMenuService extends AbstractService
 {
-    private $twig;
-
-    public function __construct()
-    {
-        $this->twig = TwigInitEnvironment::getTwigEnvironment();
-    }
-
     public function addMenuSection()
     {
+        /**
+         * @var TwigEnvironmentService $twig
+         */
+        $twig = $this->container->get(TwigEnvironmentService::class);
+
         add_submenu_page(
             'options-general.php',
-            $this->twig->render('admin/menu/stars-menu.twig'),
-            $this->twig->render('admin/menu/stars-menu.twig'),
+            $twig->getTwig()->render('admin/menu/stars-menu.twig'),
+            $twig->getTwig()->render('admin/menu/stars-menu.twig'),
             'manage_options', //capability
             ConfigService::PLUGIN_NAME, //menu_slug,
-            [(new Container())->get(RatingTableView::class), 'loadRatingTable']
+           [$this->container->get(RatingTableView::class), 'loadRatingTable']
         );
 
         add_submenu_page(
@@ -36,7 +34,7 @@ class AdminMenuService
             __('WPR Settings', ConfigService::PLUGIN_NAME),
             'manage_options',
             ConfigService::OPTIONS_KEY,
-            [(new Container())->get(SettingsView::class), 'addOptionsPage']
+            [$this->container->get(SettingsView::class), 'addOptionsPage']
         );
     }
 }

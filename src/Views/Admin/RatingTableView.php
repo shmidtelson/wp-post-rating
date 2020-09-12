@@ -6,7 +6,7 @@ namespace WPR\Views\Admin;
 
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
-use WPR\Twig\TwigInitEnvironment;
+use WPR\Service\TwigEnvironmentService;
 
 if (! class_exists('WP_List_Table')) {
     require_once ABSPATH.'wp-admin/includes/screen.php';
@@ -17,15 +17,18 @@ class RatingTableView extends \WP_List_Table
 {
     const PER_PAGE = 10;
 
-    private $twig;
-
     /**
      * @var RatingService
      */
     private $serviceRating;
+    /**
+     * @var TwigEnvironmentService
+     */
+    private $twigService;
 
     public function __construct(
-        RatingService $serviceRating
+        RatingService $serviceRating,
+        TwigEnvironmentService $twigService
     ) {
         parent::__construct([
             'singular' => 'wp_list_vote', //Singular label
@@ -33,15 +36,15 @@ class RatingTableView extends \WP_List_Table
             'ajax' => false, //We won't support Ajax for this table
         ]);
 
-        $this->twig = TwigInitEnvironment::getTwigEnvironment();
         $this->serviceRating = $serviceRating;
+        $this->twigService = $twigService;
     }
 
     public function loadRatingTable()
     {
         $this->prepare_items();
 
-        echo $this->twig->render('admin/ratings-table.twig', [
+        echo $this->twigService->getTwig()->render('admin/ratings-table.twig', [
                 'content' => $this->displayTable(),
         ]);
     }
@@ -55,7 +58,7 @@ class RatingTableView extends \WP_List_Table
      */
     public function column_cb($item)
     {
-        return $this->twig->render('admin/fields/checkbox-column.twig', [
+        return $this->twigService->getTwig()->render('admin/fields/checkbox-column.twig', [
                 'id' => $item['id'],
         ]);
     }
@@ -70,7 +73,7 @@ class RatingTableView extends \WP_List_Table
     public function get_columns()
     {
         return [
-            'cb' => $this->twig->render('admin/fields/checkbox.twig'),
+            'cb' => $this->twigService->getTwig()->render('admin/fields/checkbox.twig'),
             'id' => __('id', ConfigService::PLUGIN_NAME),
             'display_name' => __('User', ConfigService::PLUGIN_NAME),
             'post_title' => __('Post', ConfigService::PLUGIN_NAME),
@@ -149,7 +152,7 @@ class RatingTableView extends \WP_List_Table
 
     public function success_deleted($d)
     {
-        echo $this->twig->render(
+        echo $this->twigService->getTwig()->render(
             'admin/messages/success.twig',
             ['content' => sprintf(_n('Deleted %s vote', 'Deleted %s votes', $d, ConfigService::PLUGIN_NAME), $d)]
         );
