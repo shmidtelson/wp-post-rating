@@ -5,26 +5,56 @@ declare(strict_types=1);
 namespace WPR\Views;
 
 use WPR\Service\RatingService;
+use WPR\Service\SettingService;
+use WPR\Service\TwigEnvironmentService;
 use WPR\Service\WordpressFunctionsService;
-use WPR\Abstractions\Abstracts\AbstractView;
-use WPR\Abstractions\Traits\GetSettingsServiceTrait;
 
-class SchemaOrgView extends AbstractView
+class SchemaOrgView
 {
-    use GetSettingsServiceTrait;
+    /**
+     * @var TwigEnvironmentService
+     */
+    private $twigService;
+
+    /**
+     * @var SettingService
+     */
+    private $settingService;
+
+    /**
+     * @var RatingService
+     */
+    private $ratingService;
+
+    /**
+     * @var WordpressFunctionsService
+     */
+    private $wordpressService;
+
+    public function __construct(
+        TwigEnvironmentService $twigService,
+        SettingService $settingService,
+        RatingService $ratingService,
+        WordpressFunctionsService $wordpressService
+    ) {
+        $this->twigService = $twigService;
+        $this->settingService = $settingService;
+        $this->ratingService = $ratingService;
+        $this->wordpressService = $wordpressService;
+    }
 
     public function getJSONLD(): string
     {
-        $settingsEntity = $this->getSettings()->getSetting();
+        $settingsEntity = $this->settingService->getSetting();
 
         if ($settingsEntity->isSchemaEnable()) {
-            $postId = $this->container->get(WordpressFunctionsService::class)->getCurrentPostID();
+            $postId = $this->wordpressService->getCurrentPostID();
 
-            return $this->twig->getTwig()->render('star-rating-schema.twig', [
+            return $this->twigService->getTwig()->render('star-rating-schema.twig', [
                 'title' => get_the_title($postId),
                 'thumbnail' => get_the_post_thumbnail_url($postId),
-                'ratingCount' => $this->container->get(RatingService::class)->getTotalVotesByPostId($postId),
-                'ratingAvg' => $this->container->get(RatingService::class)->getAvgRating($postId),
+                'ratingCount' => $this->ratingService->getTotalVotesByPostId($postId),
+                'ratingAvg' => $this->ratingService->getAvgRating($postId),
             ]);
         }
 

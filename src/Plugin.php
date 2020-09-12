@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace WPR;
 
 use Exception;
-use WPR\Service\AjaxService;
 use WPR\Views\RatingView;
-use WPR\Service\WidgetService;
+use WPR\Service\AjaxService;
+use WPR\Wordpress\WPR_Widget;
 use WPR\Service\TranslateService;
 use WPR\Service\MaintenanceService;
 use WPR\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
+use WPR\Service\Admin\SettingsHookService as AdminSettingsHookService;
+use WPR\Service\SettingsHookService as FrontSettingsHookService;
 
 class Plugin
 {
@@ -50,7 +52,9 @@ class Plugin
         add_shortcode('wp_rating_avg', [$this->containerBuilder->get(RatingView::class), 'getRatingAvg']);
 
         // Add widgets
-        add_action('widgets_init', [$this->containerBuilder->get(WidgetService::class), 'loadWidget']);
+        add_action('widgets_init', function () {
+            register_widget($this->containerBuilder->get(WPR_Widget::class));
+        });
 
         // Add ajax
         add_action('wp_ajax_nopriv_wpr_voted', [$this->containerBuilder->get(AjaxService::class), 'actionVote']);
@@ -67,7 +71,7 @@ class Plugin
      */
     private function runAdmin(): void
     {
-        $this->containerBuilder->get(\WPR\Service\Admin\SettingsHookService::class)->hooks();
+        $this->containerBuilder->get(AdminSettingsHookService::class)->hooks();
     }
 
     /**
@@ -77,6 +81,6 @@ class Plugin
      */
     private function runFront(): void
     {
-        $this->containerBuilder->get(\WPR\Service\SettingsHookService::class)->hooks();
+        $this->containerBuilder->get(FrontSettingsHookService::class)->hooks();
     }
 }

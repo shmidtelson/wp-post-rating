@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use WPR\Abstractions\Abstracts\AbstractService;
+use Throwable;
 use WPR\Entity\RatingEntity;
 use WPR\Repository\RatingRepository;
 
-class RatingService extends AbstractService
+class RatingService
 {
-    private function getRepository(): RatingRepository
+    /**
+     * @var RatingRepository
+     */
+    private $repository;
+
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    public function __construct(RatingRepository $repository, ConfigService $configService)
     {
-        return $this->container->get(RatingRepository::class);
+        $this->repository = $repository;
+        $this->configService = $configService;
     }
 
-    private function getConfig(): ConfigService
-    {
-        return $this->container->get(ConfigService::class);
-    }
     /**
      * @param int $postId
      *
@@ -28,18 +35,18 @@ class RatingService extends AbstractService
     {
         $userId = get_current_user_id();
         if ($userId) {
-            return $this->getRepository()->getLatestVoteByPostIdAndUserId($postId, $userId);
+            return $this->repository->getLatestVoteByPostIdAndUserId($postId, $userId);
         }
 
-        return $this->getRepository()->getLatestVoteByPostIdAndUserIp(
+        return $this->repository->getLatestVoteByPostIdAndUserIp(
             $postId,
-            $this->getConfig()->getUserIp()
+            $this->configService->getUserIp()
         );
     }
 
     /**
-     * @param int $vote
-     * @param int $postId
+     * @param int  $vote
+     * @param int  $postId
      * @param null $id
      *
      * @return bool
@@ -52,19 +59,20 @@ class RatingService extends AbstractService
             $entity->setId($id);
             $entity->setPostId($postId);
             $entity->setUserId(get_current_user_id());
-            $entity->setIp($this->getConfig()->getUserIp());
+            $entity->setIp($this->configService->getUserIp());
             $entity->setCreatedAt(current_time('Y-m-d H:i:s'));
             $entity->setVote($vote);
 
             if ($id === null) {
-                $this->getRepository()->save($entity);
+                $this->repository->save($entity);
             }
 
             if ($id > 0) {
-                $this->getRepository()->update($entity);
+                $this->repository->update($entity);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             echo $e;
+
             return false;
         }
 
@@ -73,10 +81,11 @@ class RatingService extends AbstractService
 
     public function delete(array $ids)
     {
-        return $this->getRepository()->delete(
+        return $this->repository->delete(
             implode(',', $ids)
         );
     }
+
     /**
      * @param int $postId
      * @param int $default
@@ -85,7 +94,7 @@ class RatingService extends AbstractService
      */
     public function getTotalVotesByPostId(int $postId, int $default = 0): int
     {
-        $result = $this->getRepository()->getTotalVotesByPostId($postId);
+        $result = $this->repository->getTotalVotesByPostId($postId);
 
         if ($result[0]->total_rating === null) {
             return $default;
@@ -107,7 +116,7 @@ class RatingService extends AbstractService
      */
     public function getAvgRating(int $postId, int $symbolsAfterDot = 0, int $default = 0)
     {
-        $result = $this->getRepository()->getAvgRating($postId);
+        $result = $this->repository->getAvgRating($postId);
 
         if ($result[0]->avg_rating === null) {
             return $default;
@@ -121,7 +130,7 @@ class RatingService extends AbstractService
      */
     public function getTotalVotes()
     {
-        return $this->getRepository()->getTotalVotes();
+        return $this->repository->getTotalVotes();
     }
 
     /**
@@ -134,7 +143,7 @@ class RatingService extends AbstractService
      */
     public function getRatingList(string $order, string $orderBy, int $offset, int $perPage)
     {
-        return $this->getRepository()->getRatingList(
+        return $this->repository->getRatingList(
             $order,
             $orderBy,
             $perPage,

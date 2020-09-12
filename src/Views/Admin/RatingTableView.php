@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
+use WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 use WPR\Service\TwigEnvironmentService;
 
+if (! class_exists('WP_Screen')) {
+    require_once ABSPATH.'wp-admin/includes/class-wp-screen.php';
+}
+
 if (! class_exists('WP_List_Table')) {
     require_once ABSPATH.'wp-admin/includes/screen.php';
+    require_once ABSPATH.'wp-admin/includes/template.php';
     require_once ABSPATH.'wp-admin/includes/class-wp-list-table.php';
 }
 
-class RatingTableView extends \WP_List_Table
+class RatingTableView extends WP_List_Table
 {
     const PER_PAGE = 10;
+
+    private $twigService;
 
     /**
      * @var RatingService
      */
     private $serviceRating;
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
 
     public function __construct(
         RatingService $serviceRating,
@@ -34,10 +38,11 @@ class RatingTableView extends \WP_List_Table
             'singular' => 'wp_list_vote', //Singular label
             'plural' => 'wp_list_votes', //plural label, also this well be one of the table css class
             'ajax' => false, //We won't support Ajax for this table
+            'screen' => 'wp_list_votes',
         ]);
 
-        $this->serviceRating = $serviceRating;
         $this->twigService = $twigService;
+        $this->serviceRating = $serviceRating;
     }
 
     public function loadRatingTable()
@@ -45,7 +50,7 @@ class RatingTableView extends \WP_List_Table
         $this->prepare_items();
 
         echo $this->twigService->getTwig()->render('admin/ratings-table.twig', [
-                'content' => $this->displayTable(),
+            'content' => $this->displayTable(),
         ]);
     }
 
@@ -59,7 +64,7 @@ class RatingTableView extends \WP_List_Table
     public function column_cb($item)
     {
         return $this->twigService->getTwig()->render('admin/fields/checkbox-column.twig', [
-                'id' => $item['id'],
+            'id' => $item['id'],
         ]);
     }
 
@@ -120,7 +125,6 @@ class RatingTableView extends \WP_List_Table
      */
     public function process_bulk_action()
     {
-        global $wpdb;
         // security check!
         if (isset($_POST['_wpnonce']) && ! empty($_POST['_wpnonce'])) {
             $nonce = filter_input(INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING);
@@ -137,13 +141,13 @@ class RatingTableView extends \WP_List_Table
             case 'delete':
                 $ids = $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
 
-                if (!empty($ids)) {
+                if (! empty($ids)) {
                     $this->success_deleted($this->serviceRating->delete($ids));
                 }
                 break;
             case 'edit':
                 wp_die('This is the edit page.');
-                // no break
+            // no break
             default:
                 // do nothing or something else
                 return;

@@ -2,14 +2,24 @@
 
 namespace WPR\Views;
 
-use WPR\Abstractions\Abstracts\AbstractView;
 use WPR\Service\ConfigService;
+use WPR\Service\TwigEnvironmentService;
 
-class NonceView extends AbstractView
+class NonceView
 {
+    /**
+     * @var TwigEnvironmentService
+     */
+    private $twigService;
+
+    public function __construct(TwigEnvironmentService $twigService)
+    {
+        $this->twigService = $twigService;
+    }
+
     public function render(): void
     {
-        echo $this->twig->getTwig()->render('nonce.twig', [
+        echo $this->twigService->getTwig()->render('nonce.twig', [
             'nonceKey' => wp_create_nonce(ConfigService::PLUGIN_NONCE_KEY),
         ]);
     }

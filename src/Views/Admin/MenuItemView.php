@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WPR\Abstractions\Abstracts\AbstractView;
+use WPR\Service\TwigEnvironmentService;
 
-class MenuItemView extends AbstractView
+class MenuItemView
 {
+    /**
+     * @var TwigEnvironmentService
+     */
+    private $twigService;
+
+    public function __construct(TwigEnvironmentService $twigService)
+    {
+        $this->twigService = $twigService;
+    }
+
     /**
      * @param $links
      *
@@ -19,7 +29,7 @@ class MenuItemView extends AbstractView
      */
     public function addSettingsLinkToPluginList($links)
     {
-        array_push($links, $this->twig->getTwig()->render('admin/parts/item-menu.twig'));
+        array_unshift($links, $this->twigService->getTwig()->render('admin/parts/item-menu.twig'));
 
         return $links;
     }

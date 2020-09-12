@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use WPR\Abstractions\Abstracts\AbstractService;
 use WPR\Entity\SettingEntity;
 use WPR\Repository\SettingRepository;
 
-class SettingService extends AbstractService
+class SettingService
 {
+    /**
+     * @var SettingRepository
+     */
+    private $repository;
+
+    public function __construct(SettingRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function setDefaultSettings(): void
     {
         $settingsEntity = new SettingEntity();
-        $this->getRepository()->setDefaultSettings(json_encode($settingsEntity));
+        $this->repository->setDefaultSettings(json_encode($settingsEntity));
     }
 
     public function getSetting(): SettingEntity
     {
         $settingsEntity = new SettingEntity();
-        $data = json_decode($this->getRepository()->get(), true);
+        $data = json_decode($this->repository->get(), true);
 
         if ($data === null) {
             return $settingsEntity;
@@ -35,11 +44,6 @@ class SettingService extends AbstractService
      */
     public function save(SettingEntity $settingDto): void
     {
-        $this->getRepository()->set(json_encode($settingDto));
-    }
-
-    private function getRepository(): SettingRepository
-    {
-        return $this->container->get(SettingRepository::class);
+        $this->repository->set(json_encode($settingDto));
     }
 }

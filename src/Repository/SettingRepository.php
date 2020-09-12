@@ -1,15 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WPR\Repository;
 
-
-
-use WPR\Abstractions\Abstracts\AbstractService;
-
-class SettingRepository extends AbstractService
+class SettingRepository
 {
     const SETTINGS_KEY = 'wpr_settings';
+
     const SETTINGS_GROUP_KEY = 'wpr_options_group';
 
     /**

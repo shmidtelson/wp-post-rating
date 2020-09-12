@@ -8,13 +8,17 @@ use DateTime;
 use WPR\Dto\ErrorResponseDto;
 use WPR\Dto\SuccessResponseDto;
 use WPR\Exception\ValidationException;
-use WPR\Abstractions\Abstracts\AbstractService;
 
-class AjaxService extends AbstractService
+class AjaxService
 {
-    public function getRatingService(): RatingService
+    /**
+     * @var RatingService
+     */
+    private $ratingService;
+
+    public function __construct(RatingService $ratingService)
     {
-        return $this->container->get(RatingService::class);
+        $this->ratingService = $ratingService;
     }
 
     public function actionVote(): void
@@ -31,13 +35,13 @@ class AjaxService extends AbstractService
             wp_die();
         }
 
-        $latestVote = $this->getRatingService()->getUserLatestVoteByPostId($postId);
+        $latestVote = $this->ratingService->getUserLatestVoteByPostId($postId);
 
         $action = $this->saveVote($latestVote, $vote, $postId);
 
         echo json_encode(new SuccessResponseDto([
-            'avg' => $this->getRatingService()->getAvgRating($postId, 0),
-            'total' => $this->getRatingService()->getTotalVotesByPostId($postId),
+            'avg' => $this->ratingService->getAvgRating($postId, 0),
+            'total' => $this->ratingService->getTotalVotesByPostId($postId),
             'action' => $action,
         ]));
         wp_die();
@@ -51,13 +55,13 @@ class AjaxService extends AbstractService
             $date_limit = $date->modify(ConfigService::PLUGIN_VOTE_INTERVAL);
 
             if ($now < $date_limit) {
-                $this->getRatingService()->save($vote, $postId, $latestVote[0]->id);
+                $this->ratingService->save($vote, $postId, $latestVote[0]->id);
 
                 return 'updated';
             }
         }
 
-        $this->getRatingService()->save($vote, $postId);
+        $this->ratingService->save($vote, $postId);
 
         return'created';
     }

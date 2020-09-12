@@ -5,37 +5,63 @@ declare(strict_types=1);
 namespace WPR\Views;
 
 use WPR\Service\RatingService;
+use WPR\Service\TwigEnvironmentService;
 use WPR\Service\WordpressFunctionsService;
-use WPR\Abstractions\Abstracts\AbstractView;
 
-class RatingView extends AbstractView
+class RatingView
 {
+    /**
+     * @var WordpressFunctionsService
+     */
+    private $wordpressService;
+
+    /**
+     * @var RatingService
+     */
+    private $ratingService;
+
+    /**
+     * @var SchemaOrgView
+     */
+    private $schemaView;
+
+    /**
+     * @var TwigEnvironmentService
+     */
+    private $twigService;
+
+    public function __construct(
+        WordpressFunctionsService $wordpressService,
+        RatingService $ratingService,
+        SchemaOrgView $schemaView,
+        TwigEnvironmentService $twigService
+    ) {
+        $this->wordpressService = $wordpressService;
+        $this->ratingService = $ratingService;
+        $this->schemaView = $schemaView;
+        $this->twigService = $twigService;
+    }
+
     public function renderStars()
     {
-        $id = $this->container->get(WordpressFunctionsService::class)->getCurrentPostID();
+        $id = $this->wordpressService->getCurrentPostID();
 
-        return $this->twig->getTwig()->render('star-rating.twig', [
+        return $this->twigService->getTwig()->render('star-rating.twig', [
             'postId' => $id,
-            'title' => \get_the_title($id),
-            'avgRating' => $this->container->get(RatingService::class)->getAvgRating($id),
-            'total' => $this->container->get(RatingService::class)->getTotalVotesByPostId($id),
-            'jsonMarkup' => $this->container->get(SchemaOrgView::class)->getJSONLD(),
+            'title' => get_the_title($id),
+            'avgRating' => $this->ratingService->getAvgRating($id),
+            'total' => $this->ratingService->getTotalVotesByPostId($id),
+            'jsonMarkup' => $this->schemaView->getJSONLD(),
         ]);
     }
 
-    /**
-     * @return float|int|mixed
-     */
     public function getRatingAvg()
     {
-        return $this->container->get(RatingService::class)->getAvgRating($this->container->get(WordpressFunctionsService::class)->getCurrentPostID());
+        return $this->ratingService->getAvgRating($this->wordpressService->getCurrentPostID());
     }
 
-    /**
-     * @return int
-     */
     public function getRatingTotal()
     {
-        return $this->container->get(RatingService::class)->getTotalVotesByPostId($this->container->get(WordpressFunctionsService::class)->getCurrentPostID());
+        return $this->ratingService->getTotalVotesByPostId($this->wordpressService->getCurrentPostID());
     }
 }

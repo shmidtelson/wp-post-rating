@@ -21,50 +21,12 @@ use WPR\Vendor\Symfony\Component\Config\FileLocator;
 use WPR\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
 use WPR\Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-if (version_compare(phpversion(), '7.2.5', '<')) {
-    function plugin_name_php_notice()
-    {
-        ?>
-        <div class="notice notice-error">
-            <p>
-                <?php
-                echo wp_kses(
-                    __('The minimum version of PHP is <strong>7.2.5</strong>. Please update the PHP on your server and try again.', 'plugin_name'),
-                    [
-                        'strong' => [],
-                    ]
-                ); ?>
-            </p>
-        </div>
-
-        <?php
-        // In case this is on plugin activation.
-        if (isset($_GET['activate'])) {
-            unset($_GET['activate']);
-        }
-    }
-
-    add_action('admin_notices', 'plugin_name_php_notice');
-
-    // Don't process the plugin code further.
-    return;
-}
-
-if (!defined('PLUGIN_NAME_DEBUG')) {
+if (!defined('WPR_DEBUG')) {
     /*
      * Enable plugin debug mod.
      */
-    define('PLUGIN_NAME_DEBUG', false);
+    define('WPR_DEBUG', false);
 }
-/*
- * Path to the plugin root directory.
- */
-define('PLUGIN_NAME_PATH', plugin_dir_path(__FILE__));
-/*
- * Url to the plugin root directory.
- */
-define('PLUGIN_NAME_URL', plugin_dir_url(__FILE__));
-
 /**
  * Run plugin function.
  *
@@ -72,11 +34,18 @@ define('PLUGIN_NAME_URL', plugin_dir_url(__FILE__));
  */
 function run_wp_post_rating()
 {
-    require_once PLUGIN_NAME_PATH.'vendor/autoload.php';
+    $pluginNamePath = plugin_dir_path(__FILE__);
+
+    require_once $pluginNamePath.'vendor/autoload.php';
 
     $containerBuilder = new ContainerBuilder();
     $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));
-    $loader->load(PLUGIN_NAME_PATH.'dependencies/services.php');
+    $loader->load($pluginNamePath.'dependencies/services.php');
+
+    $containerBuilder->setParameter('wpr.path', $pluginNamePath);
+    $containerBuilder->setParameter('wpr.url', plugin_dir_url(__FILE__));
+    $containerBuilder->setParameter('wpr.base_name', plugin_basename(__FILE__));
+
     $containerBuilder->compile();
 
     $wpPostRating = new Plugin($containerBuilder);
