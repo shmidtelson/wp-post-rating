@@ -3,6 +3,7 @@
 .plugin-assets/
 .babelrc
 .gitignore
+.scoper.inc.php 
 README.md
 composer.json
 composer.lock
