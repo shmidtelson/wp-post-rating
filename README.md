@@ -2,11 +2,14 @@
 
 [![Latest Version](https://img.shields.io/github/release/shmidtelson/wp-post-rating.svg?style=flat-square)](https://github.com/shmidtelson/wp-post-rating/releases)
 [![Build Status](https://img.shields.io/github/workflow/status/shmidtelson/wp-post-rating/Deploy%20Plugin%20to%20WordPress.org?label=Deploy%20Plugin%20to%20WordPress.org&style=flat-square)](https://github.com/shmidtelson/wp-post-rating/actions?query=workflow%3A%22Deploy+Plugin+to+WordPress.org%22)
-[![HitCount](https://hits.dwyl.com/shmidtelson/wp-post-rating.svg)](http://hits.dwyl.com/shmidtelson/wp-post-rating)
 
 # Wordpress post stars rating plugin
 ## Description ##
-WP-POST-RATING is powerful rating plugin with ajax security requests. Plugin created based on the https://github.com/wppunk/WPPlugin
+WP-POST-RATING is powerful rating plugin with ajax security requests. 
+
+Plugin created based on the https://github.com/wppunk/WPPlugin
+
+Deploy through https://github.com/10up/action-wordpress-plugin-deploy
 ### Features:
 * Very faster
 * Seo-friendly
