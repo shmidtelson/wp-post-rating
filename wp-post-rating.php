@@ -17,9 +17,9 @@ if (!defined('ABSPATH')) {
 }
 
 use WPR\Plugin;
-use WPR\Vendor\Symfony\Component\Config\FileLocator;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
-use WPR\Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 if (!defined('WPR_DEBUG')) {
     /*

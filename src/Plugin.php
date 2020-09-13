@@ -10,7 +10,7 @@ use WPR\Service\AjaxService;
 use WPR\Wordpress\WPR_Widget;
 use WPR\Service\TranslateService;
 use WPR\Service\MaintenanceService;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use WPR\Service\Admin\SettingsHookService as AdminSettingsHookService;
 use WPR\Service\SettingsHookService as FrontSettingsHookService;
 

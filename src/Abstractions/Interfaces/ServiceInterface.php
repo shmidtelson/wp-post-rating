@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Abstractions\Interfaces;
 
-use WPR\Vendor\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 interface ServiceInterface
 {

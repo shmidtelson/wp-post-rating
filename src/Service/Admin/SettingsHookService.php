@@ -6,7 +6,7 @@ namespace WPR\Service\Admin;
 
 use WPR\Service\ScriptsService;
 use WPR\Service\SettingService;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use WPR\Views\Admin\MenuItemView;
 use WPR\Views\Admin\SettingsView;
 use WPR\Service\SettingFormService;

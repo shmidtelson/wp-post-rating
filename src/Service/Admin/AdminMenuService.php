@@ -8,7 +8,7 @@ use WPR\Service\ConfigService;
 use WPR\Views\Admin\SettingsView;
 use WPR\Views\Admin\RatingTableView;
 use WPR\Service\TwigEnvironmentService;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AdminMenuService
 {

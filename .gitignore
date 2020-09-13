@@ -1,8 +1,6 @@
 /node_modules
 /.idea
 /.git
-/vendor/
-/vendor-bin/
 .editorconfig
 .php_cs.cache
 
