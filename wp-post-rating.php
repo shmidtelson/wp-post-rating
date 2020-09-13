@@ -32,7 +32,7 @@ if (!defined('WPR_DEBUG')) {
  *
  * @throws Exception If something went wrong.
  */
-function run_wp_post_rating()
+function registerPlugin()
 {
     $pluginNamePath = plugin_dir_path(__FILE__);
 
@@ -51,9 +51,17 @@ function run_wp_post_rating()
     $containerBuilder->compile();
 
     $wpPostRating = new Plugin($containerBuilder);
-    $wpPostRating->run();
+    $wpPostRating->registerPlugin();
 
     do_action('wp_post_rating_init', $wpPostRating);
+
+    return $wpPostRating;
 }
 
-add_action('plugins_loaded', 'run_wp_post_rating');
+$wpPostRating = registerPlugin();
+
+add_action('plugins_loaded', function () use ($wpPostRating) {
+    $wpPostRating->run();
+});
+
+unset($wpPostRating);
