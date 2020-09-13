@@ -44,7 +44,10 @@ class Plugin
         add_action('init', [$this->containerBuilder->get(TranslateService::class), 'loadPluginTextDomain']);
 
         // Start install tables if not exists
-        register_activation_hook(__FILE__, [$this->containerBuilder->get(MaintenanceService::class), 'installPlugin']);
+        register_activation_hook(
+            $this->containerBuilder->getParameter('wpr.plugin_file_path'),
+            [$this->containerBuilder->get(MaintenanceService::class), 'installPlugin']
+        );
 
         // Add shortcodes
         add_shortcode('wp_rating', [$this->containerBuilder->get(RatingView::class), 'renderStars']);

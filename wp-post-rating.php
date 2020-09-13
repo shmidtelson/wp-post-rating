@@ -44,6 +44,7 @@ function run_wp_post_rating()
 
     $containerBuilder->setParameter('wpr.path', $pluginNamePath);
     $containerBuilder->setParameter('wpr.url', plugin_dir_url(__FILE__));
+    $containerBuilder->setParameter('wpr.plugin_file_path', __FILE__);
     $containerBuilder->setParameter('wpr.base_name', plugin_basename(__FILE__));
     $containerBuilder->setParameter('wpr.version', '1.1.1.0');
 
