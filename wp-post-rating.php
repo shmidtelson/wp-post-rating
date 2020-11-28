@@ -37,7 +37,7 @@ function run_wp_post_rating()
     $containerBuilder = new WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder();
 
     $loader = new WPR_Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader($containerBuilder, new WPR_Vendor\Symfony\Component\Config\FileLocator(__DIR__));
-    $loader->load($pluginNamePath.'dependencies/services.php');
+    $loader->load($pluginNamePath.'config/services.php');
 
     $containerBuilder->setParameter('wpr.path', $pluginNamePath);
     $containerBuilder->setParameter('wpr.url', plugin_dir_url(__FILE__));
