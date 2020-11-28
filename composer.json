@@ -25,9 +25,9 @@
     "scripts": {
         "acceptance": "codecept run acceptance -c .codeception.yml",
         "unit": "codecept run unit -c .codeception.yml",
-        "post-autoload-dump": [
+        "post-install-cmd": [
             "composer install-scoper",
-            "prefix-dependencies"
+            "composer prefix-dependencies"
         ],
         "install-scoper": [
             "composer require --dev bamarni/composer-bin-plugin",
