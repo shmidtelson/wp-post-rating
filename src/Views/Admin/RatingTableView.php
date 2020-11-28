@@ -4,20 +4,29 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
+use \WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
-use WPR\Twig\TwigInitEnvironment;
+use WPR\Service\TwigEnvironmentService;
+
+if (! class_exists('WP_Screen')) {
+    require_once ABSPATH.'wp-admin/includes/class-wp-screen.php';
+}
 
 if (! class_exists('WP_List_Table')) {
     require_once ABSPATH.'wp-admin/includes/screen.php';
     require_once ABSPATH.'wp-admin/includes/class-wp-list-table.php';
 }
 
-class RatingTableView extends \WP_List_Table
+if (! function_exists('convert_to_screen')) {
+    require_once ABSPATH.'wp-admin/includes/template.php';
+}
+
+class RatingTableView extends WP_List_Table
 {
     const PER_PAGE = 10;
 
-    private $twig;
+    private $twigService;
 
     /**
      * @var RatingService
@@ -25,15 +34,17 @@ class RatingTableView extends \WP_List_Table
     private $serviceRating;
 
     public function __construct(
-        RatingService $serviceRating
+        RatingService $serviceRating,
+        TwigEnvironmentService $twigService
     ) {
         parent::__construct([
             'singular' => 'wp_list_vote', //Singular label
             'plural' => 'wp_list_votes', //plural label, also this well be one of the table css class
             'ajax' => false, //We won't support Ajax for this table
+            'screen' => 'wp_list_votes',
         ]);
 
-        $this->twig = TwigInitEnvironment::getTwigEnvironment();
+        $this->twigService = $twigService;
         $this->serviceRating = $serviceRating;
     }
 
@@ -41,8 +52,8 @@ class RatingTableView extends \WP_List_Table
     {
         $this->prepare_items();
 
-        echo $this->twig->render('admin/ratings-table.twig', [
-                'content' => $this->displayTable(),
+        echo $this->twigService->getTwig()->render('admin/ratings-table.twig', [
+            'content' => $this->displayTable(),
         ]);
     }
 
@@ -55,8 +66,8 @@ class RatingTableView extends \WP_List_Table
      */
     public function column_cb($item)
     {
-        return $this->twig->render('admin/fields/checkbox-column.twig', [
-                'id' => $item['id'],
+        return $this->twigService->getTwig()->render('admin/fields/checkbox-column.twig', [
+            'id' => $item['id'],
         ]);
     }
 
@@ -70,7 +81,7 @@ class RatingTableView extends \WP_List_Table
     public function get_columns()
     {
         return [
-            'cb' => $this->twig->render('admin/fields/checkbox.twig'),
+            'cb' => $this->twigService->getTwig()->render('admin/fields/checkbox.twig'),
             'id' => __('id', ConfigService::PLUGIN_NAME),
             'display_name' => __('User', ConfigService::PLUGIN_NAME),
             'post_title' => __('Post', ConfigService::PLUGIN_NAME),
@@ -117,7 +128,6 @@ class RatingTableView extends \WP_List_Table
      */
     public function process_bulk_action()
     {
-        global $wpdb;
         // security check!
         if (isset($_POST['_wpnonce']) && ! empty($_POST['_wpnonce'])) {
             $nonce = filter_input(INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING);
@@ -134,13 +144,13 @@ class RatingTableView extends \WP_List_Table
             case 'delete':
                 $ids = $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
 
-                if (!empty($ids)) {
+                if (! empty($ids)) {
                     $this->success_deleted($this->serviceRating->delete($ids));
                 }
                 break;
             case 'edit':
                 wp_die('This is the edit page.');
-                // no break
+            // no break
             default:
                 // do nothing or something else
                 return;
@@ -149,7 +159,7 @@ class RatingTableView extends \WP_List_Table
 
     public function success_deleted($d)
     {
-        echo $this->twig->render(
+        echo $this->twigService->getTwig()->render(
             'admin/messages/success.twig',
             ['content' => sprintf(_n('Deleted %s vote', 'Deleted %s votes', $d, ConfigService::PLUGIN_NAME), $d)]
         );

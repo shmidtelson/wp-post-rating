@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use DI\Container;
-use WPR\Wordpress\WPR_Widget;
 use WPR\Repository\WidgetRepository;
 
 class WidgetService
@@ -20,22 +18,6 @@ class WidgetService
         $this->repository = $repository;
     }
 
-    /**
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
-     */
-    public function loadWidget()
-    {
-        register_widget((new Container())->get(WPR_Widget::class));
-    }
-
-    /**
-     * @param int    $count
-     * @param string $orderBy
-     * @param string $sort
-     *
-     * @return mixed
-     */
     public function getPostsFilter(int $count, string $orderBy = 'date', string $sort = 'asc')
     {
         return $this->repository->getPostsFilter($count, $orderBy, $sort);

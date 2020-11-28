@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-class TranslateService extends AbstractService
+class TranslateService
 {
-    public function __construct()
+    private $configService;
+
+    public function __construct(ConfigService $configService)
     {
-        parent::__construct();
+        $this->configService = $configService;
     }
 
     public function loadPluginTextDomain()
@@ -16,11 +18,11 @@ class TranslateService extends AbstractService
         $locale = apply_filters('plugin_locale', get_locale(), ConfigService::PLUGIN_NAME);
         if ($loaded = load_textdomain(
             ConfigService::PLUGIN_NAME,
-            $this->config->getPluginPath().'languages'.DIRECTORY_SEPARATOR.ConfigService::PLUGIN_NAME.'-'.$locale.'.mo'
+            $this->configService->getPluginPath().'languages'.DIRECTORY_SEPARATOR.ConfigService::PLUGIN_NAME.'-'.$locale.'.mo'
         )) {
             return $loaded;
         }
 
-        return load_plugin_textdomain(ConfigService::PLUGIN_NAME, false, $this->config->getPluginPath().'/languages/');
+        return load_plugin_textdomain(ConfigService::PLUGIN_NAME, false, $this->configService->getPluginPath().'/languages/');
     }
 }

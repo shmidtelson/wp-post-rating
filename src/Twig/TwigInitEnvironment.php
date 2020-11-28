@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace WPR\Twig;
 
-use DI\Container;
-use Twig\Environment;
-use Twig\TwigFunction;
+use WPR_Vendor\DI\Container;
+use WPR_Vendor\Twig\Environment;
+use WPR_Vendor\Twig\TwigFunction;
 use WPR\Service\ConfigService;
-use Twig\Loader\FilesystemLoader;
+use WPR_Vendor\Twig\Loader\FilesystemLoader;
 
 class TwigInitEnvironment
 {

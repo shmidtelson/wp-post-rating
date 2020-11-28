@@ -5,62 +5,63 @@ declare(strict_types=1);
 namespace WPR\Views;
 
 use WPR\Service\RatingService;
+use WPR\Service\TwigEnvironmentService;
 use WPR\Service\WordpressFunctionsService;
 
-class RatingView extends AbstractView
+class RatingView
 {
+    /**
+     * @var WordpressFunctionsService
+     */
+    private $wordpressService;
+
     /**
      * @var RatingService
      */
-    private $service;
+    private $ratingService;
 
     /**
      * @var SchemaOrgView
      */
-    private $viewSchemaOrg;
+    private $schemaView;
+
     /**
-     * @var WordpressFunctionsService
+     * @var TwigEnvironmentService
      */
-    private $wordpressFunctionsService;
+    private $twigService;
 
     public function __construct(
-        RatingService $service,
-        SchemaOrgView $viewSchemaOrg,
-        WordpressFunctionsService $wordpressFunctionsService
-    )
-    {
-        parent::__construct();
-        $this->service = $service;
-        $this->viewSchemaOrg = $viewSchemaOrg;
-        $this->wordpressFunctionsService = $wordpressFunctionsService;
+        WordpressFunctionsService $wordpressService,
+        RatingService $ratingService,
+        SchemaOrgView $schemaView,
+        TwigEnvironmentService $twigService
+    ) {
+        $this->wordpressService = $wordpressService;
+        $this->ratingService = $ratingService;
+        $this->schemaView = $schemaView;
+        $this->twigService = $twigService;
     }
 
     public function renderStars()
     {
-        $id = $this->wordpressFunctionsService->getCurrentPostID();
+        $id = $this->wordpressService->getCurrentPostID();
 
-        return $this->twig->render('star-rating.twig', [
+        return $this->twigService->getTwig()->render('star-rating.twig', [
             'postId' => $id,
-            'title' => \get_the_title($id),
-            'avgRating' => $this->service->getAvgRating($id),
-            'total' => $this->service->getTotalVotesByPostId($id),
-            'jsonMarkup' => $this->viewSchemaOrg->getJSONLD(),
+            'title' => get_the_title($id),
+            'avgRating' => $this->ratingService->getAvgRating($id),
+            'total' => $this->ratingService->getTotalVotesByPostId($id),
+            'jsonMarkup' => $this->schemaView->getJSONLD(),
         ]);
     }
 
-    /**
-     * @return float|int|mixed
-     */
     public function getRatingAvg()
     {
-        return $this->service->getAvgRating($this->wordpressFunctionsService->getCurrentPostID());
+        return $this->ratingService->getAvgRating($this->wordpressService->getCurrentPostID());
     }
 
-    /**
-     * @return int
-     */
     public function getRatingTotal()
     {
-        return $this->service->getTotalVotesByPostId($this->wordpressFunctionsService->getCurrentPostID());
+        return $this->ratingService->getTotalVotesByPostId($this->wordpressService->getCurrentPostID());
     }
 }

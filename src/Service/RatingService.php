@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
+use Throwable;
 use WPR\Entity\RatingEntity;
 use WPR\Repository\RatingRepository;
 
-class RatingService extends AbstractService
+class RatingService
 {
     /**
      * @var RatingRepository
      */
     private $repository;
 
-    public function __construct(RatingRepository $repository)
-    {
-        parent::__construct();
+    /**
+     * @var ConfigService
+     */
+    private $configService;
 
+    public function __construct(RatingRepository $repository, ConfigService $configService)
+    {
         $this->repository = $repository;
+        $this->configService = $configService;
     }
 
     /**
@@ -35,13 +40,13 @@ class RatingService extends AbstractService
 
         return $this->repository->getLatestVoteByPostIdAndUserIp(
             $postId,
-            $this->config->getUserIp()
+            $this->configService->getUserIp()
         );
     }
 
     /**
-     * @param int $vote
-     * @param int $postId
+     * @param int  $vote
+     * @param int  $postId
      * @param null $id
      *
      * @return bool
@@ -54,7 +59,7 @@ class RatingService extends AbstractService
             $entity->setId($id);
             $entity->setPostId($postId);
             $entity->setUserId(get_current_user_id());
-            $entity->setIp($this->config->getUserIp());
+            $entity->setIp($this->configService->getUserIp());
             $entity->setCreatedAt(current_time('Y-m-d H:i:s'));
             $entity->setVote($vote);
 
@@ -65,8 +70,9 @@ class RatingService extends AbstractService
             if ($id > 0) {
                 $this->repository->update($entity);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             echo $e;
+
             return false;
         }
 
@@ -79,6 +85,7 @@ class RatingService extends AbstractService
             implode(',', $ids)
         );
     }
+
     /**
      * @param int $postId
      * @param int $default

@@ -3,10 +3,21 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
-class WidgetRepository extends AbstractRepository
+use WPR\Service\ConfigService;
+
+class WidgetRepository
 {
     const MIN_POSTS_COUNT = 1;
     const MAX_POSTS_COUNT = 10;
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    public function __construct(ConfigService $configService)
+    {
+        $this->configService = $configService;
+    }
 
     public function getPostsFilter(int $count, string $orderBy, string $sort)
     {
@@ -17,12 +28,12 @@ FROM %s
 %s
 %s
 ",
-            $this->config->getTableName(),
+            $this->configService->getTableName(),
             $this->queryGetOrder($orderBy, $sort),
             $this->queryGetLimit($count)
         );
 
-        return $this->wpdb->get_results($sql, ARRAY_A);
+        return $this->configService->wpdb->get_results($sql, ARRAY_A);
     }
 
     /**

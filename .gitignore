@@ -1,4 +1,7 @@
-node_modules
-.idea
-.git
+/node_modules
+/.idea
+/.git
+/vendor-bin/
 .editorconfig
+.php_cs.cache
+

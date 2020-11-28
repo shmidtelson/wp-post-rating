@@ -5,9 +5,20 @@ declare(strict_types=1);
 namespace WPR\Repository;
 
 use WPR\Entity\RatingEntity;
+use WPR\Service\ConfigService;
 
-class RatingRepository extends AbstractRepository
+class RatingRepository
 {
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    public function __construct(ConfigService $configService)
+    {
+        $this->configService = $configService;
+    }
+
     /**
      * @param int $postId
      * @param int $userId
@@ -24,12 +35,12 @@ WHERE user_id = '%s' AND post_id = '%s'
 ORDER BY id DESC 
 LIMIT 1
 ",
-            $this->config->getTableName(),
+            $this->configService->getTableName(),
             $userId,
             $postId
         );
 
-        return $this->wpdb->get_results($sql);
+        return $this->configService->wpdb->get_results($sql);
     }
 
     /**
@@ -48,12 +59,12 @@ WHERE ip = '%s' AND post_id = '%s'
 ORDER BY id DESC 
 LIMIT 1
 ",
-            $this->config->getTableName(),
+            $this->configService->getTableName(),
             $userIp,
             $postId
         );
 
-        return $this->wpdb->get_results($sql);
+        return $this->configService->wpdb->get_results($sql);
     }
 
     /**
@@ -63,7 +74,7 @@ LIMIT 1
      */
     public function save(RatingEntity $entity)
     {
-        return $this->wpdb->insert($this->config->getTableName(), (array) $entity);
+        return $this->configService->wpdb->insert($this->configService->getTableName(), (array)$entity);
     }
 
     /**
@@ -73,16 +84,17 @@ LIMIT 1
      */
     public function delete(string $ids)
     {
-        $sql = sprintf('
+        $sql = sprintf(
+            '
 DELETE 
 FROM %s
 WHERE id IN (%s)
 ',
-        $this->config->getTableName(),
-        $ids
+            $this->configService->getTableName(),
+            $ids
         );
 
-        return $this->wpdb->query($sql);
+        return $this->configService->wpdb->query($sql);
     }
 
     /**
@@ -92,9 +104,9 @@ WHERE id IN (%s)
      */
     public function update(RatingEntity $entity)
     {
-        return $this->wpdb->update(
-            $this->config->getTableName(),
-            (array) $entity,
+        return $this->configService->wpdb->update(
+            $this->configService->getTableName(),
+            (array)$entity,
             ['id' => $entity->getId()]
         );
     }
@@ -111,11 +123,11 @@ WHERE id IN (%s)
 SELECT COUNT(id) as total_rating 
 FROM %s 
 WHERE post_id = %s',
-            $this->config->getTableName(),
+            $this->configService->getTableName(),
             $postId
         );
 
-        return $this->wpdb->get_results($sql);
+        return $this->configService->wpdb->get_results($sql);
     }
 
     /**
@@ -130,11 +142,11 @@ WHERE post_id = %s',
 SELECT avg(vote) as avg_rating 
 FROM %s
 WHERE post_id = %s',
-            $this->config->getTableName(),
+            $this->configService->getTableName(),
             $postId
         );
 
-        return $this->wpdb->get_results($sql);
+        return $this->configService->wpdb->get_results($sql);
     }
 
     /**
@@ -143,14 +155,14 @@ WHERE post_id = %s',
     public function getTotalVotes()
     {
         $sql = sprintf(
-'
+            '
 SELECT COUNT(id) 
 FROM %s
 ',
-            $this->config->getTableName()
+            $this->configService->getTableName()
         );
 
-        return $this->wpdb->get_var($sql);
+        return $this->configService->wpdb->get_var($sql);
     }
 
     public function getRatingList(string $order, string $orderBy, int $perPage, int $offset)
@@ -165,15 +177,15 @@ ORDER BY %s %s
 LIMIT %s
 OFFSET %s
         ',
-            $this->config->getTableName(),
-            $this->config->getUsersTableName(),
-            $this->config->getPostsTableName(),
+            $this->configService->getTableName(),
+            $this->configService->getUsersTableName(),
+            $this->configService->getPostsTableName(),
             $orderBy,
             $order,
             $perPage,
             $offset
         );
 
-        return $this->wpdb->get_results($sql, ARRAY_A);
+        return $this->configService->wpdb->get_results($sql, ARRAY_A);
     }
 }

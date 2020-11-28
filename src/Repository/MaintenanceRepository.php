@@ -3,14 +3,26 @@ declare(strict_types=1);
 
 namespace WPR\Repository;
 
-class MaintenanceRepository extends AbstractRepository
+use WPR\Service\ConfigService;
+
+class MaintenanceRepository
 {
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    public function __construct(ConfigService $configService)
+    {
+        $this->configService = $configService;
+    }
+
     /**
      * @return bool
      */
     public function hasTable()
     {
-        return $this->wpdb->get_var(sprintf("show tables like '%s'", $this->config->getTableName())) === $this->config->getTableName();
+        return $this->configService->wpdb->get_var(sprintf("show tables like '%s'", $this->configService->getTableName())) === $this->configService->getTableName();
     }
 
     /**
@@ -29,8 +41,8 @@ CREATE TABLE %s (
 	ip varchar(15) NULL,
 	UNIQUE KEY id (id)
 ) %s;",
-            $this->config->getTableName(),
-            $this->config->getDatabaseCharsetCollate()
+            $this->configService->getTableName(),
+            $this->configService->getDatabaseCharsetCollate()
         );
 
         require_once(ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'upgrade.php');

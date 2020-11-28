@@ -4,20 +4,33 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-class ScriptsService extends AbstractService
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
+class ScriptsService
 {
     const SCRIPT_NAME = 'wp-post-rating';
-
+    /**
+     * @var ConfigService
+     */
+    private $configService;
     /**
      * @var SettingService
      */
-    private $serviceSetting;
+    private $settingService;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $params;
 
-    public function __construct(SettingService $serviceSetting)
+    public function __construct(
+        ConfigService $configService,
+        SettingService $settingService,
+        ParameterBagInterface $params
+    )
     {
-        parent::__construct();
-
-        $this->serviceSetting = $serviceSetting;
+        $this->configService = $configService;
+        $this->settingService = $settingService;
+        $this->params = $params;
     }
 
     /**
@@ -30,35 +43,21 @@ class ScriptsService extends AbstractService
          */
         wp_enqueue_style(
             self::SCRIPT_NAME,
-            $this->config->getPluginCssPath().'wp-post-rating.min.css',
+            $this->configService->getPluginCssPath().'wp-post-rating.min.css',
             [],
-            ConfigService::PLUGIN_VERSION,
+            $this->params->get('wpr.version'),
             'all'
         );
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            $this->config->getPluginJSPath().'wp-post-rating.min.js',
+            $this->configService->getPluginJSPath().'wp-post-rating.min.js',
             ['jquery'],
-            ConfigService::PLUGIN_VERSION,
+            $this->params->get('wpr.version'),
             true
         );
 
-        $settingsDto = $this->serviceSetting->getSetting();
-        $custom_css = sprintf('
-:root {
-	--wpr-main-color: %s;
-	--wpr-second-color: %s;
-	--wpr-text-color: %s;
-	--wpr-text-background-color: %s;
-}',
-            $settingsDto->getStarsMainColor(),
-            $settingsDto->getStarsSecondColor(),
-            $settingsDto->getStarsTextColor(),
-            $settingsDto->getStarsTextBackgroundColor()
-        );
-
-        wp_add_inline_style('wp-post-rating', $custom_css);
+        $this->addCssVariables('wp-post-rating');
     }
 
     /**
@@ -75,15 +74,41 @@ class ScriptsService extends AbstractService
 
             wp_register_script(
                 'admin-settings-page',
-                $this->config->getPluginJSPath().'admin-settings-page.min.js',
+                $this->configService->getPluginJSPath().'admin-settings-page.min.js',
                 ['jquery', 'wp-color-picker']
             );
-            wp_register_style(
-                'admin-settings-page',
-                $this->config->getPluginCssPath().'admin-settings-page.min.css'
-            );
-            wp_enqueue_style('admin-settings-page');
+
             wp_enqueue_script('admin-settings-page');
         }
+
+        if ($hook === 'settings_page_'.ConfigService::OPTIONS_KEY or $hook === 'plugins.php') {
+            wp_register_style(
+                'admin-settings-page',
+                $this->configService->getPluginCssPath().'admin-settings-page.min.css'
+            );
+            wp_enqueue_style('admin-settings-page');
+            $this->addCssVariables('admin-settings-page');
+        }
+    }
+
+    private function addCssVariables($handle = 'wp-post-rating')
+    {
+        $settingsDto = $this->settingService->getSetting();
+        $custom_css = sprintf('
+:root {
+	--wpr-main-color: %s;
+	--wpr-second-color: %s;
+	--wpr-text-color: %s;
+	--wpr-text-background-color: %s;
+}',
+            $settingsDto->getStarsMainColor(),
+            $settingsDto->getStarsSecondColor(),
+            $settingsDto->getStarsTextColor(),
+            $settingsDto->getStarsTextBackgroundColor()
+        );
+
+        wp_add_inline_style($handle, $custom_css);
     }
 }
+
+
