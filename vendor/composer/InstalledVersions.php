@@ -14,12 +14,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-ca2580116f88259a284ced618f87c6953bd6e79a',
-    'version' => 'dev-ca2580116f88259a284ced618f87c6953bd6e79a',
+    'pretty_version' => 'dev-dev',
+    'version' => 'dev-dev',
     'aliases' => 
     array (
     ),
-    'reference' => 'ca2580116f88259a284ced618f87c6953bd6e79a',
+    'reference' => '2b34af717a4569fe4f1a13c86c660cd2620570d5',
     'name' => 'romua1d/wp-post-rating',
   ),
   'versions' => 
@@ -51,12 +51,12 @@ private static $installed = array (
     ),
     'romua1d/wp-post-rating' => 
     array (
-      'pretty_version' => 'dev-ca2580116f88259a284ced618f87c6953bd6e79a',
-      'version' => 'dev-ca2580116f88259a284ced618f87c6953bd6e79a',
+      'pretty_version' => 'dev-dev',
+      'version' => 'dev-dev',
       'aliases' => 
       array (
       ),
-      'reference' => 'ca2580116f88259a284ced618f87c6953bd6e79a',
+      'reference' => '2b34af717a4569fe4f1a13c86c660cd2620570d5',
     ),
     'symfony/config' => 
     array (
