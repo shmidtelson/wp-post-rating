@@ -25,6 +25,10 @@
     "scripts": {
         "acceptance": "codecept run acceptance -c .codeception.yml",
         "unit": "codecept run unit -c .codeception.yml",
+        "post-autoload-dump": [
+            "composer install-scoper",
+            "prefix-dependencies"
+        ],
         "install-scoper": [
             "composer require --dev bamarni/composer-bin-plugin",
             "composer bin php-scoper config minimum-stability dev",
@@ -34,8 +38,7 @@
         "prefix-dependencies": [
             "composer prefix-symfony-container",
             "composer prefix-symfony-config",
-            "composer prefix-twig",
-            "composer du"
+            "composer prefix-twig"
         ],
         "prefix-symfony-container": [
             "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/symfony_container --config=config/php-scoper/symfony_container.inc.php --force --quiet",
