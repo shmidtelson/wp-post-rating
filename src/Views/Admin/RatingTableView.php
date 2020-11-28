@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WP_List_Table;
+use \WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 use WPR\Service\TwigEnvironmentService;
@@ -15,8 +15,11 @@ if (! class_exists('WP_Screen')) {
 
 if (! class_exists('WP_List_Table')) {
     require_once ABSPATH.'wp-admin/includes/screen.php';
-    require_once ABSPATH.'wp-admin/includes/template.php';
     require_once ABSPATH.'wp-admin/includes/class-wp-list-table.php';
+}
+
+if (! function_exists('convert_to_screen')) {
+    require_once ABSPATH.'wp-admin/includes/template.php';
 }
 
 class RatingTableView extends WP_List_Table
