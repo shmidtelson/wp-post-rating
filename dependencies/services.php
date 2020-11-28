@@ -1,11 +1,11 @@
 <?php
 
 // Exit if accessed directly.
-use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-use WPR\Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use function WPR\Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\service;
-use WPR\Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use function WPR_Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use WPR_Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 if (! defined('ABSPATH')) {
     exit;

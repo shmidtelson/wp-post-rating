@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use Twig\Environment;
-use Twig\TwigFunction;
-use Twig\Loader\FilesystemLoader;
+use WPR_Vendor\Twig\Environment;
+use WPR_Vendor\Twig\TwigFunction;
+use WPR_Vendor\Twig\Loader\FilesystemLoader;
 
 class TwigEnvironmentService
 {
