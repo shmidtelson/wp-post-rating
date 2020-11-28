@@ -4,7 +4,7 @@ Plugin Name: Wp Post Rating
 Plugin URI: https://github.com/shmidtelson/wp-post-rating
 Description: Powerful post rating wordpress plugin
 Version: 1.1.1.0
-Requires at least: 5.1
+Requires at least: 4.9.8
 Requires PHP:      7.3
 Author: Romua1d
 Author URI: https://romua1d.ru
