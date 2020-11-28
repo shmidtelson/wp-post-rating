@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 // Exit if accessed directly.
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use function WPR_Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use WPR_Vendor\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 

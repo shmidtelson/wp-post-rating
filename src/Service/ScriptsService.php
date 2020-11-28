@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ScriptsService
 {

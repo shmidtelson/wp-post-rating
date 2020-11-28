@@ -16,11 +16,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use WPR\Plugin;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-
 if (!defined('WPR_DEBUG')) {
     /*
      * Enable plugin debug mod.
@@ -32,14 +27,14 @@ if (!defined('WPR_DEBUG')) {
  *
  * @throws Exception If something went wrong.
  */
-function registerPlugin()
+function run_wp_post_rating()
 {
     $pluginNamePath = plugin_dir_path(__FILE__);
-
     require_once $pluginNamePath.'vendor/autoload.php';
 
-    $containerBuilder = new ContainerBuilder();
-    $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));
+    $containerBuilder = new WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder();
+
+    $loader = new WPR_Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader($containerBuilder, new WPR_Vendor\Symfony\Component\Config\FileLocator(__DIR__));
     $loader->load($pluginNamePath.'dependencies/services.php');
 
     $containerBuilder->setParameter('wpr.path', $pluginNamePath);
@@ -50,18 +45,10 @@ function registerPlugin()
 
     $containerBuilder->compile();
 
-    $wpPostRating = new Plugin($containerBuilder);
-    $wpPostRating->registerPlugin();
+    $wpPostRating = new WPR\Plugin($containerBuilder);
+    $wpPostRating->run();
 
     do_action('wp_post_rating_init', $wpPostRating);
-
-    return $wpPostRating;
 }
 
-$wpPostRating = registerPlugin();
-
-add_action('plugins_loaded', function () use ($wpPostRating) {
-    $wpPostRating->run();
-});
-
-unset($wpPostRating);
+add_action('plugins_loaded', 'run_wp_post_rating');

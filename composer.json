@@ -8,14 +8,47 @@
         }
     ],
     "autoload": {
-        "psr-4": {
-            "WPR\\": "src/"
-        }
+        "classmap": [
+            "vendor_prefixed/",
+            "src/"
+        ]
     },
     "require": {
         "php" : "^7.2.0",
         "twig/twig": "^3.0",
         "symfony/dependency-injection": "^5.1.5",
         "symfony/config": "^5.1.5"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4"
+    },
+    "scripts": {
+        "acceptance": "codecept run acceptance -c .codeception.yml",
+        "unit": "codecept run unit -c .codeception.yml",
+        "install-scoper": [
+            "composer require --dev bamarni/composer-bin-plugin",
+            "composer bin php-scoper config minimum-stability dev",
+            "composer bin php-scoper config prefer-stable true",
+            "composer bin php-scoper require --dev humbug/php-scoper"
+        ],
+        "prefix-dependencies": [
+            "composer prefix-symfony-container",
+            "composer prefix-symfony-config",
+            "composer prefix-twig",
+            "composer du"
+        ],
+        "prefix-symfony-container": [
+            "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/symfony_container --config=config/php-scoper/symfony_container.inc.php --force --quiet",
+            "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
+        ],
+        "prefix-twig": [
+            "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/twig --config=config/php-scoper/twig.inc.php --force --quiet"
+        ],
+        "prefix-psr": [
+            "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/twig --config=config/php-scoper/twig.inc.php --force --quiet"
+        ],
+        "prefix-symfony-config": [
+            "@php ./vendor/bin/php-scoper add-prefix --prefix=WPR_Vendor --output-dir=./vendor_prefixed/symfony_config --config=config/php-scoper/symfony_config.inc.php --force --quiet"
+        ]
     }
 }
