@@ -1,18 +1,18 @@
 // Include gulp
 const gulp = require('gulp');
 // Include plugins
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('node-sass'));
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
 
-sass.compiler = require('node-sass');
+// sass.compiler = require('node-sass');
 
 gulp.task('sass', () => {
     return gulp.src('./assets/sass/**/*.scss')
-        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
             cascade: false
         }))
@@ -22,11 +22,11 @@ gulp.task('sass', () => {
 });
 
 gulp.task('js', () => {
-        return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
-            .pipe(babel())
-            .pipe(uglify())
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('./assets/js/min'))
+    return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
+        .pipe(babel())
+        .pipe(uglify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./assets/js/min'))
     }
 );
 
