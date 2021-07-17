@@ -3,8 +3,6 @@ import '@romua1d/star-rating-js/build/index.css'
 
 import StarRating from '@romua1d/star-rating-js';
 
-const stars = document.querySelectorAll(".wpr-wrapp");
-
 
 const AjaxSendRequest = function () {
   this.ajax_response = '';
@@ -37,11 +35,12 @@ const ajaxClient = new AjaxSendRequest();
 
 
 for (let i = 0; i < stars.length; i++) {
-  const {total, value, votestitle, id} = stars[i].dataset
+  const {total, value, votestitle, id, fontsize} = stars[i].dataset
   const message = votestitle + ' (' + total + ')';
   const StarRatingInstance = new StarRating(stars[i], {
     message,
     value: parseInt(value) ? value : 1,
+    size: fontsize,
   });
 
   StarRatingInstance.onChange = (e) => {

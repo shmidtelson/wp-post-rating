@@ -29,7 +29,6 @@ class SettingFormService
 
         $settingEntity = $this->settingService->getSetting();
         $settingEntity->setStarsMainColor(htmlspecialchars($_POST['main_color']));
-        $settingEntity->setStarsSecondColor(htmlspecialchars($_POST['second_color']));
         $settingEntity->setStarsTextColor(htmlspecialchars($_POST['text_color']));
         $settingEntity->setStarsTextBackgroundColor(htmlspecialchars($_POST['text_background_color']));
         $settingEntity->setSchemaEnable(array_key_exists('schema_enable', $_POST));
@@ -57,7 +56,6 @@ class SettingFormService
     private function validate(SettingEntity $settingEntity)
     {
         $this->validateColorHEX($settingEntity->getStarsMainColor());
-        $this->validateColorHEX($settingEntity->getStarsSecondColor());
         $this->validateColorHEX($settingEntity->getStarsTextColor());
         $this->validateColorHEX($settingEntity->getStarsTextBackgroundColor());
     }
