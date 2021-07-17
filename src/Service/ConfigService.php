@@ -98,7 +98,7 @@ class ConfigService
      */
     public function getPluginCssPath()
     {
-        return $this->getPluginUrl().'assets/css/';
+        return $this->getPluginUrl().'dist/';
     }
 
     /**
@@ -106,6 +106,6 @@ class ConfigService
      */
     public function getPluginJSPath()
     {
-        return $this->getPluginUrl().'assets/js/min/';
+        return $this->getPluginUrl().'dist/';
     }
 }
