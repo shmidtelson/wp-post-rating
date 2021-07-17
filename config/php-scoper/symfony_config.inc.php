@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
@@ -13,8 +13,8 @@ return array(
      *
      * For more see: https://github.com/humbug/php-scoper#finders-and-paths
      */
-    'finders'                    => array(
-        Finder::create()->files()->in( 'vendor/symfony/config' ),
+    'finders' => array(
+        Finder::create()->files()->in('vendor/symfony/config'),
     ),
 
     /*
@@ -25,5 +25,5 @@ return array(
      *
      * For more see: https://github.com/humbug/php-scoper#patchers
      */
-    'patchers'                   => array(),
+    'patchers' => array(),
 );
