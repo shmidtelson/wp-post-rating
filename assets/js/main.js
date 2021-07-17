@@ -1,3 +1,5 @@
+import '../sass/main.scss'
+
 const AjaxSendRequest = function () {
     this.ajax_response = '';
     this.ajaxVars = {

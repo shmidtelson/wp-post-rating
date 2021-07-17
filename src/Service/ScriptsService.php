@@ -43,7 +43,7 @@ class ScriptsService
          */
         wp_enqueue_style(
             self::SCRIPT_NAME,
-            $this->configService->getPluginCssPath().'wp-post-rating.min.css',
+            $this->configService->getPluginCssPath() . 'main.css',
             [],
             $this->params->get('wpr.version'),
             'all'
@@ -51,7 +51,7 @@ class ScriptsService
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            $this->configService->getPluginJSPath().'wp-post-rating.min.js',
+            $this->configService->getPluginJSPath() . 'main.bundle.js',
             ['jquery'],
             $this->params->get('wpr.version'),
             true
@@ -65,7 +65,7 @@ class ScriptsService
      */
     public function initAdminScripts($hook)
     {
-        if ($hook === 'settings_page_'.ConfigService::OPTIONS_KEY) {
+        if ($hook === 'settings_page_' . ConfigService::OPTIONS_KEY) {
             /*
              * COLOR PICKER
              */
@@ -74,17 +74,17 @@ class ScriptsService
 
             wp_register_script(
                 'admin-settings-page',
-                $this->configService->getPluginJSPath().'admin-settings-page.min.js',
+                $this->configService->getPluginJSPath() . 'admin.bundle.js',
                 ['jquery', 'wp-color-picker']
             );
 
             wp_enqueue_script('admin-settings-page');
         }
 
-        if ($hook === 'settings_page_'.ConfigService::OPTIONS_KEY or $hook === 'plugins.php') {
+        if ($hook === 'settings_page_' . ConfigService::OPTIONS_KEY or $hook === 'plugins.php') {
             wp_register_style(
                 'admin-settings-page',
-                $this->configService->getPluginCssPath().'admin-settings-page.min.css'
+                $this->configService->getPluginCssPath() . 'admin.css'
             );
             wp_enqueue_style('admin-settings-page');
             $this->addCssVariables('admin-settings-page');

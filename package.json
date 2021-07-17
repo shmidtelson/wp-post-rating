@@ -4,24 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp sass && gulp js",
-    "watch": "gulp watch"
+    "build": "webpack --mode=production"
   },
-  "author": "",
+  "author": "romua1d <d-w-b@mail.ru>",
   "license": "ISC",
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-uglify": "^3.0.2",
-    "node-sass": "^6.0.1"
+    "@romua1d/star-rating-js": "^0.0.19",
+    "css-minimizer-webpack-plugin": "^3.0.2",
+    "node-sass": "^6.0.1",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
-    "gulp-autoprefixer": "^6.1.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.3.0"
+    "babel-loader": "^8.2.2",
+    "base64-inline-loader": "^1.1.1",
+    "css-loader": "^6.1.0",
+    "mini-css-extract-plugin": "^2.1.0",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.1.0",
+    "url-loader": "^4.1.1"
   },
   "browsers": [
     "last 2 versions"
