@@ -1,8 +1,9 @@
-@import "src/global";
-
 .wpr-wrapp-admin {
-  justify-content: start;
+  .stars-rating {
+    justify-content: start;
+  }
 }
+
 .wp-picker-holder {
   position: absolute;
 }

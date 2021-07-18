@@ -1,10 +1,10 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "production",
+  mode: "development",
+  devtool: 'cheap-module-source-map',
   entry: {
     main: './assets/js/main.js',
     admin: './assets/js/admin.js',
@@ -14,11 +14,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({ extractComments: false }),
-      new CssMinimizerPlugin(),
-    ],
+    minimize: false,
+  },
+  devServer: {
+    open: true,
+    hot: true,
+    host: "localhost",
+    port: 9001
   },
   module: {
     rules: [
@@ -44,6 +46,10 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new CssMinimizerPlugin(),
+    new HtmlWebpackPlugin(
+      {
+        template: "assets/index.html"
+      }
+    ),
   ],
 };

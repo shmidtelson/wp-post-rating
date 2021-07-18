@@ -1,20 +1,14 @@
-<div class="wpr-wrapp" id="wpr-widget-{{ postId }}">
-    <div class="wpr-rating" data-id="{{ postId }}">
-        {% for i in 5..1 %}
-            <span class="icon-star {% if i == avgRating %}checked{% endif %}" data-value="{{ i }}"></span>
-        {% endfor %}
-    </div>
-    <div class="wpr-rating-loader wpr-hide">
-        <i class="icon-spin4 animate-spin"></i>
-    </div>
-    <div class="wpr-info-container">
-        {% if total %}
-            <span>{{ __('Votes', PLUGIN_NAME) }}&nbsp;</span>
-            <span class="wpr-total">({{ total }})</span>
-        {% else %}
-            <span>{{ __('Vote', PLUGIN_NAME) }}</span>
-            <span class="wpr-total"></span>
-        {% endif %}
-    </div>
-</div>
+<div
+    class="wpr-wrapp"
+    id="wpr-widget-{{ postId }}"
+    data-id="{{ postId }}"
+    data-value="{{ avgRating }}"
+    data-votestitle="{{ __('Votes', PLUGIN_NAME) }}"
+    data-total="{{ total }}"
+    data-fontsize="30px"
+    data-starscolor="{{ starsColor }}"
+    data-textcolor="{{ textColor }}"
+    data-backgroundcolor="{{ backgroundColor }}"
+
+></div>
 {{ jsonMarkup|raw }}

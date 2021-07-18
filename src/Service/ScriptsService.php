@@ -97,12 +97,10 @@ class ScriptsService
         $custom_css = sprintf('
 :root {
 	--wpr-main-color: %s;
-	--wpr-second-color: %s;
 	--wpr-text-color: %s;
 	--wpr-text-background-color: %s;
 }',
             $settingsDto->getStarsMainColor(),
-            $settingsDto->getStarsSecondColor(),
             $settingsDto->getStarsTextColor(),
             $settingsDto->getStarsTextBackgroundColor()
         );

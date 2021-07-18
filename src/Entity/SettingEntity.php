@@ -8,7 +8,6 @@ class SettingEntity
 {
     public $position = 'shortcode';
     public $starsMainColor = '#fdd835';
-    public $starsSecondColor = '#fbc02d';
     public $starsTextColor = '#000';
     public $starsTextBackgroundColor = '#fff';
     public $schemaEnable = true;
@@ -17,7 +16,6 @@ class SettingEntity
     {
         $this->setPosition($data['position']);
         $this->setStarsMainColor($data['starsMainColor']);
-        $this->setStarsSecondColor($data['starsSecondColor']);
         $this->setStarsTextColor($data['starsTextColor']);
         $this->setStarsTextBackgroundColor($data['starsTextBackgroundColor']);
         $this->setSchemaEnable($data['schemaEnable']);
@@ -53,22 +51,6 @@ class SettingEntity
     public function setStarsMainColor($starsMainColor): void
     {
         $this->starsMainColor = $starsMainColor;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStarsSecondColor()
-    {
-        return $this->starsSecondColor;
-    }
-
-    /**
-     * @param mixed $starsSecondColor
-     */
-    public function setStarsSecondColor($starsSecondColor): void
-    {
-        $this->starsSecondColor = $starsSecondColor;
     }
 
     /**

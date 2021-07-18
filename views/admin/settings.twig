@@ -47,23 +47,7 @@
                 <th scope="row"></th>
                 <td>
                     <fieldset>
-                        <div class="wpr-wrapp wpr-wrapp-admin">
-                            <div class="wpr-rating">
-                                <span class="icon-star checked" data-value="5" title="{{ __('Vote', PLUGIN_NAME) }} 5"></span>
-                                <span class="icon-star" data-value="4"
-                                      title="{{ __('Vote', PLUGIN_NAME) }} 4"></span>
-                                <span class="icon-star" data-value="3"
-                                      title="{{ __('Vote', PLUGIN_NAME) }} 3"></span>
-                                <span class="icon-star" data-value="2"
-                                      title="{{ __('Vote', PLUGIN_NAME) }} 2"></span>
-                                <span class="icon-star" data-value="1"
-                                      title="{{ __('Vote', PLUGIN_NAME) }} 1"></span>
-                            </div>
-                            <div class="wpr-info-container">
-                                <span>{{ __('Votes', PLUGIN_NAME) }}&nbsp;</span>
-                                <span class="wpr-total">(1)</span>
-                            </div>
-                        </div>
+                        <div class="wpr-wrapp wpr-wrapp-admin"><span></span></div>
                     </fieldset>
                 </td>
             </tr>
@@ -81,8 +65,6 @@
                         <p class="colors-description" id="colors-description">
                             {{ __('Second (darker) color choose automatically', PLUGIN_NAME) }}
                         </p>
-                        <input class="second_color_chooser_js" name="second_color" type="hidden"
-                               value="{{ options.getStarsSecondColor }}"/>
                     </fieldset>
                 </td>
             </tr>
