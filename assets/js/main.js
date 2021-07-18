@@ -13,7 +13,7 @@ const AjaxSendRequest = function () {
 
   this.request = new XMLHttpRequest();
 
-  this.ajax_vote = function (post_id, vote) {
+  this.ajax_vote = function (post_id, vote, instance) {
     const data = {
       'action': 'wpr_voted',
       'nonce': this.ajaxVars.nonce,
@@ -25,6 +25,7 @@ const AjaxSendRequest = function () {
       return [prop, data[prop]].map(encodeURIComponent).join("=");
     }).join("&");
 
+    instance.changeLoader(true);
     this.request.open("POST", this.ajaxVars.ajaxurl, true);
     this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     this.request.send(data_str);
@@ -33,14 +34,18 @@ const AjaxSendRequest = function () {
 
 const ajaxClient = new AjaxSendRequest();
 
+const stars = document.querySelectorAll(".wpr-wrapp");
 
 for (let i = 0; i < stars.length; i++) {
-  const {total, value, votestitle, id, fontsize} = stars[i].dataset
+  const {total, value, votestitle, id, fontsize, starscolor, textcolor, backgroundcolor} = stars[i].dataset
   const message = votestitle + ' (' + total + ')';
   const StarRatingInstance = new StarRating(stars[i], {
     message,
     value: parseInt(value) ? value : 1,
     size: fontsize,
+    starsColor: starscolor,
+    textColor: textcolor,
+    infoPanelBackgroundColor: backgroundcolor,
   });
 
   StarRatingInstance.onChange = (e) => {
@@ -48,7 +53,7 @@ for (let i = 0; i < stars.length; i++) {
       return;
     }
 
-    ajaxClient.ajax_vote(id, e.target.dataset.value)
+    ajaxClient.ajax_vote(id, e.target.dataset.value, StarRatingInstance)
 
     ajaxClient.request.onreadystatechange = function () {
       if (ajaxClient.request.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -59,11 +64,15 @@ for (let i = 0; i < stars.length; i++) {
 
               StarRatingInstance.changeRatingValue(parseInt(resp.data.avg));
               StarRatingInstance.changeMessage(votestitle + ' (' + resp.data.total + ')')
+              StarRatingInstance.changeLoader(false)
             } catch (e) {
+              StarRatingInstance.changeLoader(false)
             }
-
           }, 300);
-        } else console.log("Ajax error: No data received")
+        } else{
+          console.log("Ajax error: No data received")
+          StarRatingInstance.changeLoader(false)
+        }
       }
     };
   }

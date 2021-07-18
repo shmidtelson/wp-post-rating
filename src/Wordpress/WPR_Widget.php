@@ -180,7 +180,7 @@ class WPR_Widget extends \WP_Widget
 
             $date = date_i18n($date_format, strtotime($post['created_at']));
             $stars =
-                '<small class="wpr_rating_list">'
+                '<small class="wpr_rating_list" style="color: var(--wpr-main-color);">'
                 .str_repeat('<span class="icon-star"></span>', (int) $post['vote'])
                 .'</small>';
 

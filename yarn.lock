@@ -873,10 +873,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
-"@romua1d/star-rating-js@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@romua1d/star-rating-js/-/star-rating-js-0.0.19.tgz#68672782aea6c17361f8e6439bd773651d8c0baf"
-  integrity sha512-K09dTUV0z+XIOceKh4uTjXXU6uxUfACHChpmZOKNsIpLh7l3iMDCwdMIgqtYLCaPI/kJaCubek4pFrFj/JOLgw==
+"@romua1d/star-rating-js@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@romua1d/star-rating-js/-/star-rating-js-0.0.22.tgz#f7a671b793cf245f51f1c14dd783d49b75c9f66a"
+  integrity sha512-RuZbREjWW9J9oRF/1nVVhLnsFprOX6AuftyLprvfpvG256rLYQHBYOphm6wdQO11zm1XHx7YbZApImML2J/xBg==
 
 "@trysound/sax@0.1.1":
   version "0.1.1"

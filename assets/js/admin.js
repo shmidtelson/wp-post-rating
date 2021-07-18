@@ -16,9 +16,8 @@ jQuery(document).ready(function ($) {
 
   const setCssVariables = function () {
     StarRatingInstance.changeColor(mainColor.val());
-    // document.documentElement.style.setProperty('--wpr-main-color', );
-    // document.documentElement.style.setProperty('--wpr-text-color', textColor.val());
-    // document.documentElement.style.setProperty('--wpr-text-background-color', textBackgroundColor.val());
+    StarRatingInstance.changeTextColor(textColor.val());
+    StarRatingInstance.changeInfoPanelBackgroundColor(textBackgroundColor.val());
   };
 
   setCssVariables()

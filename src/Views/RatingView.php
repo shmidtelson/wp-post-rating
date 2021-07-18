@@ -7,6 +7,7 @@ namespace WPR\Views;
 use WPR\Service\RatingService;
 use WPR\Service\TwigEnvironmentService;
 use WPR\Service\WordpressFunctionsService;
+use WPR\Service\SettingService;
 
 class RatingView
 {
@@ -30,16 +31,23 @@ class RatingView
      */
     private $twigService;
 
+    /**
+     * @var SettingService
+     */
+    private $settingService;
+
     public function __construct(
         WordpressFunctionsService $wordpressService,
         RatingService $ratingService,
         SchemaOrgView $schemaView,
-        TwigEnvironmentService $twigService
+        TwigEnvironmentService $twigService,
+        SettingService $settingService
     ) {
         $this->wordpressService = $wordpressService;
         $this->ratingService = $ratingService;
         $this->schemaView = $schemaView;
         $this->twigService = $twigService;
+        $this->settingService = $settingService;
     }
 
     public function renderStars()
@@ -52,6 +60,9 @@ class RatingView
             'avgRating' => $this->ratingService->getAvgRating($id),
             'total' => $this->ratingService->getTotalVotesByPostId($id),
             'jsonMarkup' => $this->schemaView->getJSONLD(),
+            'starsColor' => $this->settingService->getSetting()->getStarsMainColor(),
+            'textColor' => $this->settingService->getSetting()->getStarsTextColor(),
+            'backgroundColor' => $this->settingService->getSetting()->getStarsTextBackgroundColor(),
         ]);
     }
 
