@@ -43,6 +43,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.2.0 =
+* Stars rating library moved to @romua1d/star-rating-js library
 = 1.1.1.0 =
 * Global refactoring. Moved to Symfony DI
 = 1.1.0.4 =
