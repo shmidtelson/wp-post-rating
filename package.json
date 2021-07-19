@@ -9,14 +9,12 @@
   },
   "author": "romua1d <d-w-b@mail.ru>",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@romua1d/star-rating-js": "^0.0.23",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "node-sass": "^6.0.1",
     "webpack": "^5.45.1",
-    "webpack-cli": "^4.7.2"
-  },
-  "devDependencies": {
+    "webpack-cli": "^4.7.2",
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "babel-loader": "^8.2.2",
@@ -32,5 +30,8 @@
   },
   "browsers": [
     "last 2 versions"
-  ]
+  ],
+  "resolutions": {
+    "glob-parent": "3.1.0"
+  }
 }
