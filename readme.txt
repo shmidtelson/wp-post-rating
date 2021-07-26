@@ -3,7 +3,7 @@ Contributors: shmidtelson
 Donate link: https://github.com/shmidtelson/wp-post-rating
 Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating snippet
 Requires at least: 4.9.8
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 7.2
 Stable tag: 1.2.2
 License: GPLv2 or later
