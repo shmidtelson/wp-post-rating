@@ -8,64 +8,44 @@ use WPR\Compat\ListTableLoader;
 use WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
-use WPR\Service\TwigEnvironmentService;
+use WPR\Template\TemplateRenderer;
 
 class RatingTableView extends WP_List_Table
 {
     const PER_PAGE = 10;
 
-    private $twigService;
-
-    /**
-     * @var RatingService
-     */
-    private $serviceRating;
-
     private bool $listTableInitialized = false;
 
     public function __construct(
-        RatingService $serviceRating,
-        TwigEnvironmentService $twigService
+        private readonly RatingService $serviceRating,
+        private readonly TemplateRenderer $templates,
     ) {
-        $this->twigService = $twigService;
-        $this->serviceRating = $serviceRating;
     }
 
-    public function loadRatingTable()
+    public function loadRatingTable(): void
     {
         $this->ensureListTableInitialized();
         $this->prepare_items();
 
-        echo $this->twigService->getTwig()->render('admin/ratings-table.twig', [
+        echo $this->templates->render('admin/ratings-table', [
             'content' => $this->displayTable(),
         ]);
     }
 
     /**
-     * [REQUIRED] this is how checkbox column renders.
-     *
-     * @param $item - row (key, value array)
-     *
-     * @return string
+     * @param array<string, mixed> $item
      */
-    public function column_cb($item)
+    public function column_cb($item): string
     {
-        return $this->twigService->getTwig()->render('admin/fields/checkbox-column.twig', [
+        return $this->templates->render('admin/fields/checkbox-column', [
             'id' => $item['id'],
         ]);
     }
 
-    /**
-     * [REQUIRED] This method return columns to display in table
-     * you can skip columns that you do not want to show
-     * like content, or description.
-     *
-     * @return array
-     */
-    public function get_columns()
+    public function get_columns(): array
     {
         return [
-            'cb' => $this->twigService->getTwig()->render('admin/fields/checkbox.twig'),
+            'cb' => $this->templates->render('admin/fields/checkbox'),
             'id' => __('id', ConfigService::PLUGIN_NAME),
             'display_name' => __('User', ConfigService::PLUGIN_NAME),
             'post_title' => __('Post', ConfigService::PLUGIN_NAME),
@@ -75,14 +55,7 @@ class RatingTableView extends WP_List_Table
         ];
     }
 
-    /**
-     * [OPTIONAL] This method return columns that may be used to sort table
-     * all strings in array - is column names
-     * notice that true on name column means that its default sort.
-     *
-     * @return array
-     */
-    public function get_sortable_columns()
+    public function get_sortable_columns(): array
     {
         return [
             'id' => ['id', true],
@@ -91,33 +64,18 @@ class RatingTableView extends WP_List_Table
         ];
     }
 
-    /**
-     * [OPTIONAL] Return array of bult actions if has any.
-     *
-     * @return array
-     */
-    public function get_bulk_actions()
+    public function get_bulk_actions(): array
     {
         return [
             'delete' => __('Delete', ConfigService::PLUGIN_NAME),
         ];
     }
 
-    /**
-     * [OPTIONAL] This method processes bulk actions
-     * it can be outside of class
-     * it can not use wp_redirect coz there is output already
-     * in this example we are processing delete action
-     * message about successful deletion will be shown on page in next part.
-     */
-    public function process_bulk_action()
+    public function process_bulk_action(): void
     {
-        // security check!
         if (isset($_POST['_wpnonce']) && ! empty($_POST['_wpnonce'])) {
-            $nonce = isset($_POST['_wpnonce'])
-                ? sanitize_text_field(wp_unslash($_POST['_wpnonce']))
-                : '';
-            $action = 'bulk-'.$this->_args['plural'];
+            $nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
+            $action = 'bulk-' . $this->_args['plural'];
 
             if (! wp_verify_nonce($nonce, $action)) {
                 wp_die('Nope! Security check failed!');
@@ -128,7 +86,7 @@ class RatingTableView extends WP_List_Table
 
         switch ($action) {
             case 'delete':
-                $ids = $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
+                $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
 
                 if (! empty($ids)) {
                     $this->success_deleted($this->serviceRating->delete($ids));
@@ -136,46 +94,44 @@ class RatingTableView extends WP_List_Table
                 break;
             case 'edit':
                 wp_die('This is the edit page.');
-            // no break
             default:
-                // do nothing or something else
                 return;
         }
     }
 
-    public function success_deleted($d)
+    public function success_deleted($d): void
     {
-        echo $this->twigService->getTwig()->render(
-            'admin/messages/success.twig',
+        echo $this->templates->render(
+            'admin/messages/success',
             ['content' => sprintf(_n('Deleted %s vote', 'Deleted %s votes', $d, ConfigService::PLUGIN_NAME), $d)]
         );
     }
 
-    public function no_items()
+    public function no_items(): void
     {
         _e('No ratings avaliable.', ConfigService::PLUGIN_NAME);
     }
 
-    public function prepare_items()
+    public function prepare_items(): void
     {
         $paged = isset($_REQUEST['paged']) ? max(0, intval($_REQUEST['paged']) - 1) : 0;
         $orderBy = (isset($_REQUEST['orderby']) && in_array(
             $_REQUEST['orderby'],
-            array_keys($this->get_sortable_columns())
+            array_keys($this->get_sortable_columns()),
+            true
         )) ? $_REQUEST['orderby'] : 'id';
         $order = (isset($_REQUEST['order']) && in_array(
             $_REQUEST['order'],
-            ['asc', 'desc']
+            ['asc', 'desc'],
+            true
         )) ? $_REQUEST['order'] : 'desc';
         $offset = self::PER_PAGE * $paged;
 
-        // here we configure table headers, defined in our methods
         $this->_column_headers = [
             $this->get_columns(),
             [],
             $this->get_sortable_columns(),
         ];
-        // [OPTIONAL] process bulk action if any
         $this->process_bulk_action();
 
         $this->items = $this->formatRatingList($this->serviceRating->getRatingList(
@@ -187,17 +143,14 @@ class RatingTableView extends WP_List_Table
 
         $totalVotes = $this->serviceRating->getTotalVotes();
         $this->set_pagination_args([
-            'total_items' => $totalVotes, // total items defined above
-            'per_page' => self::PER_PAGE, // per page constant defined at top of method
-            'total_pages' => ceil($totalVotes / self::PER_PAGE), // calculate pages count
+            'total_items' => $totalVotes,
+            'per_page' => self::PER_PAGE,
+            'total_pages' => (int) ceil($totalVotes / self::PER_PAGE),
         ]);
     }
 
     /**
-     * @param object $item
-     * @param string $column_name
-     *
-     * @return mixed
+     * @param array<string, mixed> $item
      */
     public function column_default($item, $column_name)
     {
@@ -205,14 +158,13 @@ class RatingTableView extends WP_List_Table
     }
 
     /**
-     * @param array $list
-     *
-     * @return array
+     * @param array<int, array<string, mixed>> $list
+     * @return array<int, array<string, mixed>>
      */
-    private function formatRatingList(array $list)
+    private function formatRatingList(array $list): array
     {
         return array_map(
-            function ($item) {
+            static function ($item) {
                 $item['display_name'] = (is_null($item['display_name']))
                     ? __('Guest', ConfigService::PLUGIN_NAME)
                     : $item['display_name'];
@@ -223,9 +175,6 @@ class RatingTableView extends WP_List_Table
         );
     }
 
-    /**
-     * @return string
-     */
     private function displayTable(): string
     {
         ob_start();
@@ -233,7 +182,7 @@ class RatingTableView extends WP_List_Table
         $html = ob_get_contents();
         ob_end_clean();
 
-        return $html;
+        return (string) $html;
     }
 
     private function ensureListTableInitialized(): void

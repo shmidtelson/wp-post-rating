@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WPR\Service;
 
 use WPR\Repository\MaintenanceRepository;
-use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MaintenanceService
 {
@@ -13,19 +12,12 @@ class MaintenanceService
 
     public const MINIMUM_WORDPRESS_VERSION = '6.0';
 
-    private MaintenanceRepository $repository;
-
-    private string $pluginBaseName;
-
-    public function __construct(MaintenanceRepository $repository, ParameterBagInterface $params)
-    {
-        $this->repository = $repository;
-        $this->pluginBaseName = $params->get('wpr.base_name');
+    public function __construct(
+        private readonly MaintenanceRepository $repository,
+        private readonly PluginContext $context,
+    ) {
     }
 
-    /**
-     * Plugin Activation hook function to check for Minimum PHP and WordPress versions.
-     */
     public function installPlugin(): void
     {
         global $wp_version;
@@ -47,7 +39,7 @@ class MaintenanceService
     public function stopActivatePlugin(): void
     {
         global $wp_version;
-        deactivate_plugins($this->pluginBaseName);
+        deactivate_plugins($this->context->basename);
         wp_die(
             sprintf(
                 __('<p>The <strong>WP POST RATING</strong> plugin requires versions minimum PHP >= %s <b>(Your is %s)</b> and WP >= %s <b>(Your is %s)</b></p>'),

@@ -1,25 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WPR\Views;
 
 use WPR\Service\ConfigService;
-use WPR\Service\TwigEnvironmentService;
+use WPR\Template\TemplateRenderer;
 
 class NonceView
 {
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
-
-    public function __construct(TwigEnvironmentService $twigService)
-    {
-        $this->twigService = $twigService;
+    public function __construct(
+        private readonly TemplateRenderer $templates,
+    ) {
     }
 
     public function render(): void
     {
-        echo $this->twigService->getTwig()->render('nonce.twig', [
+        echo $this->templates->render('nonce', [
             'nonceKey' => wp_create_nonce(ConfigService::PLUGIN_NONCE_KEY),
         ]);
     }

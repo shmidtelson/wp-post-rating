@@ -6,21 +6,16 @@ namespace WPR\Service;
 
 use UnexpectedValueException;
 use WPR\Entity\SettingEntity;
+use WPR\Template\TemplateRenderer;
 
 class SettingFormService
 {
     const SUCCESS_KEY = 'wpr-success';
 
-    private $twig;
-    /**
-     * @var SettingService
-     */
-    private $settingService;
-
-    public function __construct(TwigEnvironmentService $twigService, SettingService $settingService)
-    {
-        $this->twig = $twigService;
-        $this->settingService = $settingService;
+    public function __construct(
+        private readonly TemplateRenderer $templates,
+        private readonly SettingService $settingService,
+    ) {
     }
 
     public function saveForm(): void
@@ -39,7 +34,7 @@ class SettingFormService
 
         $referer = isset($_POST['_wp_http_referer'])
             ? esc_url_raw(wp_unslash($_POST['_wp_http_referer']))
-            : admin_url('options-general.php?page='.ConfigService::OPTIONS_KEY);
+            : admin_url('options-general.php?page=' . ConfigService::OPTIONS_KEY);
         $location = add_query_arg([self::SUCCESS_KEY => 'ID'], $referer);
         wp_safe_redirect($location);
         exit;
@@ -81,19 +76,14 @@ class SettingFormService
         return $color !== null ? $color : '';
     }
 
-    private function validate(SettingEntity $settingEntity)
+    private function validate(SettingEntity $settingEntity): void
     {
         $this->validateColorHEX($settingEntity->getStarsMainColor());
         $this->validateColorHEX($settingEntity->getStarsTextColor());
         $this->validateColorHEX($settingEntity->getStarsTextBackgroundColor());
     }
 
-    /**
-     * @param string $value
-     *
-     * @return bool
-     */
-    private function validateColorHEX(string $value)
+    private function validateColorHEX(string $value): bool
     {
         $items = explode('#', $value);
 
@@ -104,20 +94,15 @@ class SettingFormService
         throw new UnexpectedValueException('Hex color validation error');
     }
 
-    /**
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function successMessage()
+    public function successMessage(): void
     {
-        if (!isset($_GET[self::SUCCESS_KEY])) {
+        if (! isset($_GET[self::SUCCESS_KEY])) {
             return;
         }
 
-        echo $this->twig->getTwig()->render(
-            'admin/messages/success.twig',
-            ['content' => __('Settings saved successful')]
+        echo $this->templates->render(
+            'admin/messages/success',
+            ['content' => __('Settings saved successful', ConfigService::PLUGIN_NAME)]
         );
     }
 }

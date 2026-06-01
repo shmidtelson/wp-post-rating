@@ -5,53 +5,31 @@ declare(strict_types=1);
 namespace WPR\Service\Admin;
 
 use WPR\Service\ConfigService;
-use WPR\Views\Admin\SettingsView;
+use WPR\Service\PluginContext;
+use WPR\Template\TemplateRenderer;
 use WPR\Views\Admin\RatingTableView;
-use WPR\Service\TwigEnvironmentService;
-use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use WPR\Views\Admin\SettingsView;
 
 class AdminMenuService
 {
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
-
-    /**
-     * @var RatingTableView
-     */
-    private $ratingTableView;
-
-    /**
-     * @var SettingsView
-     */
-    private $settingsView;
-
-    /**
-     * @var ParameterBagInterface
-     */
-    private $params;
-
     public function __construct(
-        TwigEnvironmentService $twigService,
-        RatingTableView $ratingTableView,
-        SettingsView $settingsView,
-        ParameterBagInterface $params
+        private readonly TemplateRenderer $templates,
+        private readonly RatingTableView $ratingTableView,
+        private readonly SettingsView $settingsView,
+        private readonly PluginContext $context,
     ) {
-        $this->twigService = $twigService;
-        $this->ratingTableView = $ratingTableView;
-        $this->settingsView = $settingsView;
-        $this->params = $params;
     }
 
-    public function addMenuSection()
+    public function addMenuSection(): void
     {
+        $menuTitle = $this->templates->render('admin/menu/stars-menu');
+
         add_submenu_page(
             'options-general.php',
-            $this->twigService->getTwig()->render('admin/menu/stars-menu.twig'),
-            $this->twigService->getTwig()->render('admin/menu/stars-menu.twig'),
-            'manage_options', //capability
-            ConfigService::PLUGIN_NAME, //menu_slug,
+            $menuTitle,
+            $menuTitle,
+            'manage_options',
+            ConfigService::PLUGIN_NAME,
             [$this->ratingTableView, 'loadRatingTable']
         );
 
@@ -65,16 +43,21 @@ class AdminMenuService
         );
     }
 
-    public function addStarsNearPluginName($links, $file)
+    /**
+     * @param array<int, string> $links
+     * @param string             $file
+     * @return array<int, string>
+     */
+    public function addStarsNearPluginName(array $links, string $file): array
     {
-        if ($this->params->get('wpr.base_name') === $file) {
+        if ($this->context->basename === $file) {
             $row_meta = [
-                'Rate me' => $this->twigService->getTwig()->render('admin/menu/stars-in-plugin-list.twig'),
+                'Rate me' => $this->templates->render('admin/menu/stars-in-plugin-list'),
             ];
 
             return array_merge($links, $row_meta);
         }
 
-        return (array) $links;
+        return $links;
     }
 }

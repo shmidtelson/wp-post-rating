@@ -2,8 +2,15 @@
 /package-lock.json
 /.idea
 /.git
+/vendor/
 /vendor-bin/
 .php_cs.cache
 .env
-.wordpress/
+composer.lock
 
+# Local WordPress (Docker) — keep compose templates in git
+.wordpress/*
+!.wordpress/docker-compose.yml
+!.wordpress/README.md
+!.wordpress/.env.example
+.wordpress/.env

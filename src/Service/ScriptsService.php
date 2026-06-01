@@ -4,48 +4,24 @@ declare(strict_types=1);
 
 namespace WPR\Service;
 
-use WPR_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-
 class ScriptsService
 {
     const SCRIPT_NAME = 'wp-post-rating';
-    /**
-     * @var ConfigService
-     */
-    private $configService;
-    /**
-     * @var SettingService
-     */
-    private $settingService;
-    /**
-     * @var ParameterBagInterface
-     */
-    private $params;
 
     public function __construct(
-        ConfigService $configService,
-        SettingService $settingService,
-        ParameterBagInterface $params
-    )
-    {
-        $this->configService = $configService;
-        $this->settingService = $settingService;
-        $this->params = $params;
+        private readonly ConfigService $configService,
+        private readonly SettingService $settingService,
+        private readonly PluginContext $context,
+    ) {
     }
 
-    /**
-     * Активация скриптов.
-     */
     public function initScripts(): void
     {
-        /*
-         * Main files
-         */
         wp_enqueue_style(
             self::SCRIPT_NAME,
             $this->configService->getPluginCssPath() . 'main.css',
             [],
-            $this->params->get('wpr.version'),
+            $this->context->version,
             'all'
         );
 
@@ -53,7 +29,7 @@ class ScriptsService
             self::SCRIPT_NAME,
             $this->configService->getPluginJSPath() . 'main.bundle.js',
             ['jquery'],
-            $this->params->get('wpr.version'),
+            $this->context->version,
             true
         );
 
@@ -61,14 +37,11 @@ class ScriptsService
     }
 
     /**
-     * @param $hook
+     * @param string $hook
      */
-    public function initAdminScripts($hook)
+    public function initAdminScripts($hook): void
     {
         if ($hook === 'settings_page_' . ConfigService::OPTIONS_KEY) {
-            /*
-             * COLOR PICKER
-             */
             wp_enqueue_script('wp-color-picker');
             wp_enqueue_style('wp-color-picker');
 
@@ -91,11 +64,11 @@ class ScriptsService
         }
     }
 
-    private function addCssVariables($handle = 'wp-post-rating')
+    private function addCssVariables(string $handle = 'wp-post-rating'): void
     {
         $settingsDto = $this->settingService->getSetting();
-        $custom_css = sprintf('
-:root {
+        $custom_css = sprintf(
+            ':root {
 	--wpr-main-color: %s;
 	--wpr-text-color: %s;
 	--wpr-text-background-color: %s;
@@ -108,5 +81,3 @@ class ScriptsService
         wp_add_inline_style($handle, $custom_css);
     }
 }
-
-

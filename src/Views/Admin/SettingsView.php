@@ -5,33 +5,21 @@ declare(strict_types=1);
 namespace WPR\Views\Admin;
 
 use WPR\Service\SettingService;
-use WPR\Service\TwigEnvironmentService;
+use WPR\Template\TemplateRenderer;
 
 class SettingsView
 {
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
-
-    /**
-     * @var SettingService
-     */
-    private $settingService;
-
     public function __construct(
-        TwigEnvironmentService $twigService,
-        SettingService $settingService
+        private readonly TemplateRenderer $templates,
+        private readonly SettingService $settingService,
     ) {
-        $this->twigService = $twigService;
-        $this->settingService = $settingService;
     }
 
-    public function addOptionsPage()
+    public function addOptionsPage(): void
     {
         $this->changeHiddenMenu();
 
-        echo $this->twigService->getTwig()->render('admin/settings.twig', [
+        echo $this->templates->render('admin/settings', [
             'options' => $this->settingService->getSetting(),
             'formHiddenField' => $this->formHiddenFields(),
             'formSubmitButton' => $this->formSubmitButton(),
@@ -39,23 +27,20 @@ class SettingsView
         ]);
     }
 
-    /**
-     * Custom activate menu.
-     */
-    public function changeHiddenMenu()
+    public function changeHiddenMenu(): void
     {
-        if (isset($_GET['page']) and $_GET['page'] == 'wpr-settings') {
-            add_action('admin_init', function () {
+        if (isset($_GET['page']) && $_GET['page'] === 'wpr-settings') {
+            add_action('admin_init', function (): void {
                 global $submenu, $menu;
 
                 foreach ($submenu['options-general.php'] as $key => $value) {
-                    if ('wp-post-rating' == $value[2]) {
+                    if ('wp-post-rating' === $value[2]) {
                         $submenu['options-general.php'][$key][4] = 'current';
                     }
                 }
 
                 foreach ($menu as $key => $value) {
-                    if ('options-general.php' == $value[2]) {
+                    if ('options-general.php' === $value[2]) {
                         $menu[$key][4] .= ' wp-menu-open';
                     }
                 }
@@ -63,35 +48,23 @@ class SettingsView
         }
     }
 
-    public function get_columns()
-    {
-    }
-
-    /**
-     * @return false|string
-     *                      Hidden fields for setting form
-     */
-    private function formHiddenFields()
+    private function formHiddenFields(): string
     {
         ob_start();
         wp_nonce_field('wpr-update');
         $html = ob_get_contents();
         ob_end_clean();
 
-        return $html;
+        return (string) $html;
     }
 
-    /**
-     * @return false|string
-     *                      Submit button for form
-     */
-    private function formSubmitButton()
+    private function formSubmitButton(): string
     {
         ob_start();
         submit_button();
         $html = ob_get_contents();
         ob_end_clean();
 
-        return $html;
+        return (string) $html;
     }
 }

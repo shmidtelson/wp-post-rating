@@ -8,6 +8,7 @@ CHANGELOG.md
 RELEASE_NOTES.md
 composer.json
 composer.lock
+config/
 gulpfile.js
 package-lock.json
 package.json
@@ -16,8 +17,9 @@ webpack.config.js
 webpack.config.demo.js
 php.cache.dist
 Makefile
-docker-compose.wordpress.yml
-.wordpress-env.example
+blueprint.json
+.sandbox/
+.wordpress/
 scripts/
 .codeception.yml
 node_modules/

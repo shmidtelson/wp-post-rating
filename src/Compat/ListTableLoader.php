@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace WPR\Compat;
 
 /**
- * Loads WP_List_Table for Symfony DI compile and admin use.
+ * Loads WP_List_Table for admin list screens.
  * Does not load template.php or define convert_to_screen() (WordPress provides that later).
  */
 final class ListTableLoader

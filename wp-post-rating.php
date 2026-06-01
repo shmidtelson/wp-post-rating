@@ -3,7 +3,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: https://github.com/shmidtelson/wp-post-rating
 Description: Powerful post rating wordpress plugin
-Version: 1.2.5
+Version: 1.3.0
 Requires at least: 6.0
 Requires PHP: 8.1
 Author: Romua1d
@@ -14,68 +14,58 @@ License: MIT
 */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-if (!defined('WPR_DEBUG')) {
-    /*
-     * Enable plugin debug mod.
-     */
+if (! defined('WPR_DEBUG')) {
     define('WPR_DEBUG', false);
 }
+
+if (! defined('WPR_VERSION')) {
+    define('WPR_VERSION', '1.3.0');
+}
+
+require_once __DIR__ . '/includes/autoload.php';
+
+use WPR\Bootstrap\PluginBootstrap;
+use WPR\Service\MaintenanceService;
+
 /**
- * @return WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder
+ * @return PluginBootstrap
  */
-function wpr_build_container()
+function wpr_bootstrap(): PluginBootstrap
 {
-    $pluginNamePath = plugin_dir_path(__FILE__);
-    require_once $pluginNamePath.'vendor/autoload.php';
-    WPR\Compat\ListTableLoader::loadDependencies();
+    static $bootstrap = null;
 
-    $containerBuilder = new WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder();
+    if ($bootstrap === null) {
+        $bootstrap = PluginBootstrap::init(__FILE__, WPR_VERSION);
+    }
 
-    $loader = new WPR_Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader(
-        $containerBuilder,
-        new WPR_Vendor\Symfony\Component\Config\FileLocator(__DIR__)
-    );
-    $loader->load($pluginNamePath.'dependencies/services.php');
-
-    $containerBuilder->setParameter('wpr.path', $pluginNamePath);
-    $containerBuilder->setParameter('wpr.url', plugin_dir_url(__FILE__));
-    $containerBuilder->setParameter('wpr.plugin_file_path', __FILE__);
-    $containerBuilder->setParameter('wpr.base_name', plugin_basename(__FILE__));
-    $containerBuilder->setParameter('wpr.version', '1.2.5');
-
-    $containerBuilder->compile();
-
-    return $containerBuilder;
+    return $bootstrap;
 }
 
 function wpr_activate_plugin(): void
 {
-    $container = wpr_build_container();
-    $container->get(WPR\Service\MaintenanceService::class)->installPlugin();
+    wpr_bootstrap()->get(MaintenanceService::class)->installPlugin();
 }
 
 register_activation_hook(__FILE__, 'wpr_activate_plugin');
 
 /**
- * Run plugin function.
- *
- * @throws Exception If something went wrong.
+ * Run plugin.
  */
-function run_wp_post_rating()
+function run_wp_post_rating(): void
 {
-    $containerBuilder = wpr_build_container();
+    $bootstrap = wpr_bootstrap();
 
     // Create DB tables if missing (e.g. after copy-wp without re-activation).
-    $containerBuilder->get(WPR\Service\MaintenanceService::class)->installPlugin();
+    $bootstrap->get(MaintenanceService::class)->installPlugin();
 
-    $wpPostRating = new WPR\Plugin($containerBuilder);
-    $wpPostRating->run();
+    $plugin = $bootstrap->plugin();
+    $plugin->run();
 
-    do_action('wp_post_rating_init', $wpPostRating);
+    do_action('wp_post_rating_init', $plugin);
 }
 
 add_action('plugins_loaded', 'run_wp_post_rating');

@@ -19,12 +19,25 @@ Deploy through https://github.com/10up/action-wordpress-plugin-deploy
 * WordPress >= 6.0
 * PHP >= 8.1
 
+## Local development ##
+
+**Docker** (plugin bind-mounted from repo):
+
+```bash
+make dev
+# http://localhost:8080 — admin / admin
+```
+
+See [.wordpress/README.md](.wordpress/README.md).
+
+**Playground / Studio**: [`.sandbox/blueprint.json`](.sandbox/blueprint.json) (GitHub zip) or root [`blueprint.json`](blueprint.json) (wordpress.org). See [.sandbox/README.md](.sandbox/README.md).
+
 ## Links ##
 https://wordpress.org/plugins/wp-post-rating/
 
 ## Changelog & release notes ##
 - [CHANGELOG.md](CHANGELOG.md) — full version history
-- [RELEASE_NOTES.md](RELEASE_NOTES.md) — **1.2.5** upgrade guide and highlights
+- [RELEASE_NOTES.md](RELEASE_NOTES.md) — **1.3.0** upgrade guide and highlights
 - [readme.txt](readme.txt) — WordPress.org plugin readme (includes changelog)
 
 ## License ##

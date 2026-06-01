@@ -5,7 +5,7 @@ Tags: rating, star rating, post rating, ajax, schema
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 1.2.5
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,10 @@ Lightweight AJAX 5-star post ratings with Schema.org markup, shortcodes, a sideb
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.3.0 =
+* Changed: Removed runtime Composer vendor (Twig, Symfony DI); plugin uses a lightweight PSR-4 autoloader and PHP templates
+* Added: `PluginBootstrap` service wiring, `.wordpress/` Docker dev stack with plugin bind-mount, Playground blueprints (`.sandbox/`, root `blueprint.json`)
+* Fixed: Text domain loaded on `init` (WordPress 6.7+ notice); lazy loading for admin list table and widget classes
 = 1.2.5 =
 * Added: Makefile `plugin-remove` to deactivate and remove the plugin from local Docker installs
 * Improved: `.distignore` excludes dev tooling from WordPress.org packages (node_modules, Docker/Makefile, docs)

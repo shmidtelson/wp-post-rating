@@ -18,8 +18,8 @@
 		{
 			"step": "installPlugin",
 			"pluginData": {
-				"resource": "wordpress.org/plugins",
-				"slug": "wp-post-rating"
+				"resource": "url",
+				"url": "https://github.com/shmidtelson/wp-post-rating/archive/refs/heads/production.zip"
 			},
 			"options": {
 				"activate": true

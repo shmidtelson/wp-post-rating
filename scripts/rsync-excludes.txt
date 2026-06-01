@@ -3,7 +3,12 @@
 .wordpress
 .idea
 node_modules
+vendor
 vendor-bin
+vendor_prefixed
+dependencies
+config
+views
 assets
 Makefile
 package.json

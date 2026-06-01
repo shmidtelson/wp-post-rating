@@ -4,32 +4,22 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-use WPR\Service\TwigEnvironmentService;
+use WPR\Template\TemplateRenderer;
 
 class MenuItemView
 {
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
-
-    public function __construct(TwigEnvironmentService $twigService)
-    {
-        $this->twigService = $twigService;
+    public function __construct(
+        private readonly TemplateRenderer $templates,
+    ) {
     }
 
     /**
-     * @param $links
-     *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     *
-     * @return mixed
+     * @param array<int, string> $links
+     * @return array<int, string>
      */
-    public function addSettingsLinkToPluginList($links)
+    public function addSettingsLinkToPluginList(array $links): array
     {
-        array_unshift($links, $this->twigService->getTwig()->render('admin/parts/item-menu.twig'));
+        array_unshift($links, $this->templates->render('admin/parts/item-menu'));
 
         return $links;
     }

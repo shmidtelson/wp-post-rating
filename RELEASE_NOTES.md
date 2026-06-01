@@ -1,5 +1,19 @@
 # Release notes
 
+## 1.3.0 — 2026-06-01
+
+### Highlights
+
+- **No runtime Composer vendor** — Twig and Symfony DI removed; views use PHP templates and a small PSR-4 autoloader.
+- **WordPress plugin best practices** — explicit `PluginBootstrap`, `PluginContext`, and lazy admin/widget loading.
+- **Developer experience** — Docker in `.wordpress/`, Playground blueprints in `.sandbox/` and `blueprint.json`.
+
+### Upgrade notes
+
+1. No database migration — settings and `wpr_rating` table unchanged.
+2. Custom deploys: pull tag `v1.3.0`; run `yarn build` if you ship assets from source.
+3. WordPress.org: deploy workflow runs on tag push; commit blueprint to SVN `assets/blueprints/` if preview is enabled.
+
 ## 1.2.5 — 2026-06-02
 
 ### Changes

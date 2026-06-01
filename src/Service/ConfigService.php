@@ -6,6 +6,8 @@ namespace WPR\Service;
 
 class ConfigService
 {
+    private PluginContext $context;
+
     const PLUGIN_TABLE_NAME = 'wpr_rating';
 
     const PLUGIN_NONCE_KEY = 'WPR_rating_key';
@@ -45,10 +47,11 @@ class ConfigService
      */
     public $wpdb;
 
-    public function __construct()
+    public function __construct(PluginContext $context)
     {
         global $wpdb;
         $this->wpdb = $wpdb;
+        $this->context = $context;
     }
 
     /**
@@ -89,7 +92,7 @@ class ConfigService
      */
     public function getPluginPath(): string
     {
-        return trailingslashit(dirname(__DIR__, 2));
+        return trailingslashit($this->context->path);
     }
 
     /**
@@ -97,7 +100,7 @@ class ConfigService
      */
     public function getPluginUrl(): string
     {
-        return plugin_dir_url(dirname(__DIR__, 2) . '/wp-post-rating.php');
+        return trailingslashit($this->context->url);
     }
 
     /**

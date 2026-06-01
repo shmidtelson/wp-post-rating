@@ -5,64 +5,34 @@ declare(strict_types=1);
 namespace WPR\Views;
 
 use WPR\Service\RatingService;
-use WPR\Service\TwigEnvironmentService;
-use WPR\Service\WordpressFunctionsService;
 use WPR\Service\SettingService;
+use WPR\Service\WordpressFunctionsService;
+use WPR\Template\TemplateRenderer;
 
 class RatingView
 {
-    /**
-     * @var WordpressFunctionsService
-     */
-    private $wordpressService;
-
-    /**
-     * @var RatingService
-     */
-    private $ratingService;
-
-    /**
-     * @var SchemaOrgView
-     */
-    private $schemaView;
-
-    /**
-     * @var TwigEnvironmentService
-     */
-    private $twigService;
-
-    /**
-     * @var SettingService
-     */
-    private $settingService;
-
     public function __construct(
-        WordpressFunctionsService $wordpressService,
-        RatingService $ratingService,
-        SchemaOrgView $schemaView,
-        TwigEnvironmentService $twigService,
-        SettingService $settingService
+        private readonly WordpressFunctionsService $wordpressService,
+        private readonly RatingService $ratingService,
+        private readonly SchemaOrgView $schemaView,
+        private readonly TemplateRenderer $templates,
+        private readonly SettingService $settingService,
     ) {
-        $this->wordpressService = $wordpressService;
-        $this->ratingService = $ratingService;
-        $this->schemaView = $schemaView;
-        $this->twigService = $twigService;
-        $this->settingService = $settingService;
     }
 
-    public function renderStars()
+    public function renderStars(): string
     {
         $id = $this->wordpressService->getCurrentPostID();
+        $settings = $this->settingService->getSetting();
 
-        return $this->twigService->getTwig()->render('star-rating.twig', [
+        return $this->templates->render('star-rating', [
             'postId' => $id,
-            'title' => get_the_title($id),
-            'avgRating' => $this->ratingService->getAvgRating($id),
+            'avgRating' => (string) $this->ratingService->getAvgRating($id),
             'total' => $this->ratingService->getTotalVotesByPostId($id),
             'jsonMarkup' => $this->schemaView->getJSONLD(),
-            'starsColor' => $this->settingService->getSetting()->getStarsMainColor(),
-            'textColor' => $this->settingService->getSetting()->getStarsTextColor(),
-            'backgroundColor' => $this->settingService->getSetting()->getStarsTextBackgroundColor(),
+            'starsColor' => $settings->getStarsMainColor(),
+            'textColor' => $settings->getStarsTextColor(),
+            'backgroundColor' => $settings->getStarsTextBackgroundColor(),
         ]);
     }
 
