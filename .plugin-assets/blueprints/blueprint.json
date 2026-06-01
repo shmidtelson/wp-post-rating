@@ -1,0 +1,35 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/?p=1",
+	"preferredVersions": {
+		"php": "8.2",
+		"wp": "latest"
+	},
+	"phpExtensionBundles": [
+		"kitchen-sink"
+	],
+	"features": {
+		"networking": true
+	},
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+		{
+			"step": "installPlugin",
+			"pluginData": {
+				"resource": "wordpress.org/plugins",
+				"slug": "wp-post-rating"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require_once 'wordpress/wp-load.php'; $content = '<p>Try the star rating below.</p>' . \"\\n\\n\" . '[wp_rating]'; if ( get_post( 1 ) ) { wp_update_post( array( 'ID' => 1, 'post_content' => $content ) ); } else { wp_insert_post( array( 'post_title' => 'Post with star rating', 'post_content' => $content, 'post_status' => 'publish' ) ); } ?>"
+		}
+	]
+}

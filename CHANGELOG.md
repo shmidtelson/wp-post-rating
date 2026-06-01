@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translation files for **English** (`en_US`), **Spanish** (`es_ES`), and updated **Russian** (`ru_RU`); `languages/wp-post-rating.pot` template.
 - `make i18n` target to compile `.po` files to `.mo`.
 - Local development setup: `docker-compose.wordpress.yml`, `Makefile`, `.wordpress-env.example`.
+- WordPress Playground blueprint at `.plugin-assets/blueprints/blueprint.json` (SVN: `assets/blueprints/blueprint.json`) for plugin preview on WordPress.org.
 
 ### Changed
 
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activation hook registered in `wp-post-rating.php`.
 - Front-end build uses Yarn and `sass` (replaces deprecated `node-sass`).
 - PSR-4 autoload for `src/`; Symfony DI excludes `Entity`, `Dto`, and `Compat`.
+- `ListTableLoader` moved to `WPR\Compat\ListTableLoader` class (Composer autoload, no manual `require_once`).
 
 ### Fixed
 

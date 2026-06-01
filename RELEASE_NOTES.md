@@ -13,12 +13,14 @@
 - Optional automatic rating block **before** or **after** single post content
 - Expanded translations: **English**, **Spanish**, **Russian**
 - Local development workflow with Docker and Makefile
+- **WordPress Playground** preview blueprint for wordpress.org
 
 ### New features
 
 - **Display position** setting on single posts: manual (shortcode/PHP only), before content, or after content (`PostContentHookService`, admin settings).
 - **Translation catalogs**: `languages/wp-post-rating-en_US`, `es_ES`, `ru_RU`, plus `wp-post-rating.pot`. Run `make i18n` to recompile `.mo` files after editing `.po` files.
 - **Developer tooling**: `docker-compose.wordpress.yml`, `Makefile` targets (`copy-wp`, `docker-up`, `build-js-docker`, `i18n`, etc.), `.wordpress-env.example`.
+- **Playground blueprint** (`.plugin-assets/blueprints/blueprint.json`): commit to SVN as `assets/blueprints/blueprint.json`, then enable public preview on the plugin Advanced tab.
 
 ### Improvements
 
@@ -50,6 +52,7 @@
 2. After uploading the plugin, visit **Plugins** and ensure it stays active; the rating table is created automatically if needed.
 3. Review **Stars rating → Settings** for the new **Display on single posts** option.
 4. For custom deployments, run `make copy-wp` (or sync `languages/*.mo`) so translations are on the server.
+5. For WordPress.org preview: copy blueprint to `assets/blueprints/blueprint.json` in SVN and test via **Test Preview** on the plugin Advanced page.
 
 ### Contributors
 

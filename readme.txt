@@ -1,13 +1,15 @@
 === Wp Post Rating ===
 Contributors: shmidtelson
 Donate link: https://github.com/shmidtelson/wp-post-rating
-Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating snippet
+Tags: rating, star rating, post rating, ajax, schema
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.1
 Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Lightweight AJAX 5-star post ratings with Schema.org markup, shortcodes, a sidebar widget, and admin vote management.
 
 == Description ==
 
@@ -49,6 +51,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Added: display rating before or after single post content, or manual shortcode/PHP only
 * Added: English (en_US), Spanish (es_ES), and updated Russian (ru_RU) translations
 * Added: `make i18n` to compile language files; Docker/Makefile for local development
+* Added: WordPress Playground blueprint (`assets/blueprints/blueprint.json`) for plugin directory preview
 * Improved text domain loading with English (en_US) fallback
 * Improved activation and automatic `wpr_rating` table creation when missing after deploy
 * Improved admin settings sanitization, bulk actions, and SQL ORDER BY handling
