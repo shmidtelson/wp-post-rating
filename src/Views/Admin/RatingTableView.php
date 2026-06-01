@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
-require_once dirname(__DIR__, 2).'/Compat/ListTableLoader.php';
-
-use \WP_List_Table;
+use WPR\Compat\ListTableLoader;
+use WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 use WPR\Service\TwigEnvironmentService;
@@ -243,7 +242,7 @@ class RatingTableView extends WP_List_Table
             return;
         }
 
-        \wpr_load_list_table_dependencies();
+        ListTableLoader::loadDependencies();
 
         parent::__construct([
             'singular' => 'wp_list_vote',

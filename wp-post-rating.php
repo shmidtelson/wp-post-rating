@@ -31,8 +31,7 @@ function wpr_build_container()
 {
     $pluginNamePath = plugin_dir_path(__FILE__);
     require_once $pluginNamePath.'vendor/autoload.php';
-    require_once $pluginNamePath.'src/Compat/ListTableLoader.php';
-    wpr_load_list_table_dependencies();
+    WPR\Compat\ListTableLoader::loadDependencies();
 
     $containerBuilder = new WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder();
 
