@@ -6,23 +6,37 @@ namespace WPR\Service;
 
 class TranslateService
 {
-    private $configService;
+    private ConfigService $configService;
 
     public function __construct(ConfigService $configService)
     {
         $this->configService = $configService;
     }
 
-    public function loadPluginTextDomain()
+    public function loadPluginTextDomain(): bool
     {
-        $locale = apply_filters('plugin_locale', get_locale(), ConfigService::PLUGIN_NAME);
-        if ($loaded = load_textdomain(
-            ConfigService::PLUGIN_NAME,
-            $this->configService->getPluginPath().'languages'.DIRECTORY_SEPARATOR.ConfigService::PLUGIN_NAME.'-'.$locale.'.mo'
-        )) {
-            return $loaded;
+        $domain = ConfigService::PLUGIN_NAME;
+        $locale = apply_filters('plugin_locale', determine_locale(), $domain);
+        $languagesPath = $this->configService->getPluginPath().'languages';
+
+        unload_textdomain($domain);
+
+        $localeFile = $languagesPath.DIRECTORY_SEPARATOR.$domain.'-'.$locale.'.mo';
+        if (is_readable($localeFile) && load_textdomain($domain, $localeFile)) {
+            return true;
         }
 
-        return load_plugin_textdomain(ConfigService::PLUGIN_NAME, false, $this->configService->getPluginPath().'/languages/');
+        if ($locale !== 'en_US') {
+            $englishFile = $languagesPath.DIRECTORY_SEPARATOR.$domain.'-en_US.mo';
+            if (is_readable($englishFile)) {
+                load_textdomain($domain, $englishFile);
+            }
+        }
+
+        return load_plugin_textdomain(
+            $domain,
+            false,
+            ConfigService::PLUGIN_NAME.'/languages'
+        );
     }
 }

@@ -42,15 +42,27 @@ msgstr "Все голоса"
 msgid "Star rating settings"
 msgstr "Настройки звездного рейтинга"
 
-#: views/admin/settings.twig:10 views/admin/settings.twig:15
-msgid "Star rating position in content"
-msgstr "Позиция рейтинга в контенте"
+msgid "Display on single posts"
+msgstr "Показ на странице записи"
 
-#: views/admin/settings.twig:20
-msgid "How to custom display rating widget. Shortcode or PHP"
-msgstr "Как программно вывести рейтинг на сайте. Шорткодом или PHP кодом"
+msgid "Manual only (shortcode / PHP)"
+msgstr "Только вручную (шорткод / PHP)"
 
-#: views/admin/settings.twig:23
+msgid "Before post content"
+msgstr "Перед текстом записи"
+
+msgid "After post content"
+msgstr "После текста записи"
+
+msgid "Applies to single blog posts. Before/after skips the shortcode in content."
+msgstr "Только для одиночных записей. При выводе до/после шорткод в тексте не нужен."
+
+msgid "Shortcodes"
+msgstr "Шорткоды"
+
+msgid "Use when display mode is manual, or for pages and custom placement"
+msgstr "Используйте при ручном режиме или для страниц и своего размещения"
+
 msgid "Display in content"
 msgstr "Как показать в контенте"
 

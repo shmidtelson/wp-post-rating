@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Wp Post Rating 1.2.3\n"
+"POT-Creation-Date: 2026-06-01 12:00+0000\n"
+"PO-Revision-Date: 2026-06-01 12:00+0000\n"
+"Last-Translator: Romua1d <admin@romua1d.ru>\n"
+"Language-Team: Spanish\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wp-post-rating\n"
+
+msgid "Stars rating"
+msgstr "Valoración por estrellas"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Stars rating list"
+msgstr "Lista de valoraciones"
+
+msgid "All votes"
+msgstr "Todos los votos"
+
+msgid "Star rating settings"
+msgstr "Ajustes de valoración por estrellas"
+
+msgid "Display on single posts"
+msgstr "Mostrar en entradas individuales"
+
+msgid "Manual only (shortcode / PHP)"
+msgstr "Solo manual (shortcode / PHP)"
+
+msgid "Before post content"
+msgstr "Antes del contenido de la entrada"
+
+msgid "After post content"
+msgstr "Después del contenido de la entrada"
+
+msgid "Applies to single blog posts. Before/after skips the shortcode in content."
+msgstr "Se aplica a entradas individuales. Antes/después omite el shortcode en el contenido."
+
+msgid "Shortcodes"
+msgstr "Shortcodes"
+
+msgid "Use when display mode is manual, or for pages and custom placement"
+msgstr "Úsalo cuando el modo de visualización sea manual, o en páginas y ubicaciones personalizadas"
+
+msgid "Display in content"
+msgstr "Mostrar en el contenido"
+
+msgid "Display total votes for current post"
+msgstr "Mostrar el total de votos de la entrada actual"
+
+msgid "Display average votes for current post"
+msgstr "Mostrar la media de votos de la entrada actual"
+
+msgid "Votes"
+msgstr "Votos"
+
+msgid "Stars color"
+msgstr "Color de las estrellas"
+
+msgid "Second (darker) color choose automatically"
+msgstr "El segundo color (más oscuro) se elige automáticamente"
+
+msgid "Text (border) color"
+msgstr "Color del texto (borde)"
+
+msgid "Tooltip background color"
+msgstr "Color de fondo del tooltip"
+
+msgid "Enable schema markup"
+msgstr "Activar marcado schema"
+
+msgid "WPR Settings"
+msgstr "Ajustes WPR"
+
+msgid ""
+"<p>The <strong>WP POST RATING</strong> plugin requires versions minimum PHP "
+">= %s <b>(Your is %s)</b> and WP >= %s <b>(Your is %s)</b></p>"
+msgstr ""
+"<p>El plugin <strong>WP POST RATING</strong> requiere PHP >= %s <b>(el tuyo es "
+"%s)</b> y WordPress >= %s <b>(el tuyo es %s)</b>.</p>"
+
+msgid "Settings saved successful"
+msgstr "Ajustes guardados correctamente"
+
+msgid "id"
+msgstr "ID"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Post"
+msgstr "Entrada"
+
+msgid "Vote result"
+msgstr "Resultado del voto"
+
+msgid "IP adress"
+msgstr "Dirección IP"
+
+msgid "Date create"
+msgstr "Fecha de creación"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Deleted %s vote"
+msgid_plural "Deleted %s votes"
+msgstr[0] "Se eliminó %s voto"
+msgstr[1] "Se eliminaron %s votos"
+
+msgid "No ratings avaliable."
+msgstr "No hay valoraciones disponibles."
+
+msgid "Guest"
+msgstr "Invitado"
+
+msgid "List posts by rating"
+msgstr "Listar entradas por valoración"
+
+msgid "You may order displayed posts"
+msgstr "Puedes ordenar las entradas mostradas"
+
+msgid "New title"
+msgstr "Nuevo título"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Count of posts"
+msgstr "Número de entradas"
+
+msgid "Order by"
+msgstr "Ordenar por"
+
+msgid "Sort by"
+msgstr "Criterio de ordenación"
+
+msgid "Wrapper posts"
+msgstr "Contenedor de entradas"
+
+msgid "Wrapper for all posts, supports shortcodes: "
+msgstr "Contenedor para todas las entradas. Shortcodes admitidos: "
+
+msgid "Wrapper one post"
+msgstr "Contenedor de una entrada"
+
+msgid "Wrapper for one post, supports shortcodes: "
+msgstr "Contenedor para una entrada. Shortcodes admitidos: "
+
+msgid "Date format"
+msgstr "Formato de fecha"
+
+msgid ""
+"Dates formats is here <a href=\"https://codex.wordpress.org/"
+"Formatting_Date_and_Time\">https://codex.wordpress.org/"
+"Formatting_Date_and_Time</a>"
+msgstr ""
+"Referencia de formatos de fecha: <a href=\"https://wordpress.org/documentation/article/"
+"customize-date-and-time-format/\">wordpress.org/documentation/article/"
+"customize-date-and-time-format/</a>"

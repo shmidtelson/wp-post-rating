@@ -214,7 +214,9 @@ class RatingTableView extends WP_List_Table
     {
         return array_map(
             function ($item) {
-                $item['display_name'] = (is_null($item['display_name'])) ? __('Guest') : $item['display_name'];
+                $item['display_name'] = (is_null($item['display_name']))
+                    ? __('Guest', ConfigService::PLUGIN_NAME)
+                    : $item['display_name'];
 
                 return $item;
             },

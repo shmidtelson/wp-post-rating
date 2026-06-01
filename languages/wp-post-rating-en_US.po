@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Wp Post Rating 1.2.3\n"
+"POT-Creation-Date: 2026-06-01 12:00+0000\n"
+"PO-Revision-Date: 2026-06-01 12:00+0000\n"
+"Last-Translator: Romua1d <admin@romua1d.ru>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wp-post-rating\n"
+
+msgid "Stars rating"
+msgstr "Stars rating"
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Stars rating list"
+msgstr "Stars rating list"
+
+msgid "All votes"
+msgstr "All votes"
+
+msgid "Star rating settings"
+msgstr "Star rating settings"
+
+msgid "Display on single posts"
+msgstr "Display on single posts"
+
+msgid "Manual only (shortcode / PHP)"
+msgstr "Manual only (shortcode / PHP)"
+
+msgid "Before post content"
+msgstr "Before post content"
+
+msgid "After post content"
+msgstr "After post content"
+
+msgid "Applies to single blog posts. Before/after skips the shortcode in content."
+msgstr "Applies to single blog posts. Before/after skips the shortcode in content."
+
+msgid "Shortcodes"
+msgstr "Shortcodes"
+
+msgid "Use when display mode is manual, or for pages and custom placement"
+msgstr "Use when display mode is manual, or for pages and custom placement"
+
+msgid "Display in content"
+msgstr "Display in content"
+
+msgid "Display total votes for current post"
+msgstr "Display total votes for current post"
+
+msgid "Display average votes for current post"
+msgstr "Display average votes for current post"
+
+msgid "Votes"
+msgstr "Votes"
+
+msgid "Stars color"
+msgstr "Stars color"
+
+msgid "Second (darker) color choose automatically"
+msgstr "Second (darker) color is chosen automatically"
+
+msgid "Text (border) color"
+msgstr "Text (border) color"
+
+msgid "Tooltip background color"
+msgstr "Tooltip background color"
+
+msgid "Enable schema markup"
+msgstr "Enable schema markup"
+
+msgid "WPR Settings"
+msgstr "WPR Settings"
+
+msgid ""
+"<p>The <strong>WP POST RATING</strong> plugin requires versions minimum PHP "
+">= %s <b>(Your is %s)</b> and WP >= %s <b>(Your is %s)</b></p>"
+msgstr ""
+"<p>The <strong>WP POST RATING</strong> plugin requires PHP >= %s <b>(yours is "
+"%s)</b> and WordPress >= %s <b>(yours is %s)</b>.</p>"
+
+msgid "Settings saved successful"
+msgstr "Settings saved successfully"
+
+msgid "id"
+msgstr "ID"
+
+msgid "User"
+msgstr "User"
+
+msgid "Post"
+msgstr "Post"
+
+msgid "Vote result"
+msgstr "Vote result"
+
+msgid "IP adress"
+msgstr "IP address"
+
+msgid "Date create"
+msgstr "Date created"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Deleted %s vote"
+msgid_plural "Deleted %s votes"
+msgstr[0] "Deleted %s vote"
+msgstr[1] "Deleted %s votes"
+
+msgid "No ratings avaliable."
+msgstr "No ratings available."
+
+msgid "Guest"
+msgstr "Guest"
+
+msgid "List posts by rating"
+msgstr "List posts by rating"
+
+msgid "You may order displayed posts"
+msgstr "You may order displayed posts"
+
+msgid "New title"
+msgstr "New title"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Count of posts"
+msgstr "Number of posts"
+
+msgid "Order by"
+msgstr "Order by"
+
+msgid "Sort by"
+msgstr "Sort by"
+
+msgid "Wrapper posts"
+msgstr "Posts wrapper"
+
+msgid "Wrapper for all posts, supports shortcodes: "
+msgstr "Wrapper for all posts. Shortcodes: "
+
+msgid "Wrapper one post"
+msgstr "Single post wrapper"
+
+msgid "Wrapper for one post, supports shortcodes: "
+msgstr "Wrapper for one post. Shortcodes: "
+
+msgid "Date format"
+msgstr "Date format"
+
+msgid ""
+"Dates formats is here <a href=\"https://codex.wordpress.org/"
+"Formatting_Date_and_Time\">https://codex.wordpress.org/"
+"Formatting_Date_and_Time</a>"
+msgstr ""
+"Date format reference: <a href=\"https://wordpress.org/documentation/article/"
+"customize-date-and-time-format/\">wordpress.org/documentation/article/"
+"customize-date-and-time-format/</a>"

@@ -1,4 +1,4 @@
-.PHONY: help install setup build build-js-docker copy-wp copy-wp-build docker-up docker-down docker-install plugin-activate plugin-deactivate dev
+.PHONY: help install setup build build-js-docker i18n copy-wp copy-wp-build docker-up docker-down docker-install plugin-activate plugin-deactivate dev
 
 WP_DIR := .wordpress
 WP_PLUGIN_DIR := $(WP_DIR)/wp-content/plugins/wp-post-rating
@@ -17,6 +17,7 @@ help:
 	@echo "  setup              composer install + yarn install"
 	@echo "  build              yarn build (needs yarn in PATH)"
 	@echo "  build-js-docker    yarn install + build via Docker (no local yarn)"
+	@echo "  i18n               compile .po -> .mo in languages/"
 	@echo "  copy-wp            rsync plugin -> $(WP_PLUGIN_DIR)"
 	@echo "  copy-wp-build      build (or build-js-docker) + copy-wp"
 	@echo "  docker-up          start WordPress stack"
@@ -52,6 +53,11 @@ build-js-docker:
 	docker run --rm -u $$(id -u):$$(id -g) \
 		-v "$$(pwd):/app" -w /app $(NODE_IMAGE) \
 		sh -c "corepack enable && corepack prepare yarn@1.22.22 --activate && yarn install --frozen-lockfile && yarn build"
+
+i18n:
+	@for po in languages/*.po; do \
+		msgfmt -o "$${po%.po}.mo" "$$po" && echo "Compiled $$po"; \
+	done
 
 copy-wp:
 	@test -f dist/main.bundle.js || (echo "Missing dist/. Run: make build  OR  make build-js-docker" >&2; exit 1)

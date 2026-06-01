@@ -18,7 +18,9 @@ class TwigInitEnvironment
             new FilesystemLoader($pluginPath . 'views', $pluginPath)
         );
         $twig->addGlobal('PLUGIN_NAME', ConfigService::PLUGIN_NAME);
-        $twig->addFunction(new TwigFunction('__', '__'));
+        $twig->addFunction(new TwigFunction('__', static function (string $text, string $domain = ConfigService::PLUGIN_NAME): string {
+            return __($text, $domain);
+        }));
         return $twig;
     }
 }

@@ -1,0 +1,159 @@
+# Copyright (C) 2026 Romua1d
+# This file is distributed under the MIT License.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wp Post Rating 1.2.3\n"
+"Report-Msgid-Bugs-To: https://github.com/shmidtelson/wp-post-rating\n"
+"POT-Creation-Date: 2026-06-01 12:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: wp-post-rating\n"
+
+msgid "Stars rating"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Stars rating list"
+msgstr ""
+
+msgid "All votes"
+msgstr ""
+
+msgid "Star rating settings"
+msgstr ""
+
+msgid "Display on single posts"
+msgstr ""
+
+msgid "Manual only (shortcode / PHP)"
+msgstr ""
+
+msgid "Before post content"
+msgstr ""
+
+msgid "After post content"
+msgstr ""
+
+msgid "Applies to single blog posts. Before/after skips the shortcode in content."
+msgstr ""
+
+msgid "Shortcodes"
+msgstr ""
+
+msgid "Use when display mode is manual, or for pages and custom placement"
+msgstr ""
+
+msgid "Display in content"
+msgstr ""
+
+msgid "Display total votes for current post"
+msgstr ""
+
+msgid "Display average votes for current post"
+msgstr ""
+
+msgid "Votes"
+msgstr ""
+
+msgid "Stars color"
+msgstr ""
+
+msgid "Second (darker) color choose automatically"
+msgstr ""
+
+msgid "Text (border) color"
+msgstr ""
+
+msgid "Tooltip background color"
+msgstr ""
+
+msgid "Enable schema markup"
+msgstr ""
+
+msgid "WPR Settings"
+msgstr ""
+
+msgid ""
+"<p>The <strong>WP POST RATING</strong> plugin requires versions minimum PHP "
+">= %s <b>(Your is %s)</b> and WP >= %s <b>(Your is %s)</b></p>"
+msgstr ""
+
+msgid "Settings saved successful"
+msgstr ""
+
+msgid "id"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Post"
+msgstr ""
+
+msgid "Vote result"
+msgstr ""
+
+msgid "IP adress"
+msgstr ""
+
+msgid "Date create"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Deleted %s vote"
+msgid_plural "Deleted %s votes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "No ratings avaliable."
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "List posts by rating"
+msgstr ""
+
+msgid "You may order displayed posts"
+msgstr ""
+
+msgid "New title"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Count of posts"
+msgstr ""
+
+msgid "Order by"
+msgstr ""
+
+msgid "Sort by"
+msgstr ""
+
+msgid "Wrapper posts"
+msgstr ""
+
+msgid "Wrapper for all posts, supports shortcodes: "
+msgstr ""
+
+msgid "Wrapper one post"
+msgstr ""
+
+msgid "Wrapper for one post, supports shortcodes: "
+msgstr ""
+
+msgid "Date format"
+msgstr ""
+
+msgid ""
+"Dates formats is here <a href=\"https://codex.wordpress.org/"
+"Formatting_Date_and_Time\">https://codex.wordpress.org/"
+"Formatting_Date_and_Time</a>"
+msgstr ""
