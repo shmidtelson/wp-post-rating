@@ -1,6 +1,6 @@
 # Local WordPress (Docker)
 
-Docker Compose stack for developing **wp-post-rating**. The plugin directory is bind-mounted from the repository root, so PHP and template changes apply without `make copy-wp`.
+Docker Compose stack for developing **wp-post-rating**.
 
 ## Quick start
 
@@ -8,11 +8,50 @@ From the **repository root**:
 
 ```bash
 make build          # or: make build-js-docker
-make docker-up      # starts MySQL + WordPress on http://localhost:8080
-make docker-install # WP install + activate plugin
+make docker-up
+make docker-install # copy plugin, install WP, activate
 ```
 
-Default admin: `admin` / `admin` (set during `wp core install`).
+- Site: http://localhost:8080  
+- Admin: http://localhost:8080/wp-admin (`admin` / `admin`)
+
+After changing PHP/templates, run `make copy-wp` (or `make copy-wp-build` if JS/CSS changed).
+
+## Delete plugin from WordPress admin
+
+By default the plugin is **copied** into the container, not bind-mounted — you can deactivate and delete it under **Plugins** like any normal plugin.
+
+If you use `docker-compose.override.yml` for live reload (see below), deletion from the admin **will not work** until you remove the override.
+
+## Live reload (optional)
+
+```bash
+cp .wordpress/docker-compose.override.yml.example .wordpress/docker-compose.override.yml
+make copy-wp
+make docker-up
+```
+
+Edits in the repo apply immediately, but the plugin **cannot be removed from the admin** while the bind mount is active.
+
+To switch back:
+
+```bash
+make plugin-remove-mount   # deactivate + remove override + restart
+make copy-wp
+make plugin-activate
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `make copy-wp` | Sync plugin into the container |
+| `make copy-wp-build` | Build assets + copy-wp |
+| `make docker-down` | Stop containers |
+| `make plugin-activate` | Activate plugin |
+| `make plugin-deactivate` | Deactivate plugin |
+| `make plugin-remove` | Deactivate and delete plugin (admin-style) |
+| `make plugin-remove-mount` | Tear down bind-mount override |
 
 ## Configuration
 
@@ -20,25 +59,8 @@ Default admin: `admin` / `admin` (set during `wp core install`).
 cp .wordpress/.env.example .wordpress/.env
 ```
 
-Edit `WP_PORT` or database credentials in `.wordpress/.env` if needed.
-
-## Useful commands
-
-| Command | Description |
-|---------|-------------|
-| `make docker-down` | Stop containers |
-| `make plugin-activate` | Activate plugin |
-| `make plugin-deactivate` | Deactivate plugin |
-| `make plugin-remove` | Deactivate, delete plugin mount target from WP (container data kept) |
-
 ## WP-CLI
 
 ```bash
 docker compose -f .wordpress/docker-compose.yml --project-directory .wordpress run --rm wpcli plugin list
 ```
-
-## Notes
-
-- WordPress core and uploads live in the Docker volume `wp_html`, not in this folder.
-- Only `wp-content/plugins/wp-post-rating` is mounted from `..` (repo root).
-- Run `make build` after changing JavaScript/CSS in `assets/`.

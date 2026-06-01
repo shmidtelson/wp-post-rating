@@ -30,6 +30,8 @@ make dev
 
 See [.wordpress/README.md](.wordpress/README.md).
 
+If the plugin cannot be deleted from **Plugins** in wp-admin, you likely have the Docker bind-mount override enabled — run `make plugin-remove-mount`, then delete again or use `make plugin-remove`.
+
 **Playground / Studio**: [`.sandbox/blueprint.json`](.sandbox/blueprint.json) (GitHub zip) or root [`blueprint.json`](blueprint.json) (wordpress.org). See [.sandbox/README.md](.sandbox/README.md).
 
 ## Links ##

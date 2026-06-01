@@ -8,13 +8,14 @@ dependencies/
 config/
 .plugin-assets/
 .babelrc
+.editorconfig
+.distignore
 .gitignore
 README.md
 CHANGELOG.md
 RELEASE_NOTES.md
 composer.json
 composer.lock
-config/
 gulpfile.js
 package-lock.json
 package.json
@@ -32,5 +33,5 @@ node_modules/
 vendor-bin/
 assets/sass
 assets/config.json
-assets/js/admin-settings-page.js
-assets/js/wp-post-rating.js
+assets/index.html
+assets/js/

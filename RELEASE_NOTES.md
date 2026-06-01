@@ -12,7 +12,8 @@
 
 1. No database migration — settings and `wpr_rating` table unchanged.
 2. Custom deploys: pull tag `v1.3.0`; run `yarn build` if you ship assets from source.
-3. **WordPress.org** — stable tag **1.3.0** is live ([plugin page](https://wordpress.org/plugins/wp-post-rating/)); updates appear in Dashboard → Plugins after the directory cache refreshes (~15–30 min).
+3. **WordPress.org** — stable tag **1.3.0** is live ([plugin page](https://wordpress.org/plugins/wp-post-rating/)).
+4. **"Could not copy file" on update** — common when upgrading from 1.2.x (old package had very large `vendor_prefixed/` trees). Fix: deactivate → delete `wp-content/plugins/wp-post-rating/` → install 1.3.0 again (data in DB is kept). A cleaner zip (without dev files) ships in the next patch.
 
 ## 1.2.5 — 2026-06-02
 

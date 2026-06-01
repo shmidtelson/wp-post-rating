@@ -4,7 +4,8 @@
 #   make docker-up
 #   make docker-install
 #
-# Plugin source is bind-mounted from the repository (no copy-wp required for PHP/templates).
+# Plugin files are copied into the container (see: make copy-wp).
+# For live reload from the repo, use docker-compose.override.yml (see override example).
 
 name: wp-post-rating
 
@@ -42,7 +43,6 @@ services:
         define('SCRIPT_DEBUG', true);
     volumes:
       - wp_html:/var/www/html
-      - ../:/var/www/html/wp-content/plugins/wp-post-rating
     depends_on:
       db:
         condition: service_healthy
@@ -57,7 +57,6 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
     volumes:
       - wp_html:/var/www/html
-      - ../:/var/www/html/wp-content/plugins/wp-post-rating
     depends_on:
       db:
         condition: service_healthy

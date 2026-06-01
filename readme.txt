@@ -5,7 +5,7 @@ Tags: rating, star rating, post rating, ajax, schema
 Requires at least: 6.0
 Tested up to: 6.8.5
 Requires PHP: 8.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,11 +45,22 @@ Lightweight AJAX 5-star post ratings with Schema.org markup, shortcodes, a sideb
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. In settings copy shortcode and put it in your template.
 
+== Upgrade Notice ==
+
+= 1.3.1 =
+Packaging fix for wordpress.org installs. If 1.3.0 failed with "Could not copy file", delete `wp-content/plugins/wp-post-rating/` and install again.
+
+= 1.3.0 =
+If the update shows "Could not copy file", deactivate the plugin, delete the `wp-post-rating` folder under `wp-content/plugins/` (FTP or hosting file manager), then install again. Your ratings and settings stay in the database.
+
 == Changelog ==
+= 1.3.1 =
+* Fixed: Release zip no longer includes dev files (`.editorconfig`, `.distignore`, source `assets/js/`) that could confuse installs on strict hosts
 = 1.3.0 =
 * Changed: Removed runtime Composer vendor (Twig, Symfony DI); plugin uses a lightweight PSR-4 autoloader and PHP templates
 * Added: `PluginBootstrap` service wiring, `.wordpress/` Docker dev stack with plugin bind-mount, Playground blueprints (`.sandbox/`, root `blueprint.json`)
 * Fixed: Text domain loaded on `init` (WordPress 6.7+ notice); lazy loading for admin list table and widget classes
+* Note: Updating from 1.2.x removes thousands of old vendor files; on some hosts the dashboard update may fail once — delete the plugin folder and reinstall if you see "Could not copy file"
 = 1.2.5 =
 * Added: Makefile `plugin-remove` to deactivate and remove the plugin from local Docker installs
 * Improved: `.distignore` excludes dev tooling from WordPress.org packages (node_modules, Docker/Makefile, docs)

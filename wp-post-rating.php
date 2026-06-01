@@ -3,7 +3,7 @@
 Plugin Name: Wp Post Rating
 Plugin URI: https://github.com/shmidtelson/wp-post-rating
 Description: Powerful post rating wordpress plugin
-Version: 1.3.0
+Version: 1.3.1
 Requires at least: 6.0
 Requires PHP: 8.1
 Author: Romua1d
@@ -23,7 +23,7 @@ if (! defined('WPR_DEBUG')) {
 }
 
 if (! defined('WPR_VERSION')) {
-    define('WPR_VERSION', '1.3.0');
+    define('WPR_VERSION', '1.3.1');
 }
 
 require_once __DIR__ . '/includes/autoload.php';

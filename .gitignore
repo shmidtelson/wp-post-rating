@@ -7,10 +7,13 @@
 .php_cs.cache
 .env
 composer.lock
+build/
 
 # Local WordPress (Docker) — keep compose templates in git
 .wordpress/*
 !.wordpress/docker-compose.yml
 !.wordpress/README.md
 !.wordpress/.env.example
+!.wordpress/docker-compose.override.yml.example
 .wordpress/.env
+.wordpress/docker-compose.override.yml

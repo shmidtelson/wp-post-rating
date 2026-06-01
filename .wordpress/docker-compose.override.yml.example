@@ -1,0 +1,17 @@
+# Optional live-reload for plugin development.
+#
+#   cp .wordpress/docker-compose.override.yml.example .wordpress/docker-compose.override.yml
+#   make copy-wp && make docker-up
+#
+# While this override is active, WordPress cannot delete the plugin from the admin
+# (the folder is bind-mounted from the repository). Use:
+#   make plugin-remove-mount
+# or remove docker-compose.override.yml and run make copy-wp again.
+
+services:
+  wordpress:
+    volumes:
+      - ../:/var/www/html/wp-content/plugins/wp-post-rating
+  wpcli:
+    volumes:
+      - ../:/var/www/html/wp-content/plugins/wp-post-rating
