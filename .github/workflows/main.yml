@@ -1,19 +1,62 @@
 name: Deploy Plugin to WordPress.org
+
 on:
   push:
     tags:
       - "*"
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: WordPress Plugin Deploy
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+
+      - name: Build plugin assets
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn install --frozen-lockfile
+          yarn build
+          test -f dist/main.bundle.js
+
+      - name: Prepare release directory
+        run: |
+          BUILD_DIR="${GITHUB_WORKSPACE}/build/wp-post-rating"
+          mkdir -p "$BUILD_DIR"
+          rsync -a \
+            --delete \
+            --exclude='build/' \
+            --exclude='.git/' \
+            --exclude-from='.distignore' \
+            ./ "$BUILD_DIR/"
+          echo "Release tree:"
+          ls -la "$BUILD_DIR" | head -20
+          test -f "$BUILD_DIR/wp-post-rating.php"
+          test -f "$BUILD_DIR/includes/autoload.php"
+          test -d "$BUILD_DIR/templates"
+          ! test -d "$BUILD_DIR/vendor_prefixed"
+
+      - name: Prune legacy paths from SVN trunk
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          chmod +x scripts/svn-prune-legacy.sh
+          scripts/svn-prune-legacy.sh wp-post-rating
+
+      - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: wp-post-rating
           ASSETS_DIR: .plugin-assets
+          BUILD_DIR: build/wp-post-rating

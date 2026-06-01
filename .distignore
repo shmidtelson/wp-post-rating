@@ -1,5 +1,11 @@
 .github/
 .git/
+build/
+vendor/
+vendor_prefixed/
+views/
+dependencies/
+config/
 .plugin-assets/
 .babelrc
 .gitignore
