@@ -3,7 +3,7 @@ Contributors: shmidtelson
 Donate link: https://github.com/shmidtelson/wp-post-rating
 Tags: rating, star rating, post rating, ajax, schema
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.8.5
 Requires PHP: 8.1
 Stable tag: 1.3.0
 License: GPLv2 or later

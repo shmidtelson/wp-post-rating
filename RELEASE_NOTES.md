@@ -12,7 +12,7 @@
 
 1. No database migration — settings and `wpr_rating` table unchanged.
 2. Custom deploys: pull tag `v1.3.0`; run `yarn build` if you ship assets from source.
-3. WordPress.org: deploy workflow runs on tag push; commit blueprint to SVN `assets/blueprints/` if preview is enabled.
+3. **WordPress.org** — stable tag **1.3.0** is live ([plugin page](https://wordpress.org/plugins/wp-post-rating/)); updates appear in Dashboard → Plugins after the directory cache refreshes (~15–30 min).
 
 ## 1.2.5 — 2026-06-02
 
