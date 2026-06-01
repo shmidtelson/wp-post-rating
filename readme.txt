@@ -45,10 +45,18 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 = 1.2.3 =
-* WordPress 6.x and PHP 8.1+ compatibility updates
-* Removed deprecated PHP filter usage (PHP 8.2+)
-* Security hardening for admin forms and bulk actions
-* Fixed plugin deactivation on failed version check
+* Requires WordPress 6.0+ and PHP 8.1+ (tested up to WordPress 6.8)
+* Added: display rating before or after single post content, or manual shortcode/PHP only
+* Added: English (en_US), Spanish (es_ES), and updated Russian (ru_RU) translations
+* Added: `make i18n` to compile language files; Docker/Makefile for local development
+* Improved text domain loading with English (en_US) fallback
+* Improved activation and automatic `wpr_rating` table creation when missing after deploy
+* Improved admin settings sanitization, bulk actions, and SQL ORDER BY handling
+* Improved Twig translations and PSR-4 autoload; build uses Yarn and sass
+* Fixed WP_List_Table and admin ratings screen on newer WordPress
+* Fixed deprecated PHP filter usage (PHP 8.2+), ConfigService notices, and version-check deactivation
+* Fixed empty plugin options JSON decode and several admin UI strings
+* Security: removed hardcoded third-party API credentials from plugin code
 = 1.2.0 =
 * Stars rating library moved to @romua1d/star-rating-js library
 = 1.1.1.0 =

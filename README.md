@@ -22,5 +22,10 @@ Deploy through https://github.com/10up/action-wordpress-plugin-deploy
 ## Links ##
 https://wordpress.org/plugins/wp-post-rating/
 
+## Changelog & release notes ##
+- [CHANGELOG.md](CHANGELOG.md) — full version history
+- [RELEASE_NOTES.md](RELEASE_NOTES.md) — **1.2.3** upgrade guide and highlights
+- [readme.txt](readme.txt) — WordPress.org plugin readme (includes changelog)
+
 ## License ##
 [MIT](https://raw.githubusercontent.com/shmidtelson/wp-post-rating/master/LICENSE)
