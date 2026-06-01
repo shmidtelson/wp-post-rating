@@ -21,22 +21,39 @@ class SettingService
 
     public function setDefaultSettings(): void
     {
-        $settingsEntity = new SettingEntity();
-        $this->repository->setDefaultSettings(json_encode($settingsEntity));
+        $this->ensureDefaultSettings();
+        $this->repository->registerSettingsGroup();
     }
 
     public function getSetting(): SettingEntity
     {
         $settingsEntity = new SettingEntity();
-        $data = json_decode($this->repository->get(), true);
+        $raw = $this->repository->get();
 
-        if ($data === null) {
+        if (! is_string($raw) || $raw === '') {
+            $this->ensureDefaultSettings();
+
+            return $settingsEntity;
+        }
+
+        $data = json_decode($raw, true);
+
+        if (! is_array($data)) {
             return $settingsEntity;
         }
 
         $settingsEntity->loadData($data);
 
         return $settingsEntity;
+    }
+
+    private function ensureDefaultSettings(): void
+    {
+        if ($this->repository->get() !== false) {
+            return;
+        }
+
+        $this->repository->set(json_encode(new SettingEntity()));
     }
 
     /**

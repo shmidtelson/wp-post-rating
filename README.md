@@ -16,8 +16,8 @@ Deploy through https://github.com/10up/action-wordpress-plugin-deploy
 * without jQuery (Native js)
 
 ## Requirements ##
-* Wordpress >= 4.9.8
-* PHP >= 7.2
+* WordPress >= 6.0
+* PHP >= 8.1
 
 ## Links ##
 https://wordpress.org/plugins/wp-post-rating/

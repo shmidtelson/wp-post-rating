@@ -9,7 +9,6 @@ use WPR\Views\RatingView;
 use WPR\Service\AjaxService;
 use WPR\Wordpress\WPR_Widget;
 use WPR\Service\TranslateService;
-use WPR\Service\MaintenanceService;
 use WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
 use WPR\Service\Admin\SettingsHookService as AdminSettingsHookService;
 use WPR\Service\SettingsHookService as FrontSettingsHookService;
@@ -42,12 +41,6 @@ class Plugin
     {
         // Load translates
         add_action('init', [$this->containerBuilder->get(TranslateService::class), 'loadPluginTextDomain']);
-
-        // Start install tables if not exists
-        register_activation_hook(
-            $this->containerBuilder->getParameter('wpr.plugin_file_path'),
-            [$this->containerBuilder->get(MaintenanceService::class), 'installPlugin']
-        );
 
         // Add shortcodes
         add_shortcode('wp_rating', [$this->containerBuilder->get(RatingView::class), 'renderStars']);

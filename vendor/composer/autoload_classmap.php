@@ -36,6 +36,7 @@ return array(
     'WPR\\Service\\ConfigService' => $baseDir . '/src/Service/ConfigService.php',
     'WPR\\Service\\DocumentService' => $baseDir . '/src/Service/DocumentService.php',
     'WPR\\Service\\MaintenanceService' => $baseDir . '/src/Service/MaintenanceService.php',
+    'WPR\\Service\\PostContentHookService' => $baseDir . '/src/Service/PostContentHookService.php',
     'WPR\\Service\\RatingService' => $baseDir . '/src/Service/RatingService.php',
     'WPR\\Service\\ScriptsService' => $baseDir . '/src/Service/ScriptsService.php',
     'WPR\\Service\\ServiceInterface' => $baseDir . '/src/Service/ServiceInterface.php',

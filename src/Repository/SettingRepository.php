@@ -10,25 +10,18 @@ class SettingRepository
 
     const SETTINGS_GROUP_KEY = 'wpr_options_group';
 
-    /**
-     * @param $jsonString
-     */
-    public function setDefaultSettings($jsonString)
+    public function registerSettingsGroup(): void
     {
-        add_option(self::SETTINGS_KEY, $jsonString);
         register_setting(self::SETTINGS_GROUP_KEY, self::SETTINGS_KEY);
     }
 
-    /**
-     * @param $jsonString
-     */
-    public function set(string $jsonString)
+    public function set(string $jsonString): void
     {
         update_option(self::SETTINGS_KEY, $jsonString);
     }
 
     /**
-     * @return string
+     * @return string|false
      */
     public function get()
     {

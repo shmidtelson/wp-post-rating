@@ -71,7 +71,9 @@ class RatingService
                 $this->repository->update($entity);
             }
         } catch (Throwable $e) {
-            echo $e;
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('WP Post Rating save error: '.$e->getMessage());
+            }
 
             return false;
         }
@@ -81,8 +83,15 @@ class RatingService
 
     public function delete(array $ids)
     {
+        $sanitizedIds = array_map('absint', $ids);
+        $sanitizedIds = array_filter($sanitizedIds);
+
+        if ($sanitizedIds === []) {
+            return 0;
+        }
+
         return $this->repository->delete(
-            implode(',', $ids)
+            implode(',', $sanitizedIds)
         );
     }
 

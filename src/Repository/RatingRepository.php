@@ -167,6 +167,10 @@ FROM %s
 
     public function getRatingList(string $order, string $orderBy, int $perPage, int $offset)
     {
+        $allowedOrderBy = ['id', 'created_at', 'post_title'];
+        $orderBy = in_array($orderBy, $allowedOrderBy, true) ? $orderBy : 'id';
+        $order = strtolower($order) === 'asc' ? 'ASC' : 'DESC';
+
         $sql = sprintf(
             '
 SELECT t1.id,t2.display_name,t3.post_title,t1.vote,t1.ip,t1.created_at 

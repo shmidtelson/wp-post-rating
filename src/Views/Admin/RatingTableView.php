@@ -4,23 +4,12 @@ declare(strict_types=1);
 
 namespace WPR\Views\Admin;
 
+require_once dirname(__DIR__, 2).'/Compat/ListTableLoader.php';
+
 use \WP_List_Table;
 use WPR\Service\ConfigService;
 use WPR\Service\RatingService;
 use WPR\Service\TwigEnvironmentService;
-
-if (! class_exists('WP_Screen')) {
-    require_once ABSPATH.'wp-admin/includes/class-wp-screen.php';
-}
-
-if (! class_exists('WP_List_Table')) {
-    require_once ABSPATH.'wp-admin/includes/screen.php';
-    require_once ABSPATH.'wp-admin/includes/class-wp-list-table.php';
-}
-
-if (! function_exists('convert_to_screen')) {
-    require_once ABSPATH.'wp-admin/includes/template.php';
-}
 
 class RatingTableView extends WP_List_Table
 {
@@ -33,23 +22,19 @@ class RatingTableView extends WP_List_Table
      */
     private $serviceRating;
 
+    private bool $listTableInitialized = false;
+
     public function __construct(
         RatingService $serviceRating,
         TwigEnvironmentService $twigService
     ) {
-        parent::__construct([
-            'singular' => 'wp_list_vote', //Singular label
-            'plural' => 'wp_list_votes', //plural label, also this well be one of the table css class
-            'ajax' => false, //We won't support Ajax for this table
-            'screen' => 'wp_list_votes',
-        ]);
-
         $this->twigService = $twigService;
         $this->serviceRating = $serviceRating;
     }
 
     public function loadRatingTable()
     {
+        $this->ensureListTableInitialized();
         $this->prepare_items();
 
         echo $this->twigService->getTwig()->render('admin/ratings-table.twig', [
@@ -130,7 +115,9 @@ class RatingTableView extends WP_List_Table
     {
         // security check!
         if (isset($_POST['_wpnonce']) && ! empty($_POST['_wpnonce'])) {
-            $nonce = filter_input(INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING);
+            $nonce = isset($_POST['_wpnonce'])
+                ? sanitize_text_field(wp_unslash($_POST['_wpnonce']))
+                : '';
             $action = 'bulk-'.$this->_args['plural'];
 
             if (! wp_verify_nonce($nonce, $action)) {
@@ -246,5 +233,23 @@ class RatingTableView extends WP_List_Table
         ob_end_clean();
 
         return $html;
+    }
+
+    private function ensureListTableInitialized(): void
+    {
+        if ($this->listTableInitialized) {
+            return;
+        }
+
+        \wpr_load_list_table_dependencies();
+
+        parent::__construct([
+            'singular' => 'wp_list_vote',
+            'plural' => 'wp_list_votes',
+            'ajax' => false,
+            'screen' => 'wp_list_votes',
+        ]);
+
+        $this->listTableInitialized = true;
     }
 }

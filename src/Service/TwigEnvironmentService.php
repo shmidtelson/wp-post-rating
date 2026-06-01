@@ -22,9 +22,9 @@ class TwigEnvironmentService
 
     public function getTwig()
     {
+        $pluginPath = $this->configService->getPluginPath();
         $twig = new Environment(
-            new FilesystemLoader(
-                $this->configService->getPluginPath().'/views')
+            new FilesystemLoader($pluginPath . 'views', $pluginPath)
         );
         $twig->addGlobal('PLUGIN_NAME', ConfigService::PLUGIN_NAME);
         $twig->addFunction(new TwigFunction('__', '__'));

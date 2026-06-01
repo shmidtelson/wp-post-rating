@@ -14,6 +14,10 @@ class ComposerStaticInitcb62e5bcb041145a11f416ce0c4265ad
     );
 
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'WPR\\' => 4,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -39,6 +43,10 @@ class ComposerStaticInitcb62e5bcb041145a11f416ce0c4265ad
     );
 
     public static $prefixDirsPsr4 = array (
+        'WPR\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -112,6 +120,7 @@ class ComposerStaticInitcb62e5bcb041145a11f416ce0c4265ad
         'WPR\\Service\\ConfigService' => __DIR__ . '/../..' . '/src/Service/ConfigService.php',
         'WPR\\Service\\DocumentService' => __DIR__ . '/../..' . '/src/Service/DocumentService.php',
         'WPR\\Service\\MaintenanceService' => __DIR__ . '/../..' . '/src/Service/MaintenanceService.php',
+        'WPR\\Service\\PostContentHookService' => __DIR__ . '/../..' . '/src/Service/PostContentHookService.php',
         'WPR\\Service\\RatingService' => __DIR__ . '/../..' . '/src/Service/RatingService.php',
         'WPR\\Service\\ScriptsService' => __DIR__ . '/../..' . '/src/Service/ScriptsService.php',
         'WPR\\Service\\ServiceInterface' => __DIR__ . '/../..' . '/src/Service/ServiceInterface.php',

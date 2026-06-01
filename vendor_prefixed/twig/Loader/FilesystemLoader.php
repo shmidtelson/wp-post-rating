@@ -32,7 +32,7 @@ class FilesystemLoader implements LoaderInterface
     public function __construct($paths = [], string $rootPath = null)
     {
         $this->rootPath = (null === $rootPath ? \getcwd() : $rootPath) . \DIRECTORY_SEPARATOR;
-        if (\false !== ($realPath = \realpath($rootPath))) {
+        if (null !== $rootPath && \false !== ($realPath = \realpath($rootPath))) {
             $this->rootPath = $realPath . \DIRECTORY_SEPARATOR;
         }
         if ($paths) {

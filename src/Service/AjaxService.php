@@ -31,20 +31,18 @@ class AjaxService
         try {
             $this->validateData($postId, $vote);
         } catch (ValidationException $e) {
-            echo json_encode(new ErrorResponseDto($e->getMessage()));
-            wp_die();
+            wp_send_json((array) new ErrorResponseDto($e->getMessage()), 400);
         }
 
         $latestVote = $this->ratingService->getUserLatestVoteByPostId($postId);
 
         $action = $this->saveVote($latestVote, $vote, $postId);
 
-        echo json_encode(new SuccessResponseDto([
+        wp_send_json((array) new SuccessResponseDto([
             'avg' => $this->ratingService->getAvgRating($postId, 0),
             'total' => $this->ratingService->getTotalVotesByPostId($postId),
             'action' => $action,
         ]));
-        wp_die();
     }
 
     private function saveVote(array $latestVote, int $vote, int $postId): string

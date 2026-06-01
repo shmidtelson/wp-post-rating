@@ -81,7 +81,7 @@ class ScriptsService
             wp_enqueue_script('admin-settings-page');
         }
 
-        if ($hook === 'settings_page_' . ConfigService::OPTIONS_KEY or $hook === 'plugins.php') {
+        if ($hook === 'settings_page_' . ConfigService::OPTIONS_KEY || $hook === 'plugins.php') {
             wp_register_style(
                 'admin-settings-page',
                 $this->configService->getPluginCssPath() . 'admin.css'

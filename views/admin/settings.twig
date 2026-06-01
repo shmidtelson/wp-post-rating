@@ -7,17 +7,38 @@
 
         <table class="form-table">
             <tr>
-                <th scope="row">{{ __('Star rating position in content', PLUGIN_NAME) }}</th>
+                <th scope="row">
+                    <label for="wpr-position">{{ __('Display on single posts', PLUGIN_NAME) }}</label>
+                </th>
+                <td>
+                    <fieldset>
+                        <select name="position" id="wpr-position">
+                            <option value="shortcode" {% if options.getPosition == 'shortcode' %}selected{% endif %}>
+                                {{ __('Manual only (shortcode / PHP)', PLUGIN_NAME) }}
+                            </option>
+                            <option value="before" {% if options.getPosition == 'before' %}selected{% endif %}>
+                                {{ __('Before post content', PLUGIN_NAME) }}
+                            </option>
+                            <option value="after" {% if options.getPosition == 'after' %}selected{% endif %}>
+                                {{ __('After post content', PLUGIN_NAME) }}
+                            </option>
+                        </select>
+                        <p class="description">
+                            {{ __('Applies to single blog posts. Before/after skips the shortcode in content.', PLUGIN_NAME) }}
+                        </p>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">{{ __('Shortcodes', PLUGIN_NAME) }}</th>
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text">
-                            <span>
-                                {{ __('Star rating position in content', PLUGIN_NAME) }}
-                            </span>
+                            <span>{{ __('Shortcodes', PLUGIN_NAME) }}</span>
                         </legend>
                         <div class="shortcode-checked-js">
                             <p class="description" id="tagline-description">
-                                {{ __('How to custom display rating widget. Shortcode or PHP', PLUGIN_NAME) }}
+                                {{ __('Use when display mode is manual, or for pages and custom placement', PLUGIN_NAME) }}
                             </p>
                             <p>
                                 <b>{{ __('Display in content', PLUGIN_NAME) }}</b>

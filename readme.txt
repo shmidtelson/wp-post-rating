@@ -2,10 +2,10 @@
 Contributors: shmidtelson
 Donate link: https://github.com/shmidtelson/wp-post-rating
 Tags: 5 star, google rating, postrating, rating, ratings, seo rating, rating snippet
-Requires at least: 4.9.8
-Tested up to: 5.8
-Requires PHP: 7.2
-Stable tag: 1.2.2
+Requires at least: 6.0
+Tested up to: 6.8
+Requires PHP: 8.1
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.2.3 =
+* WordPress 6.x and PHP 8.1+ compatibility updates
+* Removed deprecated PHP filter usage (PHP 8.2+)
+* Security hardening for admin forms and bulk actions
+* Fixed plugin deactivation on failed version check
 = 1.2.0 =
 * Stars rating library moved to @romua1d/star-rating-js library
 = 1.1.1.0 =

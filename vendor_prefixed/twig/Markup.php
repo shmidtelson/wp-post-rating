@@ -28,7 +28,7 @@ class Markup implements \Countable, \JsonSerializable
     {
         return $this->content;
     }
-    public function count()
+    public function count(): int
     {
         return \mb_strlen($this->content, $this->charset);
     }

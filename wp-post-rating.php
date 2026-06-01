@@ -3,7 +3,9 @@
 Plugin Name: Wp Post Rating
 Plugin URI: https://github.com/shmidtelson/wp-post-rating
 Description: Powerful post rating wordpress plugin
-Version: 1.2.2
+Version: 1.2.3
+Requires at least: 6.0
+Requires PHP: 8.1
 Author: Romua1d
 Author URI: https://romua1d.ru
 Text Domain: wp-post-rating
@@ -23,27 +25,53 @@ if (!defined('WPR_DEBUG')) {
     define('WPR_DEBUG', false);
 }
 /**
- * Run plugin function.
- *
- * @throws Exception If something went wrong.
+ * @return WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder
  */
-function run_wp_post_rating()
+function wpr_build_container()
 {
     $pluginNamePath = plugin_dir_path(__FILE__);
     require_once $pluginNamePath.'vendor/autoload.php';
+    require_once $pluginNamePath.'src/Compat/ListTableLoader.php';
+    wpr_load_list_table_dependencies();
 
     $containerBuilder = new WPR_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder();
 
-    $loader = new WPR_Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader($containerBuilder, new WPR_Vendor\Symfony\Component\Config\FileLocator(__DIR__));
+    $loader = new WPR_Vendor\Symfony\Component\DependencyInjection\Loader\PhpFileLoader(
+        $containerBuilder,
+        new WPR_Vendor\Symfony\Component\Config\FileLocator(__DIR__)
+    );
     $loader->load($pluginNamePath.'dependencies/services.php');
 
     $containerBuilder->setParameter('wpr.path', $pluginNamePath);
     $containerBuilder->setParameter('wpr.url', plugin_dir_url(__FILE__));
     $containerBuilder->setParameter('wpr.plugin_file_path', __FILE__);
     $containerBuilder->setParameter('wpr.base_name', plugin_basename(__FILE__));
-    $containerBuilder->setParameter('wpr.version', '1.1.1.0');
+    $containerBuilder->setParameter('wpr.version', '1.2.3');
 
     $containerBuilder->compile();
+
+    return $containerBuilder;
+}
+
+function wpr_activate_plugin(): void
+{
+    $container = wpr_build_container();
+    $container->get(WPR\Service\MaintenanceService::class)->installPlugin();
+}
+
+register_activation_hook(__FILE__, 'wpr_activate_plugin');
+
+/**
+ * Run plugin function.
+ *
+ * @throws Exception If something went wrong.
+ */
+function run_wp_post_rating()
+{
+    $containerBuilder = wpr_build_container();
+
+    // Create DB tables if missing (e.g. after copy-wp without re-activation).
+    $containerBuilder->get(WPR\Service\MaintenanceService::class)->installPlugin();
 
     $wpPostRating = new WPR\Plugin($containerBuilder);
     $wpPostRating->run();

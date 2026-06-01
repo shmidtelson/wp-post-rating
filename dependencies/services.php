@@ -21,7 +21,7 @@ return function (ContainerConfigurator $configurator) {
                              ->public();
 
     $services->load('WPR\\', '../src')
-             ->exclude('../src/{Entity,Dto,Plugin.php}')
+             ->exclude('../src/{Entity,Dto,Plugin.php,Compat}')
              ->public();
 
     $services->set('parameter_bag', ContainerBag::class)

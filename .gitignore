@@ -1,6 +1,9 @@
 /node_modules
+/package-lock.json
 /.idea
 /.git
 /vendor-bin/
 .php_cs.cache
+.env
+.wordpress/
 

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace WPR\Entity;
 
+use WPR\Service\ConfigService;
+
 class SettingEntity
 {
-    public $position = 'shortcode';
+    public $position = ConfigService::POSITION_SHORTCODE;
     public $starsMainColor = '#fdd835';
     public $starsTextColor = '#000';
     public $starsTextBackgroundColor = '#fff';
@@ -14,7 +16,7 @@ class SettingEntity
 
     public function loadData(array $data)
     {
-        $this->setPosition($data['position']);
+        $this->setPosition($data['position'] ?? ConfigService::POSITION_SHORTCODE);
         $this->setStarsMainColor($data['starsMainColor']);
         $this->setStarsTextColor($data['starsTextColor']);
         $this->setStarsTextBackgroundColor($data['starsTextBackgroundColor']);

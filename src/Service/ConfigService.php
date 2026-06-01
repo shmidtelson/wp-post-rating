@@ -22,6 +22,29 @@ class ConfigService
 
     const OPTIONS_KEY = 'wpr-settings';
 
+    const POSITION_SHORTCODE = 'shortcode';
+
+    const POSITION_BEFORE = 'before';
+
+    const POSITION_AFTER = 'after';
+
+    /**
+     * @return string[]
+     */
+    public static function getAllowedPositions(): array
+    {
+        return [
+            self::POSITION_SHORTCODE,
+            self::POSITION_BEFORE,
+            self::POSITION_AFTER,
+        ];
+    }
+
+    /**
+     * @var \wpdb
+     */
+    public $wpdb;
+
     public function __construct()
     {
         global $wpdb;
@@ -64,17 +87,17 @@ class ConfigService
     /**
      * @return string
      */
-    public function getPluginPath()
+    public function getPluginPath(): string
     {
-        return plugin_dir_path(dirname(dirname(__FILE__)));
+        return trailingslashit(dirname(__DIR__, 2));
     }
 
     /**
      * @return string
      */
-    public function getPluginUrl()
+    public function getPluginUrl(): string
     {
-        return plugin_dir_url(dirname(dirname(__FILE__)));
+        return plugin_dir_url(dirname(__DIR__, 2) . '/wp-post-rating.php');
     }
 
     /**
@@ -90,7 +113,7 @@ class ConfigService
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
 
-        return $_SERVER['REMOTE_ADDR'];
+        return isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
     }
 
     /**

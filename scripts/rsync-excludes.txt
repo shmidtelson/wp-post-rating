@@ -1,0 +1,17 @@
+.git
+.github
+.wordpress
+.idea
+node_modules
+vendor-bin
+assets
+Makefile
+package.json
+package-lock.json
+webpack.config.js
+webpack.config.demo.js
+.codeception.yml
+.babelrc
+.env
+*.md
+.plugin-assets

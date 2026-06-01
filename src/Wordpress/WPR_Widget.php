@@ -125,7 +125,7 @@ class WPR_Widget extends \WP_Widget
                 class="widefat"
                 id="<?php echo $this->get_field_id('hwrap'); ?>"
                 name="<?php echo $this->get_field_name('hwrap'); ?>"
-            ><?php echo $hwrap; ?></textarea>
+            ><?php echo esc_textarea($hwrap); ?></textarea>
             <small>
                 <?php _e('Wrapper for all posts, supports shortcodes: ', ConfigService::PLUGIN_NAME) ?>
                 <code>[posts]</code>
@@ -139,7 +139,7 @@ class WPR_Widget extends \WP_Widget
                 class="widefat"
                 id="<?php echo $this->get_field_id('pwrap'); ?>"
                 name="<?php echo $this->get_field_name('pwrap'); ?>"
-            ><?php echo $pwrap; ?></textarea>
+            ><?php echo esc_textarea($pwrap); ?></textarea>
             <small>
                 <?php _e('Wrapper for one post, supports shortcodes: ', ConfigService::PLUGIN_NAME) ?> <code>[date]
                     [stars] [post_title] [author_name]</code>
