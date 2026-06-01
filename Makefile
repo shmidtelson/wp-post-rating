@@ -1,4 +1,4 @@
-.PHONY: help install setup build build-js-docker i18n copy-wp copy-wp-build docker-up docker-down docker-install plugin-activate plugin-deactivate dev
+.PHONY: help install setup build build-js-docker i18n copy-wp copy-wp-build docker-up docker-down docker-install plugin-activate plugin-deactivate plugin-remove dev
 
 WP_DIR := .wordpress
 WP_PLUGIN_DIR := $(WP_DIR)/wp-content/plugins/wp-post-rating
@@ -25,6 +25,7 @@ help:
 	@echo "  docker-install     WP install + activate plugin"
 	@echo "  plugin-activate    activate wp-post-rating in Docker WP"
 	@echo "  plugin-deactivate  deactivate wp-post-rating"
+	@echo "  plugin-remove      deactivate + delete $(WP_PLUGIN_DIR)"
 	@echo "  dev                setup + copy-wp-build + docker"
 
 install: setup build
@@ -96,6 +97,12 @@ plugin-activate:
 
 plugin-deactivate:
 	$(DC) run --rm wpcli plugin deactivate wp-post-rating --allow-root
+
+plugin-remove:
+	-$(DC) run --rm wpcli plugin deactivate wp-post-rating --allow-root 2>/dev/null || true
+	-$(DC) run --rm wpcli plugin delete wp-post-rating --allow-root 2>/dev/null || true
+	rm -rf $(WP_PLUGIN_DIR)
+	@echo "Removed $(WP_PLUGIN_DIR)"
 
 dev: setup copy-wp-build docker-up docker-install
 	@echo ""

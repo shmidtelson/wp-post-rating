@@ -5,7 +5,7 @@ Tags: rating, star rating, post rating, ajax, schema
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ Lightweight AJAX 5-star post ratings with Schema.org markup, shortcodes, a sideb
 3. In settings copy shortcode and put it in your template.
 
 == Changelog ==
+= 1.2.5 =
+* Added: Makefile `plugin-remove` to deactivate and remove the plugin from local Docker installs
+* Improved: `.distignore` excludes dev tooling from WordPress.org packages (node_modules, Docker/Makefile, docs)
 = 1.2.4 =
 * Fixed: wordpress.org and incomplete installs missing `src/Compat/ListTableLoader.php` (fatal on activation)
 * Fixed: release package now always ships `src/Compat/` for `WPR\Compat\ListTableLoader` (Composer PSR-4 autoload)

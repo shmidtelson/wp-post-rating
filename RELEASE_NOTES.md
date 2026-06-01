@@ -1,5 +1,17 @@
 # Release notes
 
+## 1.2.5 — 2026-06-02
+
+### Changes
+
+- **Makefile `plugin-remove`**: deactivate and remove the plugin from the local Docker dev site.
+- **Cleaner WordPress.org packages**: `.distignore` now excludes `node_modules`, Yarn/Webpack dev files, Docker/Makefile, and repo documentation from the plugin zip.
+
+### Upgrade notes
+
+1. No database or settings changes — safe minor update from 1.2.4.
+2. Custom deploys: run `make copy-wp` after pulling, or update from wordpress.org when available.
+
 ## 1.2.4 — 2026-06-01
 
 ### Fix

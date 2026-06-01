@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] - 2026-06-02
+
+### Added
+
+- Makefile target `plugin-remove` to deactivate and delete the plugin from the local Docker WordPress install (`.wordpress/wp-content/plugins/wp-post-rating`).
+
+### Changed
+
+- `.distignore` updated so WordPress.org release zips exclude `node_modules`, Docker/Makefile tooling, lockfiles, and repository docs.
+
 ## [1.2.4] - 2026-06-01
 
 ### Fixed
@@ -166,6 +176,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Votes list in admin.
 - `[wp_rating]` shortcode support.
 
+[1.2.5]: https://github.com/shmidtelson/wp-post-rating/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/shmidtelson/wp-post-rating/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/shmidtelson/wp-post-rating/compare/v1.2.0...v1.2.3
 [1.2.0]: https://github.com/shmidtelson/wp-post-rating/releases/tag/v1.2.0

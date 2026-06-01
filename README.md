@@ -24,7 +24,7 @@ https://wordpress.org/plugins/wp-post-rating/
 
 ## Changelog & release notes ##
 - [CHANGELOG.md](CHANGELOG.md) — full version history
-- [RELEASE_NOTES.md](RELEASE_NOTES.md) — **1.2.4** upgrade guide and highlights
+- [RELEASE_NOTES.md](RELEASE_NOTES.md) — **1.2.5** upgrade guide and highlights
 - [readme.txt](readme.txt) — WordPress.org plugin readme (includes changelog)
 
 ## License ##
