@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4] - 2026-06-01
+
+### Fixed
+
+- WordPress.org and incomplete installs missing `src/Compat/ListTableLoader.php`, causing a fatal error on activation (`Failed opening required .../ListTableLoader.php`).
+- Release packages now always include `src/Compat/` so `WPR\Compat\ListTableLoader` loads via Composer PSR-4 autoload.
+
 ## [1.2.3] - 2026-06-01
 
 ### Added
@@ -159,5 +166,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Votes list in admin.
 - `[wp_rating]` shortcode support.
 
+[1.2.4]: https://github.com/shmidtelson/wp-post-rating/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/shmidtelson/wp-post-rating/compare/v1.2.0...v1.2.3
 [1.2.0]: https://github.com/shmidtelson/wp-post-rating/releases/tag/v1.2.0

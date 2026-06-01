@@ -1,6 +1,6 @@
 {
   "name": "wp-post-rating",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "",
   "main": "index.js",
   "packageManager": "yarn@1.22.22",

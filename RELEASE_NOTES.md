@@ -1,5 +1,11 @@
 # Release notes
 
+## 1.2.4 — 2026-06-01
+
+### Fix
+
+- Ensures `src/Compat/ListTableLoader.php` is included in wordpress.org and custom deploy packages (fixes fatal error on activation when the Compat directory was missing from the zip).
+
 ## 1.2.3 — 2026-06-01
 
 ### Requirements
